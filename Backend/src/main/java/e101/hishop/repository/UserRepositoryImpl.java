@@ -1,25 +1,29 @@
 package e101.hishop.repository;
 
-import e101.hishop.domain.entity.User;
+import e101.hishop.domain.entity.Users;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+
+@Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository{
+
+    private final EntityManager em;
+
     @Override
-    public Long saveUser(User user) {
+    public Users findUserById(Long id) {
         return null;
     }
 
     @Override
-    public User findUserById(Long id) {
+    public Users findUserByLoginId(String userId) {
         return null;
     }
 
     @Override
-    public User findUserByLoginId(String userId) {
-        return null;
-    }
-
-    @Override
-    public User findUserByEmail(String email) {
+    public Users findUserByEmail(String email) {
         return null;
     }
 }

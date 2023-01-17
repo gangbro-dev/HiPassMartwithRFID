@@ -1,13 +1,12 @@
 package e101.hishop.repository;
 
-import e101.hishop.domain.entity.User;
+import e101.hishop.domain.entity.Users;
 
 public interface UserRepository {
-    Long saveUser(User user);
 
-    User findUserById(Long id);
+    Users findUserById(Long id);
 
-    User findUserByLoginId(String userId);
+    Users findUserByLoginId(String userId);
 
-    User findUserByEmail(String email);
+    Users findUserByEmail(String email);
 }

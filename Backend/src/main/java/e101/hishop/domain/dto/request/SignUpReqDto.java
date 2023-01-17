@@ -1,29 +1,18 @@
-package e101.hishop.domain.entity;
+package e101.hishop.domain.dto.request;
 
-import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Entity
 @Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "user_primary_id")
-    private Long id;
+@NoArgsConstructor
+public class SignUpReqDto {
 
     @NotBlank
-    @Column(unique = true)
     private String userId;
 
     @NotBlank
@@ -40,6 +29,7 @@ public class User {
 
     private String phone;
 
+    @Email
     private String email;
 
     @NotBlank
