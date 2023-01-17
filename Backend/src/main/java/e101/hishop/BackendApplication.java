@@ -1,4 +1,4 @@
-package com.E101.backend;
+package e101.hishop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
