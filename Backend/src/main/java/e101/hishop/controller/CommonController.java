@@ -1,6 +1,7 @@
 package e101.hishop.controller;
 
 import e101.hishop.domain.dto.request.SignUpReqDto;
+import e101.hishop.domain.entity.Users;
 import e101.hishop.service.CommonService;
 import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,16 @@ public class CommonController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody SignUpReqDto dto) {
-        commonService.signUp(dto);
+        commonService.signUp(Users.builder()
+                .userId(dto.getUserId())
+                .pwd(dto.getPwd())
+                .name(dto.getName())
+                .gender(dto.getGender())
+                .birthDate(dto.getBirthDate())
+                .phone(dto.getPhone())
+                .email(dto.getEmail())
+                .ad_select(dto.getAd_select())
+                .build());
         return "signup";
     }
 

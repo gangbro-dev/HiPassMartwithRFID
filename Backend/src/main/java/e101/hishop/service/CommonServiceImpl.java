@@ -16,20 +16,11 @@ public class CommonServiceImpl implements CommonService{
     private final CommonRepository commonRepository;
 
     @Override
-    public boolean signUp(SignUpReqDto dto) {
+    public boolean signUp(Users users) {
 
         //유효성 체크
 
-        commonRepository.signUp(Users.builder()
-                .userId(dto.getUserId())
-                .pwd(dto.getPwd())
-                .name(dto.getName())
-                .gender(dto.getGender())
-                .birthDate(dto.getBirthDate())
-                .phone(dto.getPhone())
-                .email(dto.getEmail())
-                .ad_select(dto.getAd_select())
-                .build());
+        commonRepository.signUp(users);
         return true;
     }
 }
