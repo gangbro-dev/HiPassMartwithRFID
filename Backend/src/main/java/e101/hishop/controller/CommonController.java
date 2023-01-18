@@ -5,6 +5,8 @@ import e101.hishop.domain.entity.Users;
 import e101.hishop.service.CommonService;
 import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +30,9 @@ public class CommonController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignUpReqDto dto) {
+    public ResponseEntity<String> signup(@RequestBody SignUpReqDto dto) {
         commonService.signUp(dto.toUsersEntity());
-        return "signup";
+        return new ResponseEntity<>("가입완료", HttpStatus.OK);
     }
-
-
-
+    
 }
