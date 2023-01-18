@@ -14,7 +14,7 @@ def main():
     # 1초마다 데이터 전송
     while True:
         data = input().strip()
-        if data == "thread exit": # 종료 명령어
+        if data == "serial exit": # 종료 명령어
             break
         if data:
             ser.write(bytes(input().strip(), 'utf-8'))
