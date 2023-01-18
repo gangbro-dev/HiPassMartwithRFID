@@ -27,10 +27,10 @@ public class DataLoader {
                 .userId("USERID111")
                 .gender("MANNNN")
                 .birthDate("19191919")
-                .ad_select("YES")
+                .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .pwd("PASSWORD")
+                .password("PASSWORD")
                 .build());
     }
 

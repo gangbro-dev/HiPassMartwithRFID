@@ -1,10 +1,10 @@
 package e101.hishop.domain.dto.request;
 
 
+import e101.hishop.domain.entity.Users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -34,5 +34,17 @@ public class SignUpReqDto {
 
     @NotBlank
     private String adSelect;
+
+    public Users toUsersEntity(){
+        return Users.builder()
+                .userId(userId)
+                .gender(gender)
+                .birthDate(birthDate)
+                .adSelect(adSelect)
+                .email(email)
+                .name(name)
+                .password(password)
+                .build();
+    }
 
 }
