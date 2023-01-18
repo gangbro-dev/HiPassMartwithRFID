@@ -16,7 +16,7 @@ public class SignUpReqDto {
     private String userId;
 
     @NotBlank
-    private String pwd;
+    private String password;
 
     @NotBlank
     private String name;
@@ -33,6 +33,6 @@ public class SignUpReqDto {
     private String email;
 
     @NotBlank
-    private String ad_select;
+    private String adSelect;
 
 }

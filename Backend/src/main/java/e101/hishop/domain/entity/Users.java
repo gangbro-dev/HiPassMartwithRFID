@@ -17,7 +17,7 @@ public class Users {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_primary_id")
+    @Column(name = "user_pk")
     private Long id;
 
     @NotBlank
@@ -25,7 +25,7 @@ public class Users {
     private String userId;
 
     @NotBlank
-    private String pwd;
+    private String password;
 
     @NotBlank
     private String name;
@@ -41,18 +41,18 @@ public class Users {
     private String email;
 
     @NotBlank
-    private String ad_select;
+    private String adSelect;
 
     @Builder
-    public Users(String userId, String pwd, String name, String gender, String birthDate , String email, String phone, String ad_select) {
+    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect) {
         this.userId = userId;
-        this.pwd = pwd;
+        this.password = password;
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.email = email;
         this.phone = phone;
-        this.ad_select = ad_select;
+        this.adSelect = adSelect;
     }
 
 }
