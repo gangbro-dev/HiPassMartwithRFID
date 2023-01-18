@@ -34,5 +34,5 @@ public class CommonController {
         commonService.signUp(dto.toUsersEntity());
         return new ResponseEntity<>("가입완료", HttpStatus.OK);
     }
-    
+
 }

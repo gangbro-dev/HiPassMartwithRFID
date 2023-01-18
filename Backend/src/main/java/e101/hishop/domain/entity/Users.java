@@ -2,12 +2,11 @@ package e101.hishop.domain.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,6 +41,9 @@ public class Users {
 
     @NotBlank
     private String adSelect;
+
+//    @OneToMany(mappedBy = "users")
+//    private List<Payment> payments = new ArrayList<>();
 
     @Builder
     public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect) {
