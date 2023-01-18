@@ -8,8 +8,8 @@ ser = serial.Serial(PORT, baud, timeout=0.1)  # serial 통신 세팅
 
 
 def main():
-    thread = threading.Thread(target=readthread, args=(ser,))   # 통신을 다른 코드와 병렬처리 하기 위한 스레드 생성
-    thread.start(daemon=True)                                              # 스레드 시작
+    thread = threading.Thread(target=readthread, args=(ser,), daemon=True)   # 통신을 다른 코드와 병렬처리 하기 위한 스레드 생성
+    thread.start()                                              # 스레드 시작
 
     # 1초마다 데이터 전송
     while True:
@@ -17,7 +17,7 @@ def main():
         if data == "serial exit": # 종료 명령어
             break
         if data:
-            ser.write(bytes(input().strip(), 'utf-8'))
+            ser.write(bytes(data, 'utf-8'))
         time.sleep(0.5)
 
 
