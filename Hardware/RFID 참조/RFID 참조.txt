@@ -1,0 +1,21 @@
+DataSheet 기반 명령어 바이트 
+Read
+0x33 06 A1 (FN) (NB) 99 (?? 잘 모르겠음)
+Reading mode
+0x33 04 B1 99 (Reading Stay??? 뭔차인지 확인해봐야 할것)
+0x33 04 B2 99 (계속 읽기 -> 아마 쓰게 될 것 같은 모드 -> 들어오는 데이터 : 8byte Unique ID 읽히는 대로 전부 한 Response에 쭉 이어서 들어옴 -> 알아서 자를것)
+
+Write
+0x33 (NUM) A2 FN NB BD 99
+
+
+
+
+NFC 리더 라이브러리
+ - https://www.nxp.com/design/designs/nfc-reader-library-software-support-for-nfc-frontend-solutions:NFC-READER-LIBRARY
+
+ISO 15693(RFID 규격) 기반 깃 ( 확인은 못해봄)
+- https://github.com/Rickventura/15693-TI-tag-it
+
+FSR 라즈베리 파이 코드 깃(LF모듈)
+- https://github.com/smu-iot20-g7/FSR-PIR_Motion-RFID_Reader
