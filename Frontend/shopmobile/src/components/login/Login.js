@@ -66,7 +66,7 @@ export default function SignIn() {
               required
               fullWidth
               id="userid"
-              label="ID"
+              label="아이디"
               name="userid"
               autoComplete="userid"
               autoFocus
@@ -76,7 +76,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -91,7 +91,7 @@ export default function SignIn() {
             </Button>
             <Grid container sx={{ mt: 2, mb: 2 }}>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="findid" variant="body2">
                   비밀번호 찾기
                 </Link>
               </Grid>
