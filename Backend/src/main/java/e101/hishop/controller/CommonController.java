@@ -29,16 +29,7 @@ public class CommonController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody SignUpReqDto dto) {
-        commonService.signUp(Users.builder()
-                .userId(dto.getUserId())
-                .password(dto.getPassword())
-                .name(dto.getName())
-                .gender(dto.getGender())
-                .birthDate(dto.getBirthDate())
-                .phone(dto.getPhone())
-                .email(dto.getEmail())
-                .adSelect(dto.getAdSelect())
-                .build());
+        commonService.signUp(dto.toUsersEntity());
         return "signup";
     }
 
