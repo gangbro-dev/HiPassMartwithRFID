@@ -31,13 +31,13 @@ public class CommonController {
     public String signup(@RequestBody SignUpReqDto dto) {
         commonService.signUp(Users.builder()
                 .userId(dto.getUserId())
-                .pwd(dto.getPwd())
+                .password(dto.getPassword())
                 .name(dto.getName())
                 .gender(dto.getGender())
                 .birthDate(dto.getBirthDate())
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
-                .ad_select(dto.getAd_select())
+                .adSelect(dto.getAdSelect())
                 .build());
         return "signup";
     }
