@@ -1,5 +1,6 @@
 package e101.hishop.service;
 
+import e101.hishop.domain.dto.request.LoginReqDto;
 import e101.hishop.domain.dto.request.SignUpReqDto;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.repository.CommonRepository;
@@ -14,6 +15,10 @@ import javax.transaction.Transactional;
 public class CommonServiceImpl implements CommonService{
 
     private final CommonRepository commonRepository;
+
+    public boolean login(LoginReqDto dto) {
+        return commonRepository.login(dto);
+    }
 
     @Override
     public boolean signUp(Users users) {

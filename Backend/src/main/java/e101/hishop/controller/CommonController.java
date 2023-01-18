@@ -1,5 +1,6 @@
 package e101.hishop.controller;
 
+import e101.hishop.domain.dto.request.LoginReqDto;
 import e101.hishop.domain.dto.request.SignUpReqDto;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.service.CommonService;
@@ -20,9 +21,15 @@ public class CommonController {
     private final CommonService commonService;
 
     @PostMapping("/login")
-    public String login() {
-        return "login";
+    public ResponseEntity<String> login(@RequestBody LoginReqDto dto) {
+        boolean isLogin = commonService.login(dto);
+        if (isLogin) {
+        return new ResponseEntity<>("로그인 완료", HttpStatus.OK);
+        } else {
+        return new ResponseEntity<>("로그인 실패", HttpStatus.BAD_REQUEST);
+        }
     }
+
 
     @PostMapping("/logout")
     public String logout() {
