@@ -1,5 +1,6 @@
 package e101.hishop.repository;
 
+import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public Boolean deleteCard(Long cardId) {
+        Payment payment = em.find(Payment.class, cardId);
+        em.remove(payment);
+        return true;
+    }
+
+    @Override
     public List<Payment> getCardInfo(Long userId) {
         String jpql = "SELECT p FROM Payment p WHERE p.users.id = :id";
         Query query = em.createQuery(jpql);
@@ -47,5 +55,12 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public Users getUserInfo(Long userPK) {
         return em.find(Users.class, userPK);
+    }
+
+    @Override
+    public Boolean editName(Long cardId, EditNameReqDto dto) {
+        Payment payment = em.find(Payment.class, cardId);
+        payment.setName(dto.getName());
+        return true;
     }
 }

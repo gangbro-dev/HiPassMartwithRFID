@@ -1,6 +1,7 @@
 package e101.hishop.controller;
 
 import e101.hishop.domain.dto.request.CardSaveReqDto;
+import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -48,14 +49,17 @@ public class UserController {
         return new ResponseEntity<>("저장완료" , HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}/card")
-    public String userCardEdit(@PathVariable Long userId) {
-        return "user card edit Id" + " " + userId;
+    @PatchMapping("/{userId}/card/{cardId}")
+    public ResponseEntity<String> cardNameEdit(@RequestBody EditNameReqDto dto, @PathVariable Long userId, @PathVariable Long cardId) {
+        userService.editName(dto, cardId);
+        return new ResponseEntity<>("수정완료" , HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}/card/{cardId}")
-    public String userCardDelete(@PathVariable Long userId, @PathVariable Long cardId) {
-        return "user card delete Id" + " " + userId;
+    public ResponseEntity<String> userCardDelete(@PathVariable Long userId, @PathVariable Long cardId) {
+        //카드아이디가 해당 유저 소속인지 유효성검사 필요
+        userService.deleteCard(cardId);
+        return new ResponseEntity<>("삭제완료" , HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/purchase")

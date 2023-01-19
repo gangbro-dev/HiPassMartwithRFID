@@ -1,5 +1,6 @@
 package e101.hishop.service;
 
+import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -50,6 +51,12 @@ public class UserServiceImpl implements UserService {
         return respList;
     }
 
+    @Override
+    public Boolean deleteCard(Long cardId) {
+        userRepository.deleteCard(cardId);
+        return true;
+    }
+
 
     public UserInfoRespDto getUserInfo(Long userPK) {
         Users user = userRepository.getUserInfo(userPK);
@@ -77,5 +84,10 @@ public class UserServiceImpl implements UserService {
 
     public void deleteUserInfo(Long userPK){
         userJPARepository.deleteById(userPK);
+    }
+
+    @Override
+    public Boolean editName(EditNameReqDto dto, Long cardId) {
+        return userRepository.editName(cardId, dto);
     }
 }

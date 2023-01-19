@@ -1,5 +1,6 @@
 package e101.hishop.service;
 
+import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -12,7 +13,11 @@ public interface UserService {
 
     Long saveCard(Payment payment, Long userId);
     List<CardInfoRespDto> cardInfo(Long userId);
+
+    Boolean deleteCard(Long cardId);
     UserInfoRespDto getUserInfo(Long userPK);
     Users patchUserInfo(UserInfoReqDto dto, Long userPK);
     void deleteUserInfo(Long userPK);
+
+    Boolean editName(EditNameReqDto dto, Long cardId);
 }
