@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 @Repository
 @RequiredArgsConstructor
-public class CommonRepositoryImpl implements CommonRepository{
+public class AuthRepositoryImpl implements AuthRepository {
 
     private final EntityManager em;
 

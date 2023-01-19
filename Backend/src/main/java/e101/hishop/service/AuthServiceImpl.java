@@ -1,9 +1,8 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.LoginReqDto;
-import e101.hishop.domain.dto.request.SignUpReqDto;
 import e101.hishop.domain.entity.Users;
-import e101.hishop.repository.CommonRepository;
+import e101.hishop.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +11,12 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CommonServiceImpl implements CommonService{
+public class AuthServiceImpl implements AuthService {
 
-    private final CommonRepository commonRepository;
+    private final AuthRepository authRepository;
 
     public boolean login(LoginReqDto dto) {
-        return commonRepository.login(dto);
+        return authRepository.login(dto);
     }
 
     @Override
@@ -25,7 +24,7 @@ public class CommonServiceImpl implements CommonService{
 
         //유효성 체크
 
-        commonRepository.signUp(users);
+        authRepository.signUp(users);
         return true;
     }
 }
