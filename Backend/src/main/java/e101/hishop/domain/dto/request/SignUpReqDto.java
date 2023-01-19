@@ -45,7 +45,6 @@ public class SignUpReqDto {
                 .email(email)
                 .name(name)
                 .password(password)
-                .payments(new ArrayList<>())
                 .build();
     }
 

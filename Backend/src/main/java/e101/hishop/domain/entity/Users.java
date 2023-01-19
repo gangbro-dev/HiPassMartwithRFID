@@ -43,12 +43,12 @@ public class Users {
     @NotBlank
     private String adSelect;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private List<Payment> payments = new ArrayList<>();
 
     @Builder
-    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect, List<Payment> payments
+    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect
     ) {
         this.userId = userId;
         this.password = password;
@@ -58,7 +58,6 @@ public class Users {
         this.email = email;
         this.phone = phone;
         this.adSelect = adSelect;
-        this.payments = payments;
     }
 
 }

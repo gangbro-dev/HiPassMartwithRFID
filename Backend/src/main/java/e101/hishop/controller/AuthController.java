@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -27,7 +29,6 @@ public class AuthController {
         }
     }
 
-
     @PostMapping("/logout")
     public String logout() {
         return "logout";
@@ -36,8 +37,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpReqDto dto) {
         authService.signUp(dto.toUsersEntity());
-        return new ResponseEntity<>("가입완료", HttpStatus.OK);
-    }
+        return new ResponseEntity<>("가입완료" , HttpStatus.OK);
 
-    
+    }
 }

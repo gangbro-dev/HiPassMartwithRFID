@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AuthService {
     boolean login(LoginReqDto dto);
-    boolean signUp(Users users);
+    Boolean signUp(Users users);
 }
