@@ -1,6 +1,7 @@
 package e101.hishop.repository;
 
 import e101.hishop.domain.dto.request.LoginReqDto;
+import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public boolean login(LoginReqDto dto) {
-        String jpql="select count(u) from Users as u where u.userId = :id and u.password = :password";
+        String jpql = "select count(u) from Users u where u.userId = :id and u.password = :password";
 
         Query query = em.createQuery(jpql);
         query.setParameter("id", dto.getUserId());
@@ -32,4 +33,10 @@ public class AuthRepositoryImpl implements AuthRepository {
         em.persist(users);
         return users.getId();
     }
+
+    @Override
+    public Users getUserInfo(Long userPK) {
+        return em.find(Users.class, userPK);
+    }
+
 }
