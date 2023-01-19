@@ -39,19 +39,5 @@ public class AuthController {
         return new ResponseEntity<>("가입완료", HttpStatus.OK);
     }
 
-    @GetMapping("user/{userPK}")
-    public ResponseEntity<Users> getUserInfo(@PathVariable Long userPK) {
-        return new ResponseEntity<Users>(authService.getUserInfo(userPK), HttpStatus.OK);
-    }
-
-    @PatchMapping("user/{userPK}")
-    public String patchUserInfo(@RequestBody UserInfoReqDto dto, @PathVariable Long userPK) {
-        authService.patchUserInfo(dto, userPK);
-        return "수정 완료";
-    }
-
-    @DeleteMapping("user/{userPK}")
-    public String deleteUserInfo() {
-        return "";
-    }
+    
 }

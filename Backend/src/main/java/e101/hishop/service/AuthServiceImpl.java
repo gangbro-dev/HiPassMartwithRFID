@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthRepository authRepository;
-    private final UserJPARepository userJPARepository;
 
     public boolean login(LoginReqDto dto) {
         return authRepository.login(dto);
@@ -30,14 +29,5 @@ public class AuthServiceImpl implements AuthService {
 
         authRepository.signUp(users);
         return true;
-    }
-
-    public Users getUserInfo(Long userPK) {
-        return authRepository.getUserInfo(userPK);
-    }
-
-    public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
-        Users user = userJPARepository.findById(userPK).orElseThrow(() -> new EntityNotFoundException("Employee not found with id:"+userPK));
-        return userJPARepository.save(user);
     }
 }

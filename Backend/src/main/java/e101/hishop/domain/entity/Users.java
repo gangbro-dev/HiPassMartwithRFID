@@ -1,5 +1,6 @@
 package e101.hishop.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,6 +43,7 @@ public class Users {
     @NotBlank
     private String adSelect;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "users")
     private List<Payment> payments = new ArrayList<>();
 

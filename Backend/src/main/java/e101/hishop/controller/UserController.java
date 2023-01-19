@@ -1,8 +1,12 @@
 package e101.hishop.controller;
 
 import e101.hishop.domain.dto.request.CardSaveReqDto;
+import e101.hishop.domain.dto.request.UserInfoReqDto;
+import e101.hishop.domain.entity.Users;
 import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,19 +15,21 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/{userId}")
-    public String userInfo(@PathVariable Long userId) {
-        return "user Id" + " " + userId;
+
+    @GetMapping("/{userPK}")
+    public ResponseEntity<Users> getUserInfo(@PathVariable Long userPK) {
+        return new ResponseEntity<Users>(userService.getUserInfo(userPK), HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}")
-    public String userEdit(@PathVariable Long userId) {
-        return "user edit Id" + " " + userId;
+    @PatchMapping("/{userPK}")
+    public String patchUserInfo(@RequestBody UserInfoReqDto dto, @PathVariable Long userPK) {
+        userService.patchUserInfo(dto, userPK);
+        return "수정 완료";
     }
 
-    @DeleteMapping("/{userId}")
-    public String userDelete(@PathVariable Long userId) {
-        return "user delete Id" + " " + userId;
+    @DeleteMapping("/{userPK}")
+    public String deleteUserInfo() {
+        return "";
     }
 
     @GetMapping("/card/{userId}")

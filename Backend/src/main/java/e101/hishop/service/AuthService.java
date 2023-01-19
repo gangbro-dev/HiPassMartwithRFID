@@ -9,6 +9,4 @@ import org.springframework.stereotype.Service;
 public interface AuthService {
     boolean login(LoginReqDto dto);
     boolean signUp(Users users);
-    Users getUserInfo(Long userPK);
-    Users patchUserInfo(UserInfoReqDto dto, Long userPK);
 }

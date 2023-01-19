@@ -12,4 +12,6 @@ public interface UserRepository {
     Users findUserByEmail(String email);
 
     Long saveCard(Payment payment);
+
+    Users getUserInfo(Long userPK);
 }

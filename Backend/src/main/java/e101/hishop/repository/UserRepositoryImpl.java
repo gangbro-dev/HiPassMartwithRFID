@@ -33,4 +33,9 @@ public class UserRepositoryImpl implements UserRepository{
         em.persist(payment);
         return payment.getId();
     }
+
+    @Override
+    public Users getUserInfo(Long userPK) {
+        return em.find(Users.class, userPK);
+    }
 }

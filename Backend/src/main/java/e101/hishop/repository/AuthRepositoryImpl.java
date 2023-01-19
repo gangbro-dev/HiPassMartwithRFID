@@ -34,9 +34,5 @@ public class AuthRepositoryImpl implements AuthRepository {
         return users.getId();
     }
 
-    @Override
-    public Users getUserInfo(Long userPK) {
-        return em.find(Users.class, userPK);
-    }
 
 }
