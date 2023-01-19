@@ -42,11 +42,12 @@ public class Users {
     @NotBlank
     private String adSelect;
 
-//    @OneToMany(mappedBy = "users")
-//    private List<Payment> payments = new ArrayList<>();
+    @OneToMany(mappedBy = "users")
+    private List<Payment> payments = new ArrayList<>();
 
     @Builder
-    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect) {
+    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect, List<Payment> payments
+    ) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -55,6 +56,7 @@ public class Users {
         this.email = email;
         this.phone = phone;
         this.adSelect = adSelect;
+        this.payments = payments;
     }
 
 }

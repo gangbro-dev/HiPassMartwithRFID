@@ -1,5 +1,6 @@
 package e101.hishop.repository;
 
+import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 
 public interface UserRepository {
@@ -9,4 +10,6 @@ public interface UserRepository {
     Users findUserByLoginId(String userId);
 
     Users findUserByEmail(String email);
+
+    Long saveCard(Payment payment);
 }

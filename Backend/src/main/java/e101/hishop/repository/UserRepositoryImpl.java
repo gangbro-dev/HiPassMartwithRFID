@@ -1,5 +1,6 @@
 package e101.hishop.repository;
 
+import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Users findUserById(Long id) {
-        return null;
+        return em.find(Users.class, id);
     }
 
     @Override
@@ -25,5 +26,11 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public Users findUserByEmail(String email) {
         return null;
+    }
+
+    @Override
+    public Long saveCard(Payment payment) {
+        em.persist(payment);
+        return payment.getId();
     }
 }
