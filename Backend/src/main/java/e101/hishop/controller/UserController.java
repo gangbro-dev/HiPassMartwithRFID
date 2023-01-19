@@ -32,8 +32,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{userPK}")
-    public String deleteUserInfo() {
-        return "";
+    public String deleteUserInfo(@PathVariable Long userPK) {
+        userService.deleteUserInfo(userPK);
+        return "제거 완료";
     }
 
     @GetMapping("/{userId}/card")

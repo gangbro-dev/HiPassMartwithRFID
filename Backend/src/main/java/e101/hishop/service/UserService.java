@@ -10,7 +10,8 @@ import java.util.List;
 public interface UserService {
 
     Long saveCard(Payment payment, Long userId);
+    List<CardInfoRespDto> cardInfo(Long userId);
     Users getUserInfo(Long userPK);
     Users patchUserInfo(UserInfoReqDto dto, Long userPK);
-    List<CardInfoRespDto> cardInfo(Long userId);
+    void deleteUserInfo(Long userPK);
 }

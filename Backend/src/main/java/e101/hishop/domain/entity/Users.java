@@ -43,8 +43,8 @@ public class Users {
     @NotBlank
     private String adSelect;
 
-    @OneToMany(mappedBy = "users")
     @JsonIgnore
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
     private List<Payment> payments = new ArrayList<>();
 
     @Builder

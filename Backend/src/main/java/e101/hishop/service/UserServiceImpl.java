@@ -2,6 +2,7 @@ package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.repository.UserJPARepository;
@@ -24,17 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
 
-
-
-    public Users getUserInfo(Long userPK) {
-        return userRepository.getUserInfo(userPK);
-    }
-
-    public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
-        Users user = userJPARepository.findById(userPK).orElseThrow(() -> new EntityNotFoundException("Employee not found with id:"+userPK));
-        return userJPARepository.save(user);
-    }
-
     @Override
     public Long saveCard(Payment payment, Long userId) {
         Users users = userRepository.findUserById(userId);
@@ -45,8 +35,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<CardInfoRespDto> cardInfo(Long userId) {
         List<CardInfoRespDto> respList = new ArrayList<>();
-        List<Payment> list =userRepository.getCardInfo(userId);
-        for (Payment p: list) {
+        List<Payment> list = userRepository.getCardInfo(userId);
+        for (Payment p : list) {
             log.info("CARD_INFO=========================================================");
             log.info("{}", p);
             respList.add(CardInfoRespDto.builder()
@@ -58,5 +48,25 @@ public class UserServiceImpl implements UserService {
                     .build());
         }
         return respList;
+    }
+
+
+    public Users getUserInfo(Long userPK) {
+        UserInfoRespDto
+        return userRepository.getUserInfo(userPK);
+    }
+
+    public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
+        Users user = userJPARepository.findById(userPK).orElseThrow(() -> new EntityNotFoundException("Employee not found with id:"+userPK));
+        user.setPassword(dto.getPassword());
+        user.setGender(dto.getGender());
+        user.setPhone(dto.getPhone());
+        user.setEmail(dto.getEmail());
+//        user.setAdSelect(dto.getAdSelect());
+        return userJPARepository.save(user);
+    }
+
+    public void deleteUserInfo(Long userPK){
+        userJPARepository.deleteById(userPK);
     }
 }
