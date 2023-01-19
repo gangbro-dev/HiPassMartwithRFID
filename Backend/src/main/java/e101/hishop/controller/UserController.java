@@ -3,8 +3,7 @@ package e101.hishop.controller;
 import e101.hishop.domain.dto.request.CardSaveReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
-import e101.hishop.domain.entity.Payment;
-import e101.hishop.domain.entity.Users;
+import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +20,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userPK}")
-    public ResponseEntity<Users> getUserInfo(@PathVariable Long userPK) {
-        return new ResponseEntity<Users>(userService.getUserInfo(userPK), HttpStatus.OK);
+    public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userPK) {
+        return new ResponseEntity<>(userService.getUserInfo(userPK), HttpStatus.OK);
     }
 
     @PatchMapping("/{userPK}")

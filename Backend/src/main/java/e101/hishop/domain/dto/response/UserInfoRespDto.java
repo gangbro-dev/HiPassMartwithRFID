@@ -13,6 +13,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class UserInfoRespDto {
 
+
     private String userId;
 
     private String password;

@@ -51,9 +51,18 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public Users getUserInfo(Long userPK) {
-        UserInfoRespDto
-        return userRepository.getUserInfo(userPK);
+    public UserInfoRespDto getUserInfo(Long userPK) {
+        Users user = userRepository.getUserInfo(userPK);
+
+        return UserInfoRespDto.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .gender(user.getGender())
+                .birthDate(user.getBirthDate())
+                .phone(user.getPhone())
+                .adSelect(user.getAdSelect())
+                .build();
     }
 
     public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
