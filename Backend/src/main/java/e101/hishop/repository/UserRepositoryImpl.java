@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,6 +34,14 @@ public class UserRepositoryImpl implements UserRepository{
     public Long saveCard(Payment payment) {
         em.persist(payment);
         return payment.getId();
+    }
+
+    @Override
+    public List<Payment> getCardInfo(Long userId) {
+        String jpql = "SELECT p FROM Payment p WHERE p.users.id = :id";
+        Query query = em.createQuery(jpql);
+        query.setParameter("id",userId );
+        return query.getResultList();
     }
 
     @Override

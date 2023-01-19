@@ -2,12 +2,16 @@ package e101.hishop.controller;
 
 import e101.hishop.domain.dto.request.CardSaveReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
+import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -32,23 +36,25 @@ public class UserController {
         return "";
     }
 
-    @GetMapping("/card/{userId}")
-    public String userCardInfo(@PathVariable Long userId) {
-        return "user card info Id" + " " + userId;
+    @GetMapping("/{userId}/card")
+    public ResponseEntity<List<CardInfoRespDto>> userCardInfo(@PathVariable Long userId) {
+        List<CardInfoRespDto> payments = userService.cardInfo(userId);
+        return new ResponseEntity<>(payments , HttpStatus.OK);
     }
 
-    @PostMapping("/card/{userId}")
-    public Long userCardSave(@PathVariable Long userId, @RequestBody CardSaveReqDto dto) {
-        return userService.cardSave(dto.toPaymentEntity(), userId);
+    @PostMapping("/{userId}/card")
+    public ResponseEntity<String> userCardSave(@PathVariable Long userId, @RequestBody CardSaveReqDto dto) {
+        userService.saveCard(dto.toPaymentEntity(), userId);
+        return new ResponseEntity<>("저장완료" , HttpStatus.OK);
     }
 
-    @PatchMapping("/card/{userId}")
+    @PatchMapping("/{userId}/card")
     public String userCardEdit(@PathVariable Long userId) {
         return "user card edit Id" + " " + userId;
     }
 
-    @DeleteMapping("/card/{userId}")
-    public String userCardDelete(@PathVariable Long userId) {
+    @DeleteMapping("/{userId}/card/{cardId}")
+    public String userCardDelete(@PathVariable Long userId, @PathVariable Long cardId) {
         return "user card delete Id" + " " + userId;
     }
 

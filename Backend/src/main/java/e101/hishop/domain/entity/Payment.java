@@ -53,4 +53,17 @@ public class Payment {
         this.cardNo = cardNo;
         this.validDate = validDate;
     }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isDefault=" + isDefault +
+                ", cardNo='" + cardNo + '\'' +
+                ", validDate='" + validDate + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }
+

@@ -1,6 +1,7 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.UserInfoReqDto;
+import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.repository.UserJPARepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Service
@@ -21,13 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
 
-    @Override
-    public Long cardSave(Payment payment, Long userId) {
-        Users users = userRepository.findUserById(userId);
-        log.info("users, {}", users);
-        payment.setUsersAndPayments(users);
-        return userRepository.saveCard(payment);
-    }
+
 
     public Users getUserInfo(Long userPK) {
         return userRepository.getUserInfo(userPK);
@@ -36,5 +33,30 @@ public class UserServiceImpl implements UserService {
     public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
         Users user = userJPARepository.findById(userPK).orElseThrow(() -> new EntityNotFoundException("Employee not found with id:"+userPK));
         return userJPARepository.save(user);
+    }
+
+    @Override
+    public Long saveCard(Payment payment, Long userId) {
+        Users users = userRepository.findUserById(userId);
+        log.info("users, {}", users);
+        payment.setUsersAndPayments(users);
+        return userRepository.saveCard(payment);
+    }
+    @Override
+    public List<CardInfoRespDto> cardInfo(Long userId) {
+        List<CardInfoRespDto> respList = new ArrayList<>();
+        List<Payment> list =userRepository.getCardInfo(userId);
+        for (Payment p: list) {
+            log.info("CARD_INFO=========================================================");
+            log.info("{}", p);
+            respList.add(CardInfoRespDto.builder()
+                    .cardId(p.getId())
+                    .cardNo(p.getCardNo())
+                    .name(p.getName())
+                    .isDefault(p.getIsDefault())
+                    .validDate(p.getValidDate())
+                    .build());
+        }
+        return respList;
     }
 }

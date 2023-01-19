@@ -31,11 +31,18 @@ public class DataLoader {
                 .password("PASSWORD")
                 .build());
 
-        userService.cardSave(Payment.builder()
+        userService.saveCard(Payment.builder()
                 .cardNo("1234-1212-1111-1111")
                 .name("신한")
-                .isDefault(false)
+                .isDefault(true)
                 .validDate("0121")
+                .build(), 1L);
+
+        userService.saveCard(Payment.builder()
+                .cardNo("4434-1212-1111-1111")
+                .name("삼삼")
+                .isDefault(false)
+                .validDate("2221")
                 .build(), 1L);
     }
 
