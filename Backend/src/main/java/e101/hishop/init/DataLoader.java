@@ -1,7 +1,9 @@
 package e101.hishop.init;
 
+import e101.hishop.domain.entity.Pay;
 import e101.hishop.domain.entity.Payment;
 import e101.hishop.domain.entity.Users;
+import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class DataLoader {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AdminService adminService;
 
     //method invoked during the startup
     @PostConstruct
@@ -44,6 +49,11 @@ public class DataLoader {
                 .isDefault(false)
                 .validDate("2221")
                 .build(), 1L);
+
+        adminService.savePay(Pay.builder()
+                .buy_date("2022-09-01")
+                .buy_total(50000)
+                .build(), 1L, 1L);
     }
 
     //method invoked during the shutdown

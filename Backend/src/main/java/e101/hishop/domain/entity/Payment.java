@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +36,9 @@ public class Payment {
     @JoinColumn(name = "user_pk")
     private Users users;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
+    private List<Pay> pay = new ArrayList<>();
 
     //입력하지않으면 기본값 false
 //    @PrePersist
