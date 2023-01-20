@@ -53,8 +53,8 @@ public class DataLoader {
                 .build(), 1L);
 
         adminService.savePay(Pays.builder()
-                .buy_date("2022-09-01")
-                .buy_total(50000L)
+                .buyDate("2022-09-01")
+                .buyTotal(50000L)
                 .build(), 1L, 2L);
     }
 

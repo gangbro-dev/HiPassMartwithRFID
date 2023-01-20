@@ -26,26 +26,26 @@ public class Pays {
     private Cards cards;
 
     @NotBlank
-    private String buy_date;
+    private String buyDate;
 
     @NotNull
-    private Long buy_total;
+    private Long buyTotal;
 
     public void setUsersAndPay(Users users) {
         this.users = users;
-        users.getPay().add(this);
+        users.getPays().add(this);
     }
 
     public void setPaymentAndPay(Cards cards) {
         this.cards = cards;
-        cards.getPay().add(this);
+        cards.getPays().add(this);
     }
 
     @Builder
-    public Pays(String buy_date, Long buy_total
+    public Pays(String buyDate, Long buyTotal
     ) {
-        this.buy_date = buy_date;
-        this.buy_total = buy_total;
+        this.buyDate = buyDate;
+        this.buyTotal = buyTotal;
     }
 
 }

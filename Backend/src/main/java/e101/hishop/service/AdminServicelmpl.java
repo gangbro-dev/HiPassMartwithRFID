@@ -1,6 +1,5 @@
 package e101.hishop.service;
 
-import e101.hishop.domain.dto.request.PayInfoReqDto;
 import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.domain.entity.Pays;
 import e101.hishop.domain.entity.Cards;
@@ -32,7 +31,7 @@ public class AdminServicelmpl implements AdminService {
     }
 
     public List<PayInfoRespDto> getPayInfo() {
-        List<Pays> pays = AdminRepository.getPayInfo();
+        List<Pays> pays = adminRepository.getPayInfo();
 
         List<PayInfoRespDto> otto = new ArrayList<>();
         for (Pays p : pays) {

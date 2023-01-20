@@ -47,9 +47,9 @@ public class Cards {
 //    }
 
 
-    public void setUsersAndPayments(Users users) {
+    public void setUsersAndCards(Users users) {
         this.users = users;
-        users.getPayments().add(this);
+        users.getCards().add(this);
     }
 
     @Builder

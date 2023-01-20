@@ -16,16 +16,16 @@ public class PayInfoRespDto {
 
     private Cards cards;
 
-    private String buy_date;
+    private String buyDate;
 
-    private Long buy_total;
+    private Long buyTotal;
 
     @Builder
-    public PayInfoRespDto(Long id, Users users, Cards cards, String buy_date, Long buy_total) {
+    public PayInfoRespDto(Long id, Users users, Cards cards, String buyDate, Long buyTotal) {
         this.id = id;
         this.users = users;
         this.cards = cards;
-        this.buy_date = buy_date;
-        this.buy_total = buy_total;
+        this.buyDate = buyDate;
+        this.buyTotal = buyTotal;
     }
 }

@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     public Long saveCard(Cards cards, Long userId) {
         Users users = userRepository.findUserById(userId);
         log.info("users, {}", users);
-        cards.setUsersAndPayments(users);
+        cards.setUsersAndCards(users);
         return userRepository.saveCard(cards);
     }
     @Override

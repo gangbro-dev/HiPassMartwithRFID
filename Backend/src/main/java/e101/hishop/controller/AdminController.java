@@ -3,19 +3,23 @@ package e101.hishop.controller;
 import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
 
     @GetMapping("/pays")
-    public ResponseEntity<PayInfoRespDto> pays() {
-        return new ResponseEntity<>(AdminService.getPayInfo(), HttpStatus.OK);
+    public ResponseEntity<List<PayInfoRespDto>> pays() {
+        return new ResponseEntity<>(adminService.getPayInfo(), HttpStatus.OK);
     }
 
     @GetMapping("/pays/{buyId}")
