@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
-public class AdminRepositoryImpl {
+public class AdminRepositoryImpl implements AdminRepository {
 
     private final EntityManager em;
 
@@ -18,6 +18,7 @@ public class AdminRepositoryImpl {
     public Users findUserById(Long id) {
         return em.find(Users.class, id);
     }
+
     @Override
     public Payment findPaymentById(Long id) {
         return em.find(Payment.class, id);

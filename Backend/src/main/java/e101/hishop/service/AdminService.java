@@ -1,9 +1,9 @@
 package e101.hishop.service;
 
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Pay;
 
 public interface AdminService {
-    Long savePay(Payment payment, Long userId, Long paymentId);
+    Long savePay(Pay pay, Long userId, Long paymentId);
 
 
 }

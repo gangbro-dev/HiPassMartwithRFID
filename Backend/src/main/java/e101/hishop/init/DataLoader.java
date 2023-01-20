@@ -6,12 +6,14 @@ import e101.hishop.domain.entity.Users;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
+@Slf4j
 public class DataLoader {
 
     @Autowired
@@ -53,7 +55,7 @@ public class DataLoader {
         adminService.savePay(Pay.builder()
                 .buy_date("2022-09-01")
                 .buy_total(50000)
-                .build(), 1L, 1L);
+                .build(), 1L, 2L);
     }
 
     //method invoked during the shutdown
