@@ -1,29 +1,34 @@
 package e101.hishop.init;
 
+import e101.hishop.domain.entity.Pays;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
-import e101.hishop.repository.CommonRepository;
-import e101.hishop.repository.UserRepository;
-import e101.hishop.service.CommonService;
-import lombok.RequiredArgsConstructor;
+import e101.hishop.service.AdminService;
+import e101.hishop.service.AuthService;
+import e101.hishop.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.transaction.Transactional;
 
 @Component
+@Slf4j
 public class DataLoader {
 
     @Autowired
-    private CommonService commonService;
+    private AuthService authService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AdminService adminService;
 
     //method invoked during the startup
     @PostConstruct
     public void loadData() {
-        commonService.signUp(Users.builder()
+        authService.signUp(Users.builder()
                 .userId("USERID111")
                 .gender("MANNNN")
                 .birthDate("19191919")
@@ -32,6 +37,25 @@ public class DataLoader {
                 .name("NAME")
                 .password("PASSWORD")
                 .build());
+
+        userService.saveCard(Cards.builder()
+                .cardNo("1234-1212-1111-1111")
+                .name("신한")
+                .isDefault(true)
+                .validDate("0121")
+                .build(), 1L);
+
+        userService.saveCard(Cards.builder()
+                .cardNo("4434-1212-1111-1111")
+                .name("삼삼")
+                .isDefault(false)
+                .validDate("2221")
+                .build(), 1L);
+
+        adminService.savePay(Pays.builder()
+                .buyDate("2022-09-01")
+                .buyTotal(50000L)
+                .build(), 1L, 2L);
     }
 
     //method invoked during the shutdown

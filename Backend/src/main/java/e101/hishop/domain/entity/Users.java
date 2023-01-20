@@ -1,13 +1,13 @@
 package e101.hishop.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,8 +43,17 @@ public class Users {
     @NotBlank
     private String adSelect;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
+    private List<Cards> cards = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
+    private List<Pays> pays = new ArrayList<>();
+
     @Builder
-    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect) {
+    public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect
+    ) {
         this.userId = userId;
         this.password = password;
         this.name = name;

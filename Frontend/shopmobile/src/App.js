@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 import Login from "./components/login/Login";
 import Register from "./components/login/Register";
-
-import './App.css';
+import FindId from "./components/login/FindId";
+import ResultId from "./components/login/ResultId";
 
 function App() {
 
@@ -16,6 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="findid" element={<FindId />} />
+        <Route path="resultid" element={<ResultId />} />
       </Routes>
     </BrowserRouter>
   );
