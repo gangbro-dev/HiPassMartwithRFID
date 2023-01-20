@@ -1,7 +1,7 @@
 package e101.hishop.repository;
 
 
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,14 +41,14 @@ public class CardRepositoryTest {
         authService.signUp(users);
 
 
-        userService.cardSave(Payment.builder()
+        userService.cardSave(Cards.builder()
                 .cardNo("1234-1212-1111-1111")
                 .name("삼성")
                 .isDefault(false)
                 .validDate("0121")
                 .build(), users.getId());
 
-        userService.cardSave(Payment.builder()
+        userService.cardSave(Cards.builder()
                 .cardNo("1234-1212-1111-123")
                 .name("신신")
                 .isDefault(false)

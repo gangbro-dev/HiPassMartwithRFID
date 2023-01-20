@@ -1,7 +1,7 @@
 package e101.hishop.repository;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,21 +32,21 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public Long saveCard(Payment payment) {
-        em.persist(payment);
-        return payment.getId();
+    public Long saveCard(Cards cards) {
+        em.persist(cards);
+        return cards.getId();
     }
 
     @Override
     public Boolean deleteCard(Long cardId) {
-        Payment payment = em.find(Payment.class, cardId);
-        em.remove(payment);
+        Cards cards = em.find(Cards.class, cardId);
+        em.remove(cards);
         return true;
     }
 
     @Override
-    public List<Payment> getCardInfo(Long userId) {
-        String jpql = "SELECT p FROM Payment p WHERE p.users.id = :id";
+    public List<Cards> getCardInfo(Long userId) {
+        String jpql = "SELECT p FROM Cards p WHERE p.users.id = :id";
         Query query = em.createQuery(jpql);
         query.setParameter("id",userId );
         return query.getResultList();
@@ -59,8 +59,8 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Boolean editName(Long cardId, EditNameReqDto dto) {
-        Payment payment = em.find(Payment.class, cardId);
-        payment.setName(dto.getName());
+        Cards cards = em.find(Cards.class, cardId);
+        cards.setName(dto.getName());
         return true;
     }
 }

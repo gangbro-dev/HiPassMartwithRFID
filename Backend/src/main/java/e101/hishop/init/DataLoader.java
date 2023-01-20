@@ -1,7 +1,7 @@
 package e101.hishop.init;
 
-import e101.hishop.domain.entity.Pay;
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Pays;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
@@ -38,23 +38,23 @@ public class DataLoader {
                 .password("PASSWORD")
                 .build());
 
-        userService.saveCard(Payment.builder()
+        userService.saveCard(Cards.builder()
                 .cardNo("1234-1212-1111-1111")
                 .name("신한")
                 .isDefault(true)
                 .validDate("0121")
                 .build(), 1L);
 
-        userService.saveCard(Payment.builder()
+        userService.saveCard(Cards.builder()
                 .cardNo("4434-1212-1111-1111")
                 .name("삼삼")
                 .isDefault(false)
                 .validDate("2221")
                 .build(), 1L);
 
-        adminService.savePay(Pay.builder()
+        adminService.savePay(Pays.builder()
                 .buy_date("2022-09-01")
-                .buy_total(50000)
+                .buy_total(50000L)
                 .build(), 1L, 2L);
     }
 

@@ -4,14 +4,14 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 
 import java.util.List;
 
 public interface UserService {
 
-    Long saveCard(Payment payment, Long userId);
+    Long saveCard(Cards cards, Long userId);
     List<CardInfoRespDto> cardInfo(Long userId);
 
     Boolean deleteCard(Long cardId);

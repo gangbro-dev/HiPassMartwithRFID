@@ -1,19 +1,16 @@
 package e101.hishop.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pay {
+public class Pays {
 
     @Id
     @GeneratedValue
@@ -26,26 +23,26 @@ public class Pay {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
-    private Payment payment;
+    private Cards cards;
 
     @NotBlank
     private String buy_date;
 
-    @NotBlank
-    private Integer buy_total;
+    @NotNull
+    private Long buy_total;
 
     public void setUsersAndPay(Users users) {
         this.users = users;
         users.getPay().add(this);
     }
 
-    public void setPaymentAndPay(Payment payment) {
-        this.payment = payment;
-        payment.getPay().add(this);
+    public void setPaymentAndPay(Cards cards) {
+        this.cards = cards;
+        cards.getPay().add(this);
     }
 
     @Builder
-    public Pay(String buy_date, Integer buy_total
+    public Pays(String buy_date, Long buy_total
     ) {
         this.buy_date = buy_date;
         this.buy_total = buy_total;

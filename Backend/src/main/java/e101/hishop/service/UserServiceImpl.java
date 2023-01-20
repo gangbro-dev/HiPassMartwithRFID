@@ -4,7 +4,7 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 import e101.hishop.repository.UserJPARepository;
 import e101.hishop.repository.UserRepository;
@@ -27,17 +27,17 @@ public class UserServiceImpl implements UserService {
     private final UserJPARepository userJPARepository;
 
     @Override
-    public Long saveCard(Payment payment, Long userId) {
+    public Long saveCard(Cards cards, Long userId) {
         Users users = userRepository.findUserById(userId);
         log.info("users, {}", users);
-        payment.setUsersAndPayments(users);
-        return userRepository.saveCard(payment);
+        cards.setUsersAndPayments(users);
+        return userRepository.saveCard(cards);
     }
     @Override
     public List<CardInfoRespDto> cardInfo(Long userId) {
         List<CardInfoRespDto> respList = new ArrayList<>();
-        List<Payment> list = userRepository.getCardInfo(userId);
-        for (Payment p : list) {
+        List<Cards> list = userRepository.getCardInfo(userId);
+        for (Cards p : list) {
             log.info("CARD_INFO=========================================================");
             log.info("{}", p);
             respList.add(CardInfoRespDto.builder()

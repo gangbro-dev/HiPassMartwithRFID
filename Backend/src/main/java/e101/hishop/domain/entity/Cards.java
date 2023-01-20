@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Payment {
+public class Cards {
 
     //카드이름
     //기본여부
@@ -38,7 +38,7 @@ public class Payment {
 
     @JsonIgnore
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
-    private List<Pay> pay = new ArrayList<>();
+    private List<Pays> pays = new ArrayList<>();
 
     //입력하지않으면 기본값 false
 //    @PrePersist
@@ -53,7 +53,7 @@ public class Payment {
     }
 
     @Builder
-    public Payment(String name, Boolean isDefault, String cardNo, String validDate) {
+    public Cards(String name, Boolean isDefault, String cardNo, String validDate) {
         this.name = name;
         this.isDefault = isDefault;
         this.cardNo = cardNo;

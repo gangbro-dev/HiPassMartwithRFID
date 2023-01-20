@@ -1,7 +1,7 @@
 package e101.hishop.repository;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
-import e101.hishop.domain.entity.Payment;
+import e101.hishop.domain.entity.Cards;
 import e101.hishop.domain.entity.Users;
 
 import java.util.List;
@@ -14,11 +14,11 @@ public interface UserRepository {
 
     Users findUserByEmail(String email);
 
-    Long saveCard(Payment payment);
+    Long saveCard(Cards cards);
 
     Boolean deleteCard(Long cardId);
 
-    List<Payment> getCardInfo(Long userId);
+    List<Cards> getCardInfo(Long userId);
 
     Users getUserInfo(Long userPK);
 

@@ -45,11 +45,11 @@ public class Users {
 
     @JsonIgnore
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
-    private List<Payment> payments = new ArrayList<>();
+    private List<Cards> cards = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
-    private List<Pay> pay = new ArrayList<>();
+    private List<Pays> pays = new ArrayList<>();
 
     @Builder
     public Users(String userId, String password, String name, String gender, String birthDate , String email, String phone, String adSelect
