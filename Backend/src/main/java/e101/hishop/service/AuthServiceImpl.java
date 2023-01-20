@@ -23,10 +23,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean signUp(Users users) {
+    public Long signUp(Users users) {
 
         //유효성 체크이상없으면 true 반환
-        authRepository.signUp(users);
-        return true;
+        return authRepository.signUp(users);
+
     }
 }
