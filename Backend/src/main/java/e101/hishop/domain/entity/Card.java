@@ -7,11 +7,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString(exclude = {"user, pays"})
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cards {
+public class Card {
 
     //카드이름
     //기본여부
@@ -20,7 +21,7 @@ public class Cards {
 
     @Id
     @GeneratedValue
-    @Column(name = "pay_id")
+    @Column(name = "card_id")
     private Long id;
 
     private String name;
@@ -33,12 +34,12 @@ public class Cards {
     private String validDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_pk")
-    private Users users;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
-    private List<Pays> pays = new ArrayList<>();
+    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
+    private List<Pay> pays = new ArrayList<>();
 
     //입력하지않으면 기본값 false
 //    @PrePersist
@@ -47,29 +48,17 @@ public class Cards {
 //    }
 
 
-    public void setUsersAndCards(Users users) {
-        this.users = users;
-        users.getCards().add(this);
+    public void setUsersAndCards(User user) {
+        this.user = user;
+        user.getCards().add(this);
     }
 
     @Builder
-    public Cards(String name, Boolean isDefault, String cardNo, String validDate) {
+    public Card(String name, Boolean isDefault, String cardNo, String validDate) {
         this.name = name;
         this.isDefault = isDefault;
         this.cardNo = cardNo;
         this.validDate = validDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Payment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", isDefault=" + isDefault +
-                ", cardNo='" + cardNo + '\'' +
-                ", validDate='" + validDate + '\'' +
-                ", users=" + users +
-                '}';
     }
 }
 

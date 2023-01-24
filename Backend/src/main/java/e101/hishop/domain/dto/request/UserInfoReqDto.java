@@ -1,7 +1,7 @@
 package e101.hishop.domain.dto.request;
 
 
-import e101.hishop.domain.entity.Users;
+import e101.hishop.global.enumeration.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ public class UserInfoReqDto {
     private String password;
 
     @NotBlank
-    private String gender;
+    private Gender gender;
 
     private String phone;
 

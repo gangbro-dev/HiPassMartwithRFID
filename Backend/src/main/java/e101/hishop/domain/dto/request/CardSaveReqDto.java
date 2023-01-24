@@ -1,6 +1,6 @@
 package e101.hishop.domain.dto.request;
 
-import e101.hishop.domain.entity.Cards;
+import e101.hishop.domain.entity.Card;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
@@ -19,8 +19,8 @@ public class CardSaveReqDto {
     @NotBlank
     private String validDate;
 
-    public Cards toPaymentEntity(){
-        return Cards.builder()
+    public Card toPaymentEntity(){
+        return Card.builder()
                 .cardNo(cardNo)
                 .name(name)
                 .isDefault(isDefault)

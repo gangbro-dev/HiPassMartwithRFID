@@ -1,32 +1,29 @@
 package e101.hishop.service;
 
-import e101.hishop.domain.dto.request.LoginReqDto;
-import e101.hishop.domain.dto.request.UserInfoReqDto;
-import e101.hishop.domain.entity.Users;
-import e101.hishop.repository.AuthRepository;
+import e101.hishop.domain.entity.User;
+import e101.hishop.global.common.CommonException;
 import e101.hishop.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AuthServiceImpl implements AuthService {
+@Slf4j
+public class AuthServiceImpl implements AuthService{
 
-    private final AuthRepository authRepository;
-
-    public boolean login(LoginReqDto dto) {
-        return authRepository.login(dto);
-    }
+    private final UserJPARepository userJPARepository;
 
     @Override
-    public Long signUp(Users users) {
-
-        //유효성 체크이상없으면 true 반환
-        return authRepository.signUp(users);
-
+    public Long signUp(User user){
+        // userId 중복체크
+        log.info("==========================signup {}", user);
+        Boolean result = userJPARepository.existsByLoginId(user.getLoginId());
+        if (result) throw new CommonException(1, "아이디가 중복됩니다.", HttpStatus.BAD_REQUEST);
+        return userJPARepository.save(user).getId();
     }
 }

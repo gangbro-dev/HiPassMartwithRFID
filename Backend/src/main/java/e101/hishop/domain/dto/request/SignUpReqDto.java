@@ -1,20 +1,29 @@
 package e101.hishop.domain.dto.request;
 
 
-import e101.hishop.domain.entity.Users;
+import e101.hishop.AppConfig;
+import e101.hishop.domain.entity.User;
+import e101.hishop.global.enumeration.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor()
+@Builder
 public class SignUpReqDto {
 
     @NotBlank
-    private String userId;
+    private String loginId;
 
     @NotBlank
     private String password;
@@ -22,11 +31,12 @@ public class SignUpReqDto {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String gender;
+    @NotNull
+    private Gender gender;
 
-    @NotBlank
-    private String birthDate;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
     private String phone;
 
@@ -36,16 +46,15 @@ public class SignUpReqDto {
     @NotBlank
     private String adSelect;
 
-    public Users toUsersEntity(){
-        return Users.builder()
-                .userId(userId)
+    public User toUsersEntity(){
+        return User.builder()
+                .loginId(loginId)
                 .gender(gender)
                 .birthDate(birthDate)
                 .adSelect(adSelect)
                 .email(email)
                 .name(name)
-                .password(password)
+                .password(AppConfig.testPasswordEncoder().encode(password))
                 .build();
     }
-
 }
