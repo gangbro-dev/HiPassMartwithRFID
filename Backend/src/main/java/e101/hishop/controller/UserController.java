@@ -22,10 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userId) {
-        return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
-    }
+        @GetMapping("/{userId}")
+        public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userId) {
+            return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
+        }
 
     @PatchMapping("/{userId}")
     public CommonResponse updateUserInfo(@RequestBody UserInfoReqDto dto, @PathVariable Long userId) {
@@ -67,7 +67,7 @@ public class UserController {
 
     @GetMapping("/{userId}/purchase")
     public String userPurchaseInfo(@PathVariable Long userId) {
-        return "user purchase info Id" + " " + userId;
+            return "user purchase info Id" + " " + userId;
     }
 
     @GetMapping("/{userId}/purchase/{purchaseId}")

@@ -37,6 +37,10 @@ public class Card {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_category_id")
+    private CardCategory cardCategory;
+
     @JsonIgnore
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
     private List<Pay> pays = new ArrayList<>();
@@ -51,6 +55,11 @@ public class Card {
     public void setUsersAndCards(User user) {
         this.user = user;
         user.getCards().add(this);
+    }
+
+    public void setCardCategoryandCards(CardCategory cardCategory) {
+        this.cardCategory = cardCategory;
+        cardCategory.getCards().add(this);
     }
 
     @Builder
