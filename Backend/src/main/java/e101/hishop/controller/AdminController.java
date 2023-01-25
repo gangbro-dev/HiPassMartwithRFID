@@ -2,7 +2,6 @@ package e101.hishop.controller;
 
 import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.service.AdminService;
-import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
