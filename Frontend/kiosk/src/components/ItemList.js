@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+import CardActions from "@mui/material/CardActions";
 
 const columns = [
   { id: "name", label: "품명", minWidth: 140 },
@@ -33,7 +34,7 @@ function createData(name, price, cnt) {
 }
 
 const rows = [
-  createData("빙그레바나나맛우유", 1500, 5),
+  createData("폰트크기 바꿧지롱", 1500, 5),
   createData("동원참치", 4000, 1),
   createData("???", 10000, 3),
   createData("????", 5000, 4),
@@ -45,7 +46,22 @@ const rows = [
   createData("?????", 400, 3),
   createData("??????", 2400, 4),
   createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+  createData("???????", 500, 5),
+
 ];
+
+const lstStyle = {
+  fontSize: "24px",
+}
 
 export default function ItemList() {
   return (
@@ -60,17 +76,17 @@ export default function ItemList() {
       <Typography component="h1" variant="h4" sx={{ mb: 3 }}>
         장바구니
       </Typography>
-      <Card sx={{ width: 550, border: 1 }}>
+      <Card sx={{ width: `90vw`, border: 1 }}>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ minHeight: 850, maxHeight: 850 }}>
-            <Table stickyHeader aria-label="sticky table">
+          <TableContainer sx={{ minHeight: `50vh`, maxHeight: `50vh` }}>
+            <Table stickyHeader aria-label="sticky table" >
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth }}
+                      style={lstStyle}
                     >
                       {column.label}
                     </TableCell>
@@ -89,7 +105,7 @@ export default function ItemList() {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align} style={lstStyle} >
                             {column.format && typeof value === "number"
                               ? column.format(value)
                               : value}
@@ -102,11 +118,13 @@ export default function ItemList() {
               </TableBody>
             </Table>
           </TableContainer>
+          <CardActions>
+            총 결제금액
+          </CardActions>
         </Paper>
       </Card>
-      <Typography component="h1" variant="h4" sx={{ mt: 3 }}>
-        으아아아아ㅏ아아아아
-      </Typography>
+      <button>물건 다시 찍기</button>
+      <button>결제하기</button>
     </Box>
   );
 }

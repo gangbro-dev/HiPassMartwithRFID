@@ -20,6 +20,7 @@ import {
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
+import HOST from "../../Host";
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -103,8 +104,9 @@ const Register = () => {
     console.log(postData);
 
     // post
+    const API_URI = `${HOST}/signup`;
     await axios
-      .post("/signup", postData)
+      .post(API_URI, postData)
       .then(function (response) {
         console.log(response, "성공");
       })
@@ -139,8 +141,8 @@ const Register = () => {
       gender,
       phone,
       birth,
-      email,
-      address,
+      // email,
+      // address,
     } = joinData;
 
     let flag = true;

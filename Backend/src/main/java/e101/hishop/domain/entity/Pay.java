@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pays {
+public class Pay {
 
     @Id
     @GeneratedValue
@@ -18,12 +18,12 @@ public class Pays {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Users users;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
-    private Cards cards;
+    @JoinColumn(name = "card_id")
+    private Card card;
 
     @NotBlank
     private String buyDate;
@@ -31,21 +31,19 @@ public class Pays {
     @NotNull
     private Long buyTotal;
 
-    public void setUsersAndPay(Users users) {
-        this.users = users;
-        users.getPays().add(this);
+    public void setUsersAndPay(User user) {
+        this.user = user;
+        user.getPays().add(this);
     }
 
-    public void setPaymentAndPay(Cards cards) {
-        this.cards = cards;
-        cards.getPays().add(this);
+    public void setPaymentAndPay(Card card) {
+        this.card = card;
+        card.getPays().add(this);
     }
 
     @Builder
-    public Pays(String buyDate, Long buyTotal
-    ) {
+    public Pay(String buyDate, Long buyTotal) {
         this.buyDate = buyDate;
         this.buyTotal = buyTotal;
     }
-
 }

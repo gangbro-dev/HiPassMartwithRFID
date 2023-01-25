@@ -1,8 +1,10 @@
 package e101.hishop.init;
 
-import e101.hishop.domain.entity.Pays;
-import e101.hishop.domain.entity.Cards;
-import e101.hishop.domain.entity.Users;
+import e101.hishop.domain.dto.request.SignUpReqDto;
+import e101.hishop.domain.entity.Card;
+import e101.hishop.domain.entity.Pay;
+import e101.hishop.global.enumeration.Gender;
+import e101.hishop.global.enumeration.Role;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 @Component
 @Slf4j
@@ -28,34 +31,46 @@ public class DataLoader {
     //method invoked during the startup
     @PostConstruct
     public void loadData() {
-        authService.signUp(Users.builder()
-                .userId("USERID111")
-                .gender("MANNNN")
-                .birthDate("19191919")
+        authService.signUp(SignUpReqDto.builder()
+                .loginId("user1234!")
+                .gender(Gender.MALE)
+                .birthDate(LocalDate.of(1993,12,31))
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .password("PASSWORD")
-                .build());
+                .role(Role.ROLE_USER)
+                .password("user1234!")
+                .build().toUsersEntity());
 
-        userService.saveCard(Cards.builder()
+        userService.saveCard(Card.builder()
                 .cardNo("1234-1212-1111-1111")
                 .name("신한")
                 .isDefault(true)
                 .validDate("0121")
                 .build(), 1L);
 
-        userService.saveCard(Cards.builder()
+        userService.saveCard(Card.builder()
                 .cardNo("4434-1212-1111-1111")
                 .name("삼삼")
                 .isDefault(false)
                 .validDate("2221")
                 .build(), 1L);
 
-        adminService.savePay(Pays.builder()
+        adminService.savePay(Pay.builder()
                 .buyDate("2022-09-01")
                 .buyTotal(50000L)
                 .build(), 1L, 2L);
+
+        authService.signUp(SignUpReqDto.builder()
+                .loginId("admin1234!")
+                .gender(Gender.MALE)
+                .birthDate(LocalDate.of(1999,12,31))
+                .adSelect("YES")
+                .email("EMAIL@naver.com")
+                .name("NAME")
+                .role(Role.ROLE_ADMIN)
+                .password("admin1234!")
+                .build().toUsersEntity());
     }
 
     //method invoked during the shutdown

@@ -13,6 +13,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import axios from "axios";
 import { FormControl } from "@mui/material";
+import HOST from "../../Host";
+// import HOST from "../../Host";
 
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
@@ -47,9 +49,11 @@ const SignIn = () => {
     const { userid, password } = data;
     const postData = { userid, password };
     console.log(postData);
+
     // post
+    const API_URI = `${HOST}/api/login`;
     await axios
-      .post("/api/login", postData)
+      .post(API_URI ,postData)
       .then(function (response) {
         console.log(response, "성공");
         setLoginError("");
@@ -106,7 +110,7 @@ const SignIn = () => {
         >
           <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
           <Typography component="h1" variant="h5">
-            회원가입
+            로그인
           </Typography>
           <Box
             component="form"

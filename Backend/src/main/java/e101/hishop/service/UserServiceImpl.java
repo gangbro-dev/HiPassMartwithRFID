@@ -4,15 +4,16 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
-import e101.hishop.domain.entity.Cards;
-import e101.hishop.domain.entity.Users;
+import e101.hishop.domain.entity.Card;
+import e101.hishop.domain.entity.User;
+import e101.hishop.global.common.CommonException;
 import e101.hishop.repository.UserJPARepository;
 import e101.hishop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +27,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
 
+
     @Override
-    public Long saveCard(Cards cards, Long userId) {
-        Users users = userRepository.findUserById(userId);
-        log.info("users, {}", users);
-        cards.setUsersAndCards(users);
+    public Long saveCard(Card cards, Long userId) {
+        User user = userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        log.info("user, {}", user);
+        cards.setUsersAndCards(user);
         return userRepository.saveCard(cards);
     }
+
     @Override
     public List<CardInfoRespDto> cardInfo(Long userId) {
         List<CardInfoRespDto> respList = new ArrayList<>();
-        List<Cards> list = userRepository.getCardInfo(userId);
-        for (Cards p : list) {
+        List<Card> list = userRepository.getCardInfo(userId);
+        for (Card p : list) {
             log.info("CARD_INFO=========================================================");
             log.info("{}", p);
             respList.add(CardInfoRespDto.builder()
@@ -58,31 +62,20 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public UserInfoRespDto getUserInfo(Long userPK) {
-        Users user = userRepository.getUserInfo(userPK);
-
-        return UserInfoRespDto.builder()
-                .userId(user.getUserId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .gender(user.getGender())
-                .birthDate(user.getBirthDate())
-                .phone(user.getPhone())
-                .adSelect(user.getAdSelect())
-                .build();
+    public UserInfoRespDto getUserInfo(Long userId) {
+        User user = userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        return UserInfoRespDto.of(user);
     }
 
-    public Users patchUserInfo(UserInfoReqDto dto, Long userPK){
-        Users user = userJPARepository.findById(userPK).orElseThrow(() -> new EntityNotFoundException("Employee not found with id:"+userPK));
-        user.setPassword(dto.getPassword());
-        user.setGender(dto.getGender());
-        user.setPhone(dto.getPhone());
-        user.setEmail(dto.getEmail());
-//        user.setAdSelect(dto.getAdSelect());
-        return userJPARepository.save(user);
+    public Long updateUserInfo(UserInfoReqDto dto, Long userId) {
+        return userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
+                .updateUserInfo(dto)
+                .getId();
     }
 
-    public void deleteUserInfo(Long userPK){
+    public void deleteUserInfo(Long userPK) {
         userJPARepository.deleteById(userPK);
     }
 

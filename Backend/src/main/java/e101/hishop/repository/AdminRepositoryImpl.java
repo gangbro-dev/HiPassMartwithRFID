@@ -1,8 +1,7 @@
 package e101.hishop.repository;
 
-import e101.hishop.domain.entity.Pays;
-import e101.hishop.domain.entity.Cards;
-import e101.hishop.domain.entity.Users;
+import e101.hishop.domain.entity.Pay;
+import e101.hishop.domain.entity.Card;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -19,27 +18,20 @@ public class AdminRepositoryImpl implements AdminRepository {
     private final EntityManager em;
 
     @Override
-    public Users findUserById(Long id) {
-        return em.find(Users.class, id);
+    public Card findPaymentById(Long id) {
+        return em.find(Card.class, id);
     }
 
     @Override
-    public Cards findPaymentById(Long id) {
-        return em.find(Cards.class, id);
-    }
-
-    @Override
-    public Long savePay(Pays pays) {
+    public Long savePay(Pay pays) {
         em.persist(pays);
         return pays.getId();
     }
 
     @Override
-    public List<Pays> getPayInfo() {
-        String jpql = "SELECT p FROM Pays p";
+    public List<Pay> getPayInfo() {
+        String jpql = "SELECT p FROM Pay p";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }
-
-
 }
