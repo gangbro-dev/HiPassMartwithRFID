@@ -47,15 +47,19 @@ const SignIn = () => {
 
   const onhandlePost = async (data) => {
     const { userid, password } = data;
-    const postData = { userid, password };
-    console.log(postData);
+
+    const formData = new FormData();
+    formData.append("username", userid);
+    formData.append("password", password);
+    // console.log(formData);
 
     // post
     const API_URI = `${HOST}/api/login`;
     await axios
-      .post(API_URI ,postData)
+      .post(API_URI, formData)
       .then(function (response) {
         console.log(response, "성공");
+        console.log(response["access-token"]);
         setLoginError("");
       })
       .catch(function (err) {
@@ -85,9 +89,7 @@ const SignIn = () => {
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if (!passwordRegex.test(password)) {
-      setPasswordState(
-        "비밀번호를 제대로 입력해주세요!"
-      );
+      setPasswordState("비밀번호를 제대로 입력해주세요!");
       flag = false;
     } else setPasswordState("");
 
@@ -168,13 +170,20 @@ const SignIn = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Button color="kakao" fullWidth variant="contained" sx={{ mt: 3 }}>
+            <Button
+              color="kakao"
+              fullWidth
+              startIcon={<img src='./images/kakao_login.png' width={'28'} alt='kakao_login'/>}
+              variant="contained"
+              sx={{ mt: 3 }}
+            >
               카카오 로그인
             </Button>
             <Button
               color="naver"
               fullWidth
               variant="contained"
+              startIcon={<img src="./images/login_naver_w.png" width={'28'} alt='naver_login'/>}
               sx={{ mt: 3, mb: 2 }}
             >
               네이버 로그인
