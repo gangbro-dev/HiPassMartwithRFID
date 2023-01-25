@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,17 +68,42 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/purchase")
-    public String userPurchaseInfo(@PathVariable Long userId) {
-            return "user purchase info Id" + " " + userId;
+    public ResponseEntity<List<Map<String, Object>>> userPurchaseInfo(@PathVariable Long userId) {
+        List<Map<String, Object>> json = new ArrayList<>();
+        Map<String, Object> injson1 = new HashMap<>();
+        Map<String, Object> injson2 = new HashMap<>();
+        injson1.put("cardNumber", "4321-1234-5123-42123");
+        injson1.put("priceSum", "1923994");
+        injson1.put("payDate", "2022-01-01");
+        injson2.put("cardNumber", "9876-8765-12534");
+        injson2.put("priceSum", "5000");
+        injson2.put("payDate", "2022-01-25");
+        json.add(injson1);
+        json.add(injson2);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/purchase/{purchaseId}")
-    public String userPurchaseDetail(@PathVariable Long userId, @PathVariable String purchaseId) {
-        return "user purchase detail Id" + " " + userId + " " + purchaseId;
+    public ResponseEntity<List<Map<String, Object>>> userPurchaseDetail(@PathVariable Long userId, @PathVariable String purchaseId) {
+        List<Map<String, Object>> json = new ArrayList<>();
+        Map<String, Object> injson1 = new HashMap<>();
+        Map<String, Object> injson2 = new HashMap<>();
+        injson1.put("itemName", "노트북");
+        injson1.put("count", "2");
+        injson1.put("price", "1250000");
+        injson2.put("itemName", "과자");
+        injson2.put("count", "5");
+        injson2.put("price", "5500");
+        json.add(injson1);
+        json.add(injson2);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @PostMapping("/qr")
-    public String qrCreate() {
-        return "user QR";
+    public ResponseEntity<Map<String, Object>> qrCreate() {
+        Map<String, Object> json = new HashMap<>();
+        json.put("userId", "ssafy1234");
+        json.put("datetime", "2023-01-12T14:38:27");
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 }
