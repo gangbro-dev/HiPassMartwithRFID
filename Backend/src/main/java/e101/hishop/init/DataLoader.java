@@ -1,10 +1,10 @@
 package e101.hishop.init;
 
 import e101.hishop.domain.dto.request.SignUpReqDto;
-import e101.hishop.domain.entity.Pay;
 import e101.hishop.domain.entity.Card;
-import e101.hishop.domain.entity.User;
+import e101.hishop.domain.entity.Pay;
 import e101.hishop.global.enumeration.Gender;
+import e101.hishop.global.enumeration.Role;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
@@ -32,13 +32,14 @@ public class DataLoader {
     @PostConstruct
     public void loadData() {
         authService.signUp(SignUpReqDto.builder()
-                .loginId("USERID111")
+                .loginId("user1234!")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.of(1993,12,31))
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .password("PASSWORD")
+                .role(Role.ROLE_USER)
+                .password("user1234!")
                 .build().toUsersEntity());
 
         userService.saveCard(Card.builder()
@@ -59,6 +60,17 @@ public class DataLoader {
                 .buyDate("2022-09-01")
                 .buyTotal(50000L)
                 .build(), 1L, 2L);
+
+        authService.signUp(SignUpReqDto.builder()
+                .loginId("admin1234!")
+                .gender(Gender.MALE)
+                .birthDate(LocalDate.of(1999,12,31))
+                .adSelect("YES")
+                .email("EMAIL@naver.com")
+                .name("NAME")
+                .role(Role.ROLE_ADMIN)
+                .password("admin1234!")
+                .build().toUsersEntity());
     }
 
     //method invoked during the shutdown

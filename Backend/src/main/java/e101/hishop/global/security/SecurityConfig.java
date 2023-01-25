@@ -37,8 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll();
         http.authorizeRequests().antMatchers("/api/login/**", "/api/refresh_token/**", "/api/logout/**", "/api/sign-up").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("*").permitAll();
+        http.authorizeRequests().antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN");
+        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyRole("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -72,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 응답해준 json을 자바스크립트에서 처리할 수 있게 할지를 설정
         //TODO HTTPS React, IOT Origin 변경
 //        configuration.setAllowedOrigins(List.of("http://localhost"));
-        configuration.setAllowedOriginPatterns(List.of("http://localhost"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost*", "http://192.168.*"));
         configuration.setAllowedMethods(List.of("GET","POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request

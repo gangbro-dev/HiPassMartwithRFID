@@ -4,11 +4,11 @@ package e101.hishop.domain.dto.request;
 import e101.hishop.AppConfig;
 import e101.hishop.domain.entity.User;
 import e101.hishop.global.enumeration.Gender;
+import e101.hishop.global.enumeration.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -46,6 +46,8 @@ public class SignUpReqDto {
     @NotBlank
     private String adSelect;
 
+    private Role role;
+
     public User toUsersEntity(){
         return User.builder()
                 .loginId(loginId)
@@ -54,6 +56,7 @@ public class SignUpReqDto {
                 .adSelect(adSelect)
                 .email(email)
                 .name(name)
+                .role(role)
                 .password(AppConfig.testPasswordEncoder().encode(password))
                 .build();
     }
