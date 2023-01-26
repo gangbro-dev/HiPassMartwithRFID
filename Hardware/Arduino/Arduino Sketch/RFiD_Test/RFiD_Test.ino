@@ -5,16 +5,30 @@
 
 SoftwareSerial mySerial (RX_PIN, TX_PIN);
 
+typedef struct RFID_data{
+  char SF = 0x33;
+  char LEN = 0x0C;
+  char COM = 0x3B;
+  String data = "ABCDEFGH";
+  char EF = 0x99;
+};
+
 void setup() {
   pinMode(RX_PIN, INPUT);
   pinMode(TX_PIN, OUTPUT);
-
-  mySerial.begin(9600);
+  Serial.begin(9600);
+  Serial.println("Device ON");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  if (mySerial.available() > 0) {
-    mySerial.read();
-  }
+  RFID_data dummy;
+  String sendingData = "";
+  sendingData += dummy.SF;
+  sendingData += dummy.LEN;
+  sendingData += dummy.COM;
+  sendingData += dummy.data;
+  sendingData += dummy.EF;
+
+  Serial.print(sendingData);
+  delay(400);
 }

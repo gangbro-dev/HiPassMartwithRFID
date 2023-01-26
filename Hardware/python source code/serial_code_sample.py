@@ -1,5 +1,5 @@
-## 트리거 만들기 -> 어케함? 진짜모름
-## write 형태 짜두기 -> write에 뭐 적어놓을거임? 나도 모름
+# 트리거 만들기 -> 어케함? 진짜모름
+# write 형태 짜두기 -> write에 뭐 적어놓을거임? 나도 모름
 
 import sys
 import time
@@ -155,41 +155,51 @@ class rawProtocal(Protocol):
 
     # 데이터가 들어오면 이곳에서 처리함.
     def data_received(self, data):
-        if data == 0x33:                            # 시작바이트
-            self.reading = True
-        elif data == 0x99:                          # 종료 바이트
-            print("".join(self.data_line))          # 통신 종료 시 데이터 출력
+        print(data)
+        while data:
+            if data[0] == 0x33:                                 # 시작바이트 : 0x33 이어야 정상적인 요청
+                self.reading = True
+                self.received_command[0] = data[1]              # 요청 총 길이
+                self.received_command[1] = data[2]              # 요청 코드
+                data_now = data[:self.received_command[0]]      # 요청 1개 추출
+                data = data[self.received_command[0]:]          # 나머지 저장
+                print('start')
+            else:                                               # 시작바이트로 시작하는 요청이 아닌 경우 시작바이트 찾기
+                x = data.find(0x33)
+                if x > 0:
+                    data = data[x:]
+                    continue
+                else:
+                    return
+            print('start_end')
+            if self.received_command[1] == 0x3B:                # RFID UID 1개 읽기
+                print('uid check', data_now[-1])
+                for byte in data_now[3:-1]:
+                    self.data_line.append(str(byte))
+            elif self.received_command[1] == 0x1A:              # RFID FULL INFO 1개 읽기
+                for byte in data_now[3:-1]:
+                    self.data_line.append(str(byte))            # FN, NB, BD 내용 추가 해야 함
+                    pass
+                    pass
+                    pass
+            elif self.received_command[1] == 0x1B:              # 읽기 Stay 모드
+                self.data_line.append("Reading Stay Mode ON")
+            elif self.received_command[1] == 0x2B:              # 읽기 Continue 모드
+                self.data_line.append("Reading Continue Mode ON")
+            elif self.received_command[1] == 0x2B:              # RFID Reader 동작 확인
+                self.data_line.append("RFID Reader Check OK")
+            else:
+                print("Unknown Request")
+                continue
+            if data_now[-1] == 0x99:                            # 종료 바이트
+                print('end check')
+                print(" ".join(self.data_line))                  # 통신 종료 시 데이터 출력
+            else:
+                print("Error Request")
             self.reading = False
             self.data_line = []
             self.received_command = [0, 0]
-        if self.received_command[0] == 0x3B:        # RFID UID 1개 읽기
-            self.data_line.append(hex(data))
-        elif self.received_command[0] == 0x1A:      # RFID FULL INFO 1개 읽기
-            self.data_line.append(hex(data))        # FN, NB, BD 내용 추가 해야 함
-            pass
-            pass
-            pass
-        elif self.received_command[1] == 0x1B:      # 읽기 Stay 모드
-            if data:
-                print("Reading Stay Mode ON")
-        elif self.received_command[1] == 0x2B:      # 읽기 Continue 모드
-            if data:
-                print("Reading Continue Mode ON")
-        elif self.received_command[1] == 0x2B:
-            if data:
-                print("RFID Reader Check OK")
-        else:
-            if self.received_command[1]:
-                self.received_command[0] = data     # 응답 코드
-            else:
-                if data == 0x05:                    # 1BYTE 정보 수신
-                    self.received_command[1] = 1
-                # elif data == 0x12                 # 태그정보 전용 (사용안함)
-                #     pass
-                # elif data == 0x24                 # EAS 알람 (사용안함)
-                #     pass
-                else:
-                    self.received_command[1] = data - 4  # 복수의 BYTE 정보 수신
+            continue
 
     # 데이터 보낼 때 함수
     def write(self, data):
@@ -205,7 +215,7 @@ PORT = "COM6"                               # 포트 번호
 baud = 9600                                 # 보드레이트
 # baud = 115200                             # RFID 보드레이트 115200 기본값
 ser = serial.Serial(PORT, baud, timeout=0.1)  # serial 통신 세팅
-
+time.sleep(1)
 # 쓰레드 시작
 with ReaderThread(ser, rawProtocal) as p:
     while p.isDone():
