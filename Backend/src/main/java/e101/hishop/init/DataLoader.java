@@ -71,6 +71,8 @@ public class DataLoader {
                 .role(Role.ROLE_ADMIN)
                 .password("admin1234!")
                 .build().toUsersEntity());
+
+        adminService.saveProduct
     }
 
     //method invoked during the shutdown
