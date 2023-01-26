@@ -36,11 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.rememberMe().disable();
 
 //        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll();
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/refresh_token/**", "/api/logout/**", "/api/sign-up").permitAll();
-        http.authorizeRequests().antMatchers("*").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN");
-        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyRole("ADMIN");
-        http.authorizeRequests().anyRequest().authenticated();
+        //TODO 개발용 추후 삭제
+        http.authorizeRequests().anyRequest().permitAll();
+//        http.authorizeRequests().antMatchers("/api/login/**", "/api/refresh_token/**", "/api/logout/**", "/api/sign-up").permitAll();
+//        http.authorizeRequests().antMatchers("*").permitAll();
+//        http.authorizeRequests().antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN");
+//        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyRole("ADMIN");
+//        http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
