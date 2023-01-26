@@ -39,12 +39,14 @@ public class UserInfoRespDto {
         this.adSelect = adSelect;
     }
 
+    //TODO 유저정보 받아올때 password 뺄것인지 생각
     public static UserInfoRespDto of(User user) {
         return UserInfoRespDto.builder()
                 .userId(user.getLoginId())
                 .email(user.getEmail())
                 .name(user.getName())
                 .gender(user.getGender())
+                .password(user.getPassword())
                 .birthDate(user.getBirthDate())
                 .phone(user.getPhone())
                 .adSelect(user.getAdSelect())
