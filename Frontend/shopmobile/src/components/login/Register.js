@@ -89,24 +89,22 @@ const Register = () => {
   const onhandlePost = async (data) => {
     const { userid, password, name, gender, phone, birth, email, address } =
     data;
-    console.log("asdf");
     birth.replace(/^(\d{4})(\d{2})(\d{2})$/, `$1-$2-$3`);
-    const postData = {
-      userid,
-      password,
-      name,
-      gender,
-      phone,
-      birth,
-      email,
-      address,
-    };
-    console.log(postData);
+    const formData = new FormData();
+    formData.append("userid", userid);
+    formData.append("password", password);
+    formData.append("name", name);
+    formData.append("gender", gender);
+    formData.append("phone", phone);
+    formData.append("birth", birth);
+    formData.append("email", email);
+    formData.append("address", address);
+    console.log(formData);
 
     // post
     const API_URI = `${HOST}/signup`;
     await axios
-      .post(API_URI, postData)
+      .post(API_URI, formData)
       .then(function (response) {
         console.log(response, "성공");
       })
@@ -207,7 +205,7 @@ const Register = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -227,7 +225,7 @@ const Register = () => {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
-            <FormControl component="fieldset" variant="standard">
+            <FormControl>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -360,7 +358,7 @@ const Register = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 1, mb: 2 }}
                 size="large"
               >
                 회원가입
