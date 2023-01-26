@@ -13,7 +13,7 @@ spring:
 #    driver-class-name: org.h2.Driver
 
 # 배포용
-    url: jdbc:mysql://13.125.42.187/:3306/hishop?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://13.125.42.187:3306/hishop?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: e101
     password: e101ssafy!@
     driver-class-name: com.mysql.cj.jdbc.Driver
