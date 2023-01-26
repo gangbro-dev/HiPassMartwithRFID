@@ -5,19 +5,22 @@ spring:
       settings:
         web-allow-others: true
   datasource:
-    url: jdbc:h2:tcp://localhost/~/datajpa
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+  
+# 개발용
+#    url: jdbc:h2:tcp://localhost/~/datajpa
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
 
-#    url: jdbc:mysql://localhost:3306/starbucks?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: ssafy
-#    password: ssafy
-#    driver-class-name: com.mysql.cj.jdbc.Driver
+# 배포용
+    url: jdbc:mysql://13.125.42.187/:3306/hishop?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: e101
+    password: e101ssafy!@
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-#    database: mysql
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create
     properties:
