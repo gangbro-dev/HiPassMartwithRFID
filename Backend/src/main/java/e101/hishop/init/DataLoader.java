@@ -72,7 +72,7 @@ public class DataLoader {
                 .password("admin1234!")
                 .build().toUsersEntity());
 
-        adminService.saveProduct
+//        adminService.saveProduct
     }
 
     //method invoked during the shutdown
