@@ -65,7 +65,7 @@ def readthread(ser):
                     data_line.append("Reading Stay Mode ON")
                 elif received_command[1] == 0x2B:           # 읽기 Continue 모드
                     data_line.append("Reading Continue Mode ON")
-                elif received_command[1] == 0x2B:           # RFID Reader 동작 확인
+                elif received_command[1] == 0x2C:           # RFID Reader 동작 확인
                     data_line.append("RFID Reader Check OK")
                 else:
                     print("Unknown Request")
@@ -78,13 +78,13 @@ def readthread(ser):
                 uid = ''
                 continue
             print(data_line)
-            if data_line:
-                request_data = {
-                    "kioskId" : 1,
-                    "products" : data_line
-                }
-                r = requests.post("http://192.168.30.173:8080/api/iot/rfid", request_data).json()
-                print(r)
+            # if data_line:
+            #     request_data = {
+            #         "kioskId" : 1,
+            #         "products" : data_line
+            #     }
+            #     r = requests.post("http://192.168.30.173:8080/api/iot/rfid", request_data).json()
+            #     print(r)
     ser.close()
 
 main()
