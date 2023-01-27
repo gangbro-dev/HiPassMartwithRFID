@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        configuration.setAllowedOrigins(List.of("http://localhost"));
         configuration.setAllowedOriginPatterns(List.of("http://localhost*", "http://192.168.*"));
         configuration.setAllowedMethods(List.of("GET","POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
+        configuration.setExposedHeaders(List.of("access-token", "refresh-token")); //리액트에서 헤더 값 받을수있게 설정
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
         configuration.setAllowedHeaders(List.of("*"));
