@@ -1,3 +1,3 @@
-const HOST = 'http://192.168.30.173:8080'
+const HOST = 'http://13.125.42.187'
 
 export default HOST;

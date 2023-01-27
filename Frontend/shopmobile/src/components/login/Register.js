@@ -71,6 +71,12 @@ function isBirthday(dateStr) {
 }
 
 const Register = () => {
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    ref.current.ownerDocument.body.scrollTop = 0;
+  });
+  
   const theme = createTheme();
   const [checked, setChecked] = useState(false);
   const [userIdError, setUserIdError] = useState("");
@@ -88,7 +94,7 @@ const Register = () => {
 
   const onhandlePost = async (data) => {
     const { userid, password, name, gender, phone, birth, email, address } =
-    data;
+      data;
     birth.replace(/^(\d{4})(\d{2})(\d{2})$/, `$1-$2-$3`);
     const formData = new FormData();
     formData.append("userid", userid);
@@ -204,178 +210,183 @@ const Register = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
-          <Boxs
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+    <Box sx={{ pb: 7 }} ref={ref}>
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <FormControl>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    autoFocus
-                    fullWidth
-                    id="userid"
-                    name="userid"
-                    label="아이디"
-                    error={userIdError !== "" || false}
-                  />
+            <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+            <Typography component="h1" variant="h5">
+              회원가입
+            </Typography>
+            <Boxs
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
+              <FormControl>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      autoFocus
+                      fullWidth
+                      id="userid"
+                      name="userid"
+                      label="아이디"
+                      error={userIdError !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{userIdError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      type="password"
+                      id="password"
+                      name="password"
+                      label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                      error={passwordState !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{passwordState}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      type="password"
+                      id="rePassword"
+                      name="rePassword"
+                      label="비밀번호 재입력"
+                      error={passwordError !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{passwordError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="name"
+                      name="name"
+                      label="이름"
+                      error={nameError !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{nameError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <FormControl>
+                      <FormLabel
+                        id="demo-row-radio-buttons-group-label"
+                        required
+                      >
+                        성별
+                      </FormLabel>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="gender"
+                        error={genderError !== "" || false}
+                      >
+                        <FormControlLabel
+                          value="여"
+                          control={<Radio />}
+                          label="Female"
+                        />
+                        <FormControlLabel
+                          value="남"
+                          control={<Radio />}
+                          label="Male"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                  <FormHelperTexts>{genderError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      inputProps={{ maxLength: 11 }}
+                      id="phone"
+                      label="휴대폰(-없이 11자리)"
+                      name="phone"
+                      autoComplete="new-phone"
+                      error={phoneError !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{phoneError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      inputProps={{ maxLength: 8 }}
+                      id="birth"
+                      label="생년월일(-없이 8자리)"
+                      name="birth"
+                      autoComplete="new-birth"
+                      error={birthError !== "" || false}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{birthError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      name="email"
+                      label="이메일"
+                      type="email"
+                      id="email"
+                      autoComplete="new-email"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      name="address"
+                      label="주소"
+                      type="address"
+                      id="address"
+                      autoComplete="new-address"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox onChange={handleAgree} color="primary" />
+                      }
+                      label="회원가입 약관에 동의합니다."
+                    />
+                  </Grid>
                 </Grid>
-                <FormHelperTexts>{userIdError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    type="password"
-                    id="password"
-                    name="password"
-                    label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                    error={passwordState !== "" || false}
-                  />
-                </Grid>
-                <FormHelperTexts>{passwordState}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    type="password"
-                    id="rePassword"
-                    name="rePassword"
-                    label="비밀번호 재입력"
-                    error={passwordError !== "" || false}
-                  />
-                </Grid>
-                <FormHelperTexts>{passwordError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="name"
-                    name="name"
-                    label="이름"
-                    error={nameError !== "" || false}
-                  />
-                </Grid>
-                <FormHelperTexts>{nameError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label" required>
-                      성별
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="gender"
-                      error={genderError !== "" || false}
-                    >
-                      <FormControlLabel
-                        value="여"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      <FormControlLabel
-                        value="남"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-                <FormHelperTexts>{genderError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    inputProps={{ maxLength: 11 }}
-                    id="phone"
-                    label="휴대폰(-없이 11자리)"
-                    name="phone"
-                    autoComplete="new-phone"
-                    error={phoneError !== "" || false}
-                  />
-                </Grid>
-                <FormHelperTexts>{phoneError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    inputProps={{ maxLength: 8 }}
-                    id="birth"
-                    label="생년월일(-없이 8자리)"
-                    name="birth"
-                    autoComplete="new-birth"
-                    error={birthError !== "" || false}
-                  />
-                </Grid>
-                <FormHelperTexts>{birthError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    name="email"
-                    label="이메일"
-                    type="email"
-                    id="email"
-                    autoComplete="new-email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    name="address"
-                    label="주소"
-                    type="address"
-                    id="address"
-                    autoComplete="new-address"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox onChange={handleAgree} color="primary" />
-                    }
-                    label="회원가입 약관에 동의합니다."
-                  />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 1, mb: 2 }}
+                  size="large"
+                >
+                  회원가입
+                </Button>
+              </FormControl>
+              <FormHelperTexts>{registerError}</FormHelperTexts>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/" variant="body2">
+                    로그인으로
+                  </Link>
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                size="large"
-              >
-                회원가입
-              </Button>
-            </FormControl>
-            <FormHelperTexts>{registerError}</FormHelperTexts>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/" variant="body2">
-                  로그인으로
-                </Link>
-              </Grid>
-            </Grid>
-          </Boxs>
-        </Box>
-      </Container>
-    </ThemeProvider>
+            </Boxs>
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </Box>
   );
 };
 

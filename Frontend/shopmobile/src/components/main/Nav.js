@@ -7,7 +7,7 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
-import { Paper } from "@mui/material";
+import { CssBaseline, Paper } from "@mui/material";
 
 const Nav = () => {
   const [value, setValue] = useState(0);
@@ -15,50 +15,57 @@ const Nav = () => {
 
   const navigate = useNavigate();
 
+
   if (!loginCheck) {
     return (
-      <Paper>
-        <BottomNavigation
-          showLabels
-          sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-        >
-          <BottomNavigationAction
-            label="메인화면"
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex:5 }}
+        elevation={3}
+      >
+        <CssBaseline />
+          <BottomNavigation
+            showLabels
             value={value}
-            onClick={() => navigate("/main")}
-            icon={<HomeIcon fontSize="large" />}
-          />
-          <BottomNavigationAction
-            label="QR생성"
-            value={value}
-            onClick={() => navigate("/login")}
-            icon={<QrCodeIcon fontSize="large" />}
-          />
-          <BottomNavigationAction
-            label="QR스캔"
-            value={value}
-            onClick={() => navigate("/login")}
-            icon={<QrCodeScannerIcon fontSize="large" />}
-          />
-          <BottomNavigationAction
-            label="로그인"
-            value={value}
-            onClick={() => navigate("/login")}
-            icon={<AccountCircleIcon fontSize="large" />}
-          />
-        </BottomNavigation>
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          >
+            <BottomNavigationAction
+              label="메인화면"
+              value={value}
+              onClick={() => navigate("/main")}
+              icon={<HomeIcon fontSize="large" />}
+            />
+            <BottomNavigationAction
+              label="QR생성"
+              value={value}
+              onClick={() => navigate("/")}
+              icon={<QrCodeIcon fontSize="large" />}
+            />
+            <BottomNavigationAction
+              label="QR스캔"
+              value={value}
+              onClick={() => navigate("/")}
+              icon={<QrCodeScannerIcon fontSize="large" />}
+            />
+            <BottomNavigationAction
+              label="로그인"
+              value={value}
+              onClick={() => navigate("/")}
+              icon={<AccountCircleIcon fontSize="large" />}
+            />
+          </BottomNavigation>
       </Paper>
     );
   } else if (loginCheck) {
     return (
-      <Paper>
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex:5 }}
+        elevation={3}
+      >
+        <CssBaseline />
         <BottomNavigation
           showLabels
-          sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
@@ -73,7 +80,7 @@ const Nav = () => {
           <BottomNavigationAction
             label="QR생성"
             value={value}
-            onClick={() => navigate("/qrcreate")}
+            onClick={() => navigate("/qrmaker")}
             icon={<QrCodeIcon fontSize="large" />}
           />
           <BottomNavigationAction

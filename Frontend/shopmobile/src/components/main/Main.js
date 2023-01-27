@@ -34,7 +34,7 @@ export default function Main() {
             />
             <CardMedia
               component="img"
-              image="/images/pepsi.png"
+              image="/images/logo.png"
               alt="discount"
             />
           </Card>
@@ -42,7 +42,7 @@ export default function Main() {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={1} />
-        <Grid item xs={10} mt={4}>
+        <Grid item xs={10} mt={4} mb={2}>
           <CssBaseline />
           <Card sx={{ border: 1 }}>
             <CardHeader
@@ -53,7 +53,7 @@ export default function Main() {
               component="img"
               width='100'
               height='200'
-              image="/images/pepsi.png"
+              image="/images/logo.png"
               alt="discount"
             />
           </Card>

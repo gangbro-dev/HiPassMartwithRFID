@@ -14,7 +14,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { FormControl } from "@mui/material";
 import HOST from "../../Host";
-// import HOST from "../../Host";
+import { useNavigate } from "react-router-dom";
 
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
@@ -44,8 +44,10 @@ const SignIn = () => {
   const [userIdError, setUserIdError] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [loginError, setLoginError] = useState("");
+  const movePage = useNavigate();
 
   const onhandlePost = async (data) => {
+
     const { userid, password } = data;
 
     const formData = new FormData();
@@ -57,9 +59,12 @@ const SignIn = () => {
     const API_URI = `${HOST}/api/login`;
     await axios
       .post(API_URI, formData)
-      .then(function (response) {
-        console.log(response, "성공");
-        console.log(response["access-token"]);
+      .then((response) => {
+        console.log(response.headers["access-token"]);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.headers["access-token"]}`;
+        movePage("/main")
         setLoginError("");
       })
       .catch(function (err) {
@@ -173,7 +178,13 @@ const SignIn = () => {
             <Button
               color="kakao"
               fullWidth
-              startIcon={<img src='./images/kakao_login.png' width={'28'} alt='kakao_login'/>}
+              startIcon={
+                <img
+                  src="./images/kakao_login.png"
+                  width={"28"}
+                  alt="kakao_login"
+                />
+              }
               variant="contained"
               sx={{ mt: 3 }}
             >
@@ -183,7 +194,13 @@ const SignIn = () => {
               color="naver"
               fullWidth
               variant="contained"
-              startIcon={<img src="./images/login_naver_w.png" width={'28'} alt='naver_login'/>}
+              startIcon={
+                <img
+                  src="./images/login_naver_w.png"
+                  width={"28"}
+                  alt="naver_login"
+                />
+              }
               sx={{ mt: 3, mb: 2 }}
             >
               네이버 로그인
