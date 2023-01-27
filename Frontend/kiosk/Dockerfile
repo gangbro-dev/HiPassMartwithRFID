@@ -6,4 +6,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 81
-CMD ["npm" "start"]
+CMD ["npm", "start"]
