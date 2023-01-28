@@ -5,6 +5,7 @@ COPY shopmobile/package-lock.json .
 RUN npm install
 COPY shopmobile/public/ ./public
 COPY shopmobile/src/ ./src
+COPY shopmoblie/deploy_conf ./defloy_conf
 RUN npm run build
 
 FROM node:16.15.0 as kiosk
