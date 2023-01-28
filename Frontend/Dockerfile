@@ -1,6 +1,6 @@
 FROM node:16.15.0 as build-stage
 WORKDIR /var/jenkins_home/workspace/deploy/front
-COPY . .
+COPY ./shopmobile .
 RUN npm install
 RUN npm run build
 
