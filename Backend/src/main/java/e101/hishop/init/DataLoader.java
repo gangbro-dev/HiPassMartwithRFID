@@ -55,6 +55,8 @@ public class DataLoader {
                 .build(), 1L);
 
         adminService.savePay(Pay.builder()
+                .userName("NAME")
+                .cardName("삼성")
                 .buyDate("2022-09-01")
                 .buyTotal(50000L)
                 .build(), 1L, 2L);

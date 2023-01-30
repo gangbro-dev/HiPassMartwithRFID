@@ -11,19 +11,19 @@ public class PayInfoRespDto {
 
     private Long id;
 
-    private Long userId;
+    private String userName;
 
-    private Long cardId;
+    private String cardName;
 
     private String buyDate;
 
     private Long buyTotal;
 
     @Builder
-    public PayInfoRespDto(Long id, Long userId, Long cardId, String buyDate, Long buyTotal) {
+    public PayInfoRespDto(Long id, String userName, String cardName, String buyDate, Long buyTotal) {
         this.id = id;
-        this.userId = userId;
-        this.cardId = cardId;
+        this.userName = userName;
+        this.cardName = cardName;
         this.buyDate = buyDate;
         this.buyTotal = buyTotal;
     }
@@ -31,8 +31,8 @@ public class PayInfoRespDto {
     public static PayInfoRespDto of(Pay pay) {
         return PayInfoRespDto.builder()
                 .id(pay.getId())
-                .userId(pay.getUser().getId())
-                .cardId(pay.getCard().getId())
+                .userName(pay.getUserName())
+                .cardName(pay.getCardName())
                 .buyDate(pay.getBuyDate())
                 .buyTotal(pay.getBuyTotal())
                 .build();

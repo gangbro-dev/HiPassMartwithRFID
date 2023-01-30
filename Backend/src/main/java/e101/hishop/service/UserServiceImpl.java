@@ -105,7 +105,6 @@ public class UserServiceImpl implements UserService {
         List<Pay> pay = payJPARepository.findAllByUserId(userId);
         List<PayInfoRespDto> payList = new ArrayList<>();
         for (Pay p: pay) {
-            log.info("Pay List Is {}", p);
             payList.add(PayInfoRespDto.of(p));
         }
         return payList;

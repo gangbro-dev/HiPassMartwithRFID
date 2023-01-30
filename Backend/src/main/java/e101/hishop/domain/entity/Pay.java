@@ -29,6 +29,12 @@ public class Pay {
     private Card card;
 
     @NotBlank
+    private String userName;
+
+    @NotBlank
+    private String cardName;
+
+    @NotBlank
     private String buyDate;
 
     @NotNull
@@ -45,7 +51,9 @@ public class Pay {
     }
 
     @Builder
-    public Pay(String buyDate, Long buyTotal) {
+    public Pay(String userName, String cardName, String buyDate, Long buyTotal) {
+        this.userName = userName;
+        this.cardName = cardName;
         this.buyDate = buyDate;
         this.buyTotal = buyTotal;
     }
