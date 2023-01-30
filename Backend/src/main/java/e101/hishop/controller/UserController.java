@@ -88,7 +88,7 @@ public class UserController {
 
     @GetMapping("/{userId}/purchase")
     public ResponseEntity<List<PayInfoRespDto>> userPurchaseInfo(@PathVariable Long userId) {
-        return new ResponseEntity<List<PayInfoRespDto>>(userService.getUserPay(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserPay(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/purchase/{purchaseId}")

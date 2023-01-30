@@ -102,17 +102,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<PayInfoRespDto> getUserPay(Long userId) {
-        List<Pay> pay = payJPARepository.findByUserId(userId);
+        List<Pay> pay = payJPARepository.findAllByUserId(userId);
         List<PayInfoRespDto> payList = new ArrayList<>();
         for (Pay p: pay) {
             log.info("Pay List Is {}", p);
-            payList.add(PayInfoRespDto.builder()
-                    .id(p.getId())
-                    .users(p.getUser())
-                    .cards(p.getCard())
-                    .buyDate(p.getBuyDate())
-                    .buyTotal(p.getBuyTotal())
-                    .build());
+            payList.add(PayInfoRespDto.of(p));
         }
         return payList;
     }
