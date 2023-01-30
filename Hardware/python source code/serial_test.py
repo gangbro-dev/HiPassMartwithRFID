@@ -55,18 +55,17 @@ def readthread(ser):
                 if received_command[1] == 0x3B:             # RFID UID 1개 읽기
                     for byte in data_now[3:-1]:
                         uid += hex(byte)[2:]
-                elif received_command[1] == 0x1A:           # RFID FULL INFO 1개 읽기
-                    for byte in data_now[3:-1]:
-                        data_line.append(str(byte))         # FN, NB, BD 내용 추가 해야 함
-                        pass
-                        pass
-                        pass
                 elif received_command[1] == 0x1B:           # 읽기 Stay 모드
                     data_line.append("Reading Stay Mode ON")
                 elif received_command[1] == 0x2B:           # 읽기 Continue 모드
                     data_line.append("Reading Continue Mode ON")
                 elif received_command[1] == 0x2C:           # RFID Reader 동작 확인
                     data_line.append("RFID Reader Check OK")
+                elif received_command[1] == 0x1A:             # RFID 1개 읽기 (UID를 통해서 조회)
+                    num = received_command[0]
+                    fn, nb = data_now[3:4]
+                    uid = data_now[5:13]
+                    bd = data_now[13:-1]
                 else:
                     print("Unknown Request")
                     continue
