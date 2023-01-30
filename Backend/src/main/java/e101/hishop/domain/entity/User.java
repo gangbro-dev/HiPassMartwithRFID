@@ -8,13 +8,9 @@ import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Builder
 @ToString(exclude = {"cards", "pays"})
