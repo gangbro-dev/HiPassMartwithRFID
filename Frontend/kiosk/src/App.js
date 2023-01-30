@@ -13,9 +13,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="resultpayment" element={<ResultPayment />} />
-        <Route path="itemlist" element={<ItemList />} />
+        <Route path="/kiosk" element={<Home />} />
+        <Route path="/kiosk/resultpayment" element={<ResultPayment />} />
+        <Route path="/kiosk/itemlist" element={<ItemList />} />
       </Routes>
     </BrowserRouter>
   );

@@ -102,7 +102,7 @@ const Register = () => {
             alignItems: "center",
           }}
         >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+          <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
           <Typography component="h1" variant="h5">
             비밀번호 변경
           </Typography>

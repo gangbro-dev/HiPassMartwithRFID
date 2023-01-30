@@ -65,7 +65,7 @@ export default function ImgMediaCard() {
             component="img"
             alt="howtowuse"
             height="1100"
-            image="./images/howtouse.jpg"
+            image="/kiosk/images/howtouse.jpg"
           />
           <CardActions>
             <Buttons size="large">결제하려면 화면을 터치하세요</Buttons>

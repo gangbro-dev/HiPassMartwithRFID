@@ -28,13 +28,14 @@ export default function Account() {
           sx={{
             mt: 2,
             border: 1,
+            borderRadius: 4,
             flexGrow: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <CardMedia component="img" image="/images/logo.png" alt="discount" />
+          <CardMedia component="img" image="/app/images/logo.png" alt="discount" />
         </Card>
         <Grid container spacing={2} sx={{ mt: 1, mb: 1 }}>
           <Grid item xs={4}>

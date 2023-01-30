@@ -11,6 +11,7 @@ import Nav from "./components/main/Nav";
 import Userinfo from "./components/userinfo/UserInfo"
 import Card from "./components/userinfo/Card";
 import Payment from "./components/userinfo/Payment";
+import PaymentDetail from "./components/userinfo/PaymentDetail";
 import Account from "./components/userinfo/Account";
 
 function App() {
@@ -18,17 +19,18 @@ function App() {
     <BrowserRouter>
       <Nav />
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="findid" element={<FindId />} />
-        <Route path="resultid" element={<ResultId />} />
-        <Route path="main" element={<Main />} />
-        <Route path="qrreader" element={<Qrscan />} />
-        <Route path="qrmaker" element={<Qrmake />} />
-        <Route path="userinfo" element={<Userinfo />} />
-        <Route path="card" element={<Card />} />
-        <Route path="payment" element={<Payment />} />
-        <Route path="account" element={<Account />} />
+        <Route path="/app" element={<Main />} />
+        <Route path="/app/login" element={<Login />} />
+        <Route path="/app/register" element={<Register />} />
+        <Route path="/app/findid" element={<FindId />} />
+        <Route path="/app/resultid" element={<ResultId />} />
+        <Route path="/app/qrreader" element={<Qrscan />} />
+        <Route path="/app/qrmaker" element={<Qrmake />} />
+        <Route path="/app/userinfo" element={<Userinfo />} />
+        <Route path="/app/card" element={<Card />} />
+        <Route path="/app/payment" element={<Payment />} />
+        <Route path="/app/payment" element={<Payment />} />
+        <Route path="/app/account" element={<Account />} />
       </Routes>
     </BrowserRouter>
   );

@@ -61,10 +61,12 @@ const SignIn = () => {
       .post(API_URI, formData)
       .then((response) => {
         console.log(response.headers["access-token"]);
+        console.log(response.headers["refresh-token"]);
+        localStorage.setItem("refreshtoken", response.headers["refresh-token"]);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.headers["access-token"]}`;
-        movePage("/main")
+        movePage("/app")
         setLoginError("");
       })
       .catch(function (err) {
@@ -115,7 +117,7 @@ const SignIn = () => {
             alignItems: "center",
           }}
         >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+          <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
           <Typography component="h1" variant="h5">
             로그인
           </Typography>

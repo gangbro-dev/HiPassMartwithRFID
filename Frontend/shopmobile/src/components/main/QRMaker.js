@@ -12,7 +12,7 @@ function Test() {
 
   useEffect(() => {
     if (countdown === 0) {
-      setValue(`https://www.example.com/${Math.random()}`);
+      setValue(`${initialValue}}`);
       setCountdown(59);
     } else {
       const intervalId = setInterval(() => {
@@ -30,11 +30,11 @@ function Test() {
     <Box sx={{ pb: 7 }} ref={ref}>
       <Grid container spacing={2}>
         <Grid item xs={1} />
-        <Grid item xs={10} mt={4}>
+        <Grid item xs={10} mt={20}>
           <CssBaseline />
           <Card sx={{ border: 1 }}>
             <div>
-              <QRCode value={value} size='100%'/>
+              <QRCode value={value} size="100%" />
               <div>
                 <button
                   onClick={() => {

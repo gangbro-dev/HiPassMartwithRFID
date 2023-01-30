@@ -20,7 +20,7 @@ export default function ResultPayment() {
             alignItems: "center",
           }}
         >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+          <Avatar src="/kiosk/images/logo.png" sx={{ mb: 2 }} />
           <Typography component="h1" variant="h3">
             결제가
           </Typography>

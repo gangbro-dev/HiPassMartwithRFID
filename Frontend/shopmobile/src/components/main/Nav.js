@@ -33,25 +33,25 @@ const Nav = () => {
             <BottomNavigationAction
               label="메인화면"
               value={value}
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/app")}
               icon={<HomeIcon fontSize="large" />}
             />
             <BottomNavigationAction
               label="QR생성"
               value={value}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/app/login")}
               icon={<QrCodeIcon fontSize="large" />}
             />
             <BottomNavigationAction
               label="QR스캔"
               value={value}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/app/login")}
               icon={<QrCodeScannerIcon fontSize="large" />}
             />
             <BottomNavigationAction
               label="로그인"
               value={value}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/app/login")}
               icon={<AccountCircleIcon fontSize="large" />}
             />
           </BottomNavigation>
@@ -74,25 +74,25 @@ const Nav = () => {
           <BottomNavigationAction
             label="메인화면"
             value={value}
-            onClick={() => navigate("/main")}
+            onClick={() => navigate("/app")}
             icon={<HomeIcon fontSize="large" />}
           />
           <BottomNavigationAction
             label="QR생성"
             value={value}
-            onClick={() => navigate("/qrmaker")}
+            onClick={() => navigate("/app/qrmaker")}
             icon={<QrCodeIcon fontSize="large" />}
           />
           <BottomNavigationAction
             label="QR스캔"
             value={value}
-            onClick={() => navigate("/qrreader")}
+            onClick={() => navigate("/app/qrreader")}
             icon={<QrCodeScannerIcon fontSize="large" />}
           />
           <BottomNavigationAction
             label="내 정보"
             value={value}
-            onClick={() => navigate("/userinfo")}
+            onClick={() => navigate("/app/userinfo")}
             icon={<AccountCircleIcon fontSize="large" />}
           />
         </BottomNavigation>

@@ -15,28 +15,29 @@ const style = {
 
 export default function ListDividers() {
   return (
-    <Box sx={{ mt: 1 }}>
+    <Box>
       <Card>
       <CardMedia
         component="img"
         height="300"
-        image="/images/logo.png"
+        image="/app/images/logo.png"
         alt="shopmobile"
       />
+      {/* <Avatar sx={{ mb: 1, ml: 2 }} /> */}
       </Card>
       <List sx={style} component="nav" aria-label="mailbox folders">
-        <ListItem button component={Link} to="/account">
+        <ListItem button component={Link} to="/app/account">
           <ListItemText primary="계정 관리" />
         </ListItem>
         <Divider />
-        <ListItem button component={Link} to="/card">
+        <ListItem button component={Link} to="/app/card">
           <ListItemText primary="카드 관리" />
         </ListItem>
-        <ListItem button component={Link} to="/payment">
+        <ListItem button component={Link} to="/app/payment">
           <ListItemText primary="결제 관리" />
         </ListItem>
         <Divider light />
-          <ListItem button component={Link} to="/logout">
+          <ListItem button component={Link} to="/app/logout">
             <ListItemText primary="로그아웃" />
           </ListItem>
       </List>

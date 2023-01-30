@@ -140,7 +140,7 @@ const FindId = () => {
           alignItems: "center",
         }}
       >
-        <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+        <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
         <Typography component="h1" variant="h5">
           아이디/비밀번호 찾기
         </Typography>

@@ -26,15 +26,15 @@ export default function Main() {
         <Grid item xs={1} />
         <Grid item xs={10} mt={4}>
           <CssBaseline />
-          <Card sx={{ border: 1 }}>
+          <Card sx={{ border: 1, borderRadius: 4 }}>
             <CardHeader
               title="오늘의 특가 상품"
               subheader={newDate}
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", borderBottom: 1 }}
             />
             <CardMedia
               component="img"
-              image="/images/logo.png"
+              image="/app/images/logo.png"
               alt="discount"
             />
           </Card>
@@ -44,16 +44,16 @@ export default function Main() {
         <Grid item xs={1} />
         <Grid item xs={10} mt={4} mb={2}>
           <CssBaseline />
-          <Card sx={{ border: 1 }}>
+          <Card sx={{ border: 1, borderRadius: 4 }}>
             <CardHeader
               title="내일의 특가 상품"
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", borderBottom: 1 }}
             />
             <CardMedia
               component="img"
               width='100'
               height='200'
-              image="/images/logo.png"
+              image="/app/images/logo.png"
               alt="discount"
             />
           </Card>
