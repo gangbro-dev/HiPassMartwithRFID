@@ -29,7 +29,7 @@ function App() {
         <Route path="/app/userinfo" element={<Userinfo />} />
         <Route path="/app/card" element={<Card />} />
         <Route path="/app/payment" element={<Payment />} />
-        <Route path="/app/PaymentDetail" element={<PaymentDetail />} />
+        <Route path="/app/paymentDetail" element={<PaymentDetail />} />
         <Route path="/app/account" element={<Account />} />
       </Routes>
     </BrowserRouter>

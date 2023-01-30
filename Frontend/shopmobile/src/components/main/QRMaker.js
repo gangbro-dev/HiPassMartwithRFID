@@ -41,23 +41,24 @@ function Test() {
       </Card>
       <Grid container spacing={2}>
         <Grid item xs={1} />
-        <Grid item xs={10} mt={15}>
+        <Grid item xs={10} mt={12}>
           <CssBaseline />
-          <Card 
-          sx={{ border: 1, padding: 1, maxWidth: 450 }}>
+          <Card sx={{ border: 1, padding: 1, maxWidth: 400, maxHeight: 500 }}>
             <div>
               <QRCode value={value} size="100%" />
             </div>
-            <Button
-              onClick={() => {
-                setValue(`https://www.example.com/${Math.random()}`);
-                setCountdown(59);
-              }}
-              sx={{}}
-            >
-              바로 재생성
-            </Button>
-            <Card sx={{ textAlign: "center" }}>
+            <Card sx={{ textAlign: "center", mb: 1 }}>
+              <Button
+                onClick={() => {
+                  setValue(`https://www.example.com/${Math.random()}`);
+                  setCountdown(59);
+                }}
+                sx={{fontWeight:'bold'}}
+              >
+                QR 재생성
+              </Button>
+            </Card>
+            <Card sx={{ textAlign: "center", mb: 1, fontWeight:'bold' }}>
               자동 재생성까지 {countdown}초
             </Card>
           </Card>

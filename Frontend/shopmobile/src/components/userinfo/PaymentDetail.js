@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Card, Grid } from "@mui/material";
 import { TableVirtuoso } from "react-virtuoso";
+import axios from "axios";
+import HOST from "../../Host";
 
 const sample = [
   ["농심)신라면5개입", 1, 3100],
@@ -97,7 +99,25 @@ function rowContent(_index, row) {
   );
 }
 
+const PaymentDetail = async (data) => {
+  // formdata 처리
+
+  // get
+  console.log("paymentdetail");
+  const API_URI = `${HOST}/api/user/{userpk}/purchase/{historyid}`;
+  await axios
+    .get(API_URI)
+    .then((response) => {
+      // TODO 결제 내역 상세 처리 로직
+
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
+
 export default function Payment() {
+  PaymentDetail();
   return (
     <Box>
       <Grid container spacing={2}>

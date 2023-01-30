@@ -9,18 +9,8 @@ import Paper from "@mui/material/Paper";
 import { Box, Grid } from "@mui/material";
 import { TableVirtuoso } from "react-virtuoso";
 import { Card } from "@mui/material";
-// import axios from "axios";
-
-// const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const res = await axios.get("{ContextPath}/api/user/{userid}/purchase");
-//       setData(res.data);
-//     };
-//     fetchData();
-//   }, []);
-
+import axios from "axios";
+import HOST from "../../Host";
 
 const sample = [
   ["삼성카드", 159000, "2022/12/21"],
@@ -101,7 +91,7 @@ function rowContent(_index, row) {
         <TableCell
           key={column.dataKey}
           align={column.numeric || false ? "right" : "left"}
-          sx={{fontWeight:'bold'}}
+          sx={{ fontWeight: "bold" }}
         >
           {row[column.dataKey]}
         </TableCell>
@@ -110,13 +100,42 @@ function rowContent(_index, row) {
   );
 }
 
+const PaymentList = async (data) => {
+  // formdata 처리
+  
+
+  // get
+  console.log("paymentlist")
+  const API_URI = `${HOST}/api/user/{userid}/purchase`;
+  await axios
+    .get(API_URI)
+    .then((response) => {
+      // TODO 결제 내역 리스트 처리 로직
+
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
+
 export default function Payment() {
+  PaymentList();
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid />
         <Grid item xs={12}>
-        <Card sx={{ fontSize:33, padding:2, textAlign:"center",backgroundColor:'#64b5f6', fontWeight:'bold'}}>결제내역</Card>
+          <Card
+            sx={{
+              fontSize: 33,
+              padding: 2,
+              textAlign: "center",
+              backgroundColor: "#64b5f6",
+              fontWeight: "bold",
+            }}
+          >
+            결제내역
+          </Card>
           <Paper style={{ height: "84vh", width: "100%" }}>
             <TableVirtuoso
               data={rows}
