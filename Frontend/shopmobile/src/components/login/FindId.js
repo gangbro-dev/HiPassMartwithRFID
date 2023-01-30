@@ -203,7 +203,7 @@ const FindId = () => {
           <FormHelperTexts>{findIdError}</FormHelperTexts>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/app/login" variant="body2">
                 로그인으로
               </Link>
             </Grid>

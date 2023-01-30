@@ -8,6 +8,19 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Grid } from "@mui/material";
 import { TableVirtuoso } from "react-virtuoso";
+import { Card } from "@mui/material";
+// import axios from "axios";
+
+// const [data, setData] = useState([]);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const res = await axios.get("{ContextPath}/api/user/{userid}/purchase");
+//       setData(res.data);
+//     };
+//     fetchData();
+//   }, []);
+
 
 const sample = [
   ["삼성카드", 159000, "2022/12/21"],
@@ -41,7 +54,7 @@ const columns = [
   },
 ];
 
-const rows = Array.from({ length: 200 }, (_, index) => {
+const rows = Array.from({ length: 20 }, (_, index) => {
   const randomSelection = sample[Math.floor(Math.random() * sample.length)];
   return createData(index, ...randomSelection);
 });
@@ -68,7 +81,7 @@ function fixedHeaderContent() {
           align={column.numeric || false ? "right" : "left"}
           style={{ width: column.width }}
           sx={{
-            backgroundColor: "lightGray",
+            backgroundColor: "#90caf9",
             fontWeight: "bold",
             fontSize: 18,
             borderBottom: 1,
@@ -88,6 +101,7 @@ function rowContent(_index, row) {
         <TableCell
           key={column.dataKey}
           align={column.numeric || false ? "right" : "left"}
+          sx={{fontWeight:'bold'}}
         >
           {row[column.dataKey]}
         </TableCell>
@@ -102,7 +116,8 @@ export default function Payment() {
       <Grid container spacing={2}>
         <Grid />
         <Grid item xs={12}>
-          <Paper style={{ height: "93vh", width: "100%" }}>
+        <Card sx={{ fontSize:33, padding:2, textAlign:"center",backgroundColor:'#64b5f6', fontWeight:'bold'}}>결제내역</Card>
+          <Paper style={{ height: "84vh", width: "100%" }}>
             <TableVirtuoso
               data={rows}
               components={VirtuosoTableComponents}

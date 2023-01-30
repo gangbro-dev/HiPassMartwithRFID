@@ -30,7 +30,7 @@ export default function Main() {
             <CardHeader
               title="오늘의 특가 상품"
               subheader={newDate}
-              sx={{ textAlign: "center", borderBottom: 1 }}
+              sx={{ textAlign: "center", borderBottom: 1, backgroundColor:'#ff8c8c' }}
             />
             <CardMedia
               component="img"
@@ -47,12 +47,12 @@ export default function Main() {
           <Card sx={{ border: 1, borderRadius: 4 }}>
             <CardHeader
               title="내일의 특가 상품"
-              sx={{ textAlign: "center", borderBottom: 1 }}
+              sx={{ textAlign: "center", borderBottom: 1, backgroundColor:"#90caf9" }}
             />
             <CardMedia
               component="img"
               width='100'
-              height='200'
+              height='210'
               image="/app/images/logo.png"
               alt="discount"
             />

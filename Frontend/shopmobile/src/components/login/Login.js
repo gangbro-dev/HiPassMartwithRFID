@@ -62,7 +62,7 @@ const SignIn = () => {
       .then((response) => {
         console.log(response.headers["access-token"]);
         console.log(response.headers["refresh-token"]);
-        localStorage.setItem("refreshtoken", response.headers["refresh-token"]);
+        sessionStorage.setItem("refreshtoken", response.headers["refresh-token"]);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.headers["access-token"]}`;
@@ -167,12 +167,12 @@ const SignIn = () => {
             <FormHelperTexts>{loginError}</FormHelperTexts>
             <Grid container sx={{ mt: 2, mb: 2 }}>
               <Grid item xs>
-                <Link href="findid" variant="body2">
+                <Link href="/app/findid" variant="body2">
                   비밀번호 찾기
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="register" variant="body2">
+                <Link href="/app/register" variant="body2">
                   {"회원가입"}
                 </Link>
               </Grid>
