@@ -40,6 +40,8 @@ public class User {
     private String phone;
     private String email;
 
+//    private String payPassword;
+
     private String adSelect;
 
     @Builder.Default
@@ -64,4 +66,8 @@ public class User {
         adSelect = StringUtils.hasText(dto.getAdSelect()) ? dto.getAdSelect() : adSelect;
         return this;
     }
+
+//    public void changePayPassword(PayPasswordReqDto dto) {
+//        this.payPassword = dto.getPayPassword();
+//    }
 }
