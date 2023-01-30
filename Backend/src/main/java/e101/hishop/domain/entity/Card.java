@@ -26,8 +26,6 @@ public class Card {
 
     private String name;
 
-    private Boolean isDefault;
-
 //추후 암호와 필요
     private String cardNo;
 
@@ -63,9 +61,8 @@ public class Card {
     }
 
     @Builder
-    public Card(String name, Boolean isDefault, String cardNo, String validDate) {
+    public Card(String name, String cardNo, String validDate) {
         this.name = name;
-        this.isDefault = isDefault;
         this.cardNo = cardNo;
         this.validDate = validDate;
     }

@@ -23,6 +23,8 @@ public class UserInfoReqDto {
     @Email
     private String email;
 
+    private Long defaultCardId;
+
     @NotBlank
     private String adSelect;
 

@@ -25,10 +25,12 @@ public class UserInfoRespDto {
 
     private String email;
 
+    private Long defaultCardId;
+
     private String adSelect;
 
     @Builder
-    public UserInfoRespDto(String userId, String password, String name, Gender gender, LocalDate birthDate, String phone, String email, String adSelect) {
+    public UserInfoRespDto(String userId, String password, String name, Gender gender, LocalDate birthDate, String phone, String email, Long defaultCardId, String adSelect) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -36,6 +38,7 @@ public class UserInfoRespDto {
         this.birthDate = birthDate;
         this.phone = phone;
         this.email = email;
+        this.defaultCardId = defaultCardId;
         this.adSelect = adSelect;
     }
 
@@ -49,6 +52,7 @@ public class UserInfoRespDto {
                 .password(user.getPassword())
                 .birthDate(user.getBirthDate())
                 .phone(user.getPhone())
+                .defaultCardId(user.getDefaultCardId())
                 .adSelect(user.getAdSelect())
                 .build();
     }

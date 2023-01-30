@@ -1,6 +1,7 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
+import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -24,5 +25,7 @@ public interface UserService {
 
     Boolean editName(EditNameReqDto dto, Long cardId);
 
-//    Boolean editPayPassword(PayPasswordReqDto dto, Long userId);
+    Boolean editPayPassword(PayPasswordReqDto dto, Long userId);
+
+    void editMainCard(Long userId, Long cardId);
 }

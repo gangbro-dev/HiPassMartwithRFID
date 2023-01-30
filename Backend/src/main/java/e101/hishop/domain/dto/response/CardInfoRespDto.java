@@ -16,7 +16,6 @@ public class CardInfoRespDto {
     @NotBlank
     private String cardNo;
 
-    private Boolean isDefault;
 
     @NotBlank
     private String name;
@@ -25,11 +24,10 @@ public class CardInfoRespDto {
     private String validDate;
 
     @Builder
-    public CardInfoRespDto(Long cardId, String cardNo, String name, String validDate, Boolean isDefault) {
+    public CardInfoRespDto(Long cardId, String cardNo, String name, String validDate) {
         this.cardId = cardId;
         this.cardNo = cardNo;
         this.name = name;
         this.validDate = validDate;
-        this.isDefault = isDefault;
     }
 }

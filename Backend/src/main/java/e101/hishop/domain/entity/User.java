@@ -1,6 +1,7 @@
 package e101.hishop.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.global.enumeration.Gender;
 import e101.hishop.global.enumeration.Role;
@@ -40,7 +41,9 @@ public class User {
     private String phone;
     private String email;
 
-//    private String payPassword;
+    private String payPassword;
+
+    private Long defaultCardId;
 
     private String adSelect;
 
@@ -63,11 +66,16 @@ public class User {
         gender = dto.getGender() != null ? dto.getGender() : gender;
         phone = StringUtils.hasText(dto.getPhone()) ? dto.getPhone() : phone;
         email = StringUtils.hasText(dto.getEmail()) ? dto.getEmail() : email;
+        defaultCardId = dto.getDefaultCardId() != null ? dto.getDefaultCardId() : defaultCardId;
         adSelect = StringUtils.hasText(dto.getAdSelect()) ? dto.getAdSelect() : adSelect;
         return this;
     }
 
-//    public void changePayPassword(PayPasswordReqDto dto) {
-//        this.payPassword = dto.getPayPassword();
-//    }
+    public void changePayPassword(PayPasswordReqDto dto) {
+        this.payPassword = dto.getPayPassword();
+    }
+
+    public void changeDefaultCard(Long cardId) {
+        this.defaultCardId = cardId;
+    }
 }

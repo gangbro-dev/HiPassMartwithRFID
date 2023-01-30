@@ -45,14 +45,12 @@ public class DataLoader {
         userService.saveCard(Card.builder()
                 .cardNo("1234-1212-1111-1111")
                 .name("신한")
-                .isDefault(true)
                 .validDate("0121")
                 .build(), 1L);
 
         userService.saveCard(Card.builder()
                 .cardNo("4434-1212-1111-1111")
                 .name("삼삼")
-                .isDefault(false)
                 .validDate("2221")
                 .build(), 1L);
 
