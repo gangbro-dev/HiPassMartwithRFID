@@ -23,4 +23,6 @@ public interface UserService {
     void deleteUserInfo(Long userPK);
 
     Boolean editName(EditNameReqDto dto, Long cardId);
+
+//    Boolean editPayPassword(PayPasswordReqDto dto, Long userId);
 }
