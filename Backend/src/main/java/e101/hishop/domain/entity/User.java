@@ -8,13 +8,9 @@ import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Builder
 @ToString(exclude = {"cards", "pays"})
@@ -44,6 +40,8 @@ public class User {
     private String phone;
     private String email;
 
+//    private String payPassword;
+
     private String adSelect;
 
     @Builder.Default
@@ -68,4 +66,8 @@ public class User {
         adSelect = StringUtils.hasText(dto.getAdSelect()) ? dto.getAdSelect() : adSelect;
         return this;
     }
+
+//    public void changePayPassword(PayPasswordReqDto dto) {
+//        this.payPassword = dto.getPayPassword();
+//    }
 }

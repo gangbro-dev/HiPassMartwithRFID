@@ -2,6 +2,7 @@ package e101.hishop.controller;
 
 import e101.hishop.domain.dto.request.CardSaveReqDto;
 import e101.hishop.domain.dto.request.EditNameReqDto;
+//import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -10,6 +11,7 @@ import e101.hishop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -67,6 +69,13 @@ public class UserController {
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
 
+//    @PostMapping("/{userId}/card/password")
+//    public ResponseEntity<String> userPayPasswordEdit(@PathVariable Long userId, @RequestBody @Validated PayPasswordReqDto dto) {
+//            userService.editPayPassword(dto, userId);
+//            return new ResponseEntity<>("수정완료", HttpStatus.OK);
+//    }
+
+
     @GetMapping("/{userId}/purchase")
     public ResponseEntity<List<Map<String, Object>>> userPurchaseInfo(@PathVariable Long userId) {
         List<Map<String, Object>> json = new ArrayList<>();
@@ -106,4 +115,6 @@ public class UserController {
         json.put("datetime", "2023-01-12T14:38:27");
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
+
+
 }

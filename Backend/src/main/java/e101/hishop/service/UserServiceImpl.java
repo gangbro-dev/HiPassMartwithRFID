@@ -1,6 +1,7 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
+//import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
@@ -61,6 +62,12 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+//    public Boolean editPayPassword(PayPasswordReqDto dto, Long userId){
+//        User user = userJPARepository.findById(userId)
+//                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+//        user.changePayPassword(dto);
+//        return true;
+//    }
 
     public UserInfoRespDto getUserInfo(Long userId) {
         User user = userJPARepository.findById(userId)
