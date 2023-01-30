@@ -5,6 +5,7 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.global.common.CommonResponse;
 import e101.hishop.service.UserService;
@@ -24,10 +25,10 @@ public class UserController {
 
     private final UserService userService;
 
-        @GetMapping("/{userId}")
-        public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userId) {
-            return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
-        }
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userId) {
+        return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
+    }
 
     @PatchMapping("/{userId}")
     public CommonResponse updateUserInfo(@RequestBody UserInfoReqDto dto, @PathVariable Long userId) {
@@ -86,19 +87,8 @@ public class UserController {
 
 
     @GetMapping("/{userId}/purchase")
-    public ResponseEntity<List<Map<String, Object>>> userPurchaseInfo(@PathVariable Long userId) {
-        List<Map<String, Object>> json = new ArrayList<>();
-        Map<String, Object> injson1 = new HashMap<>();
-        Map<String, Object> injson2 = new HashMap<>();
-        injson1.put("cardNumber", "4321-1234-5123-42123");
-        injson1.put("priceSum", "1923994");
-        injson1.put("payDate", "2022-01-01");
-        injson2.put("cardNumber", "9876-8765-12534");
-        injson2.put("priceSum", "5000");
-        injson2.put("payDate", "2022-01-25");
-        json.add(injson1);
-        json.add(injson2);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    public ResponseEntity<List<PayInfoRespDto>> userPurchaseInfo(@PathVariable Long userId) {
+        return new ResponseEntity<List<PayInfoRespDto>>(userService.getUserPay(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/purchase/{purchaseId}")

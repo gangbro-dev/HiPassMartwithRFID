@@ -5,10 +5,13 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.domain.entity.Card;
+import e101.hishop.domain.entity.Pay;
 import e101.hishop.domain.entity.User;
 import e101.hishop.global.common.CommonException;
+import e101.hishop.repository.PayJPARepository;
 import e101.hishop.repository.UserJPARepository;
 import e101.hishop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
+    private final PayJPARepository payJPARepository;
 
 
     @Override
@@ -95,5 +99,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean editName(EditNameReqDto dto, Long cardId) {
         return userRepository.editName(cardId, dto);
+    }
+
+    public List<PayInfoRespDto> getUserPay(Long userId) {
+        List<Pay> pay = payJPARepository.findByUserId(userId);
+        List<PayInfoRespDto> payList = new ArrayList<>();
+        for (Pay p: pay) {
+            log.info("Pay List Is {}", p);
+            payList.add(PayInfoRespDto.builder()
+                    .id(p.getId())
+                    .users(p.getUser())
+                    .cards(p.getCard())
+                    .buyDate(p.getBuyDate())
+                    .buyTotal(p.getBuyTotal())
+                    .build());
+        }
+        return payList;
     }
 }
