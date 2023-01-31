@@ -24,6 +24,10 @@ function createData(id, paymentcard, fullprice, paymentdate) {
   return { id, paymentcard, fullprice, paymentdate };
 }
 
+const movePage = () => {
+  window.location.href="/app/paymentdetail";
+};
+
 const columns = [
   {
     width: 180,
@@ -92,6 +96,7 @@ function rowContent(_index, row) {
           key={column.dataKey}
           align={column.numeric || false ? "right" : "left"}
           sx={{ fontWeight: "bold" }}
+          onClick={() => movePage(row)}
         >
           {row[column.dataKey]}
         </TableCell>
@@ -102,16 +107,14 @@ function rowContent(_index, row) {
 
 const PaymentList = async (data) => {
   // formdata 처리
-  
 
   // get
-  console.log("paymentlist")
-  const API_URI = `${HOST}/api/user/{userid}/purchase`;
+  console.log("paymentlist");
+  const API_URI = `${HOST}/user/{userid}/purchase`;
   await axios
     .get(API_URI)
     .then((response) => {
       // TODO 결제 내역 리스트 처리 로직
-
     })
     .catch(function (err) {
       console.log(err);
@@ -120,6 +123,7 @@ const PaymentList = async (data) => {
 
 export default function Payment() {
   PaymentList();
+
   return (
     <Box>
       <Grid container spacing={2}>

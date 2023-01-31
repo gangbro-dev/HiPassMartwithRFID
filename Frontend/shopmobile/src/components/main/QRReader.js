@@ -24,7 +24,7 @@ const Test = (props) => {
   });
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7 }} ref={ref} >
       <Card
         sx={{
           fontSize: 33,

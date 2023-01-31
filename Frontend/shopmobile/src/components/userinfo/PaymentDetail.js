@@ -104,7 +104,7 @@ const PaymentDetail = async (data) => {
 
   // get
   console.log("paymentdetail");
-  const API_URI = `${HOST}/api/user/{userpk}/purchase/{historyid}`;
+  const API_URI = `${HOST}/user/{userpk}/purchase/{historyid}`;
   await axios
     .get(API_URI)
     .then((response) => {
