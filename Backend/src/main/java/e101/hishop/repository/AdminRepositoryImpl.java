@@ -1,7 +1,6 @@
 package e101.hishop.repository;
 
-import e101.hishop.domain.entity.Pay;
-import e101.hishop.domain.entity.Card;
+import e101.hishop.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -34,4 +33,48 @@ public class AdminRepositoryImpl implements AdminRepository {
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }
+
+    @Override
+    public Long saveProduct(Product product) {
+        em.persist(product);
+        return product.getId();
+    }
+
+    @Override
+    public Product findProductById(Long id) {
+        return em.find(Product.class, id);
+    }
+
+    @Override
+    public Long savePayDetail(PayDetail payDetail) {
+        em.persist(payDetail);
+        return payDetail.getId();
+    }
+
+    @Override
+    public Long saveBranch(Branch branch) {
+        em.persist(branch);
+        return branch.getId();
+    }
+
+    public Long saveStaff(Staff staff) {
+        em.persist(staff);
+        return staff.getId();
+    }
+
+    public Long saveKiosk(Kiosk kiosk) {
+        em.persist(kiosk);
+        return kiosk.getId();
+    }
+
+    @Override
+    public Kiosk findKioskById(Long id) {
+        return em.find(Kiosk.class, id);
+    }
+
+    public Long saveShopping(Shopping shopping) {
+        em.persist(shopping);
+        return shopping.getId();
+    }
+
 }

@@ -5,6 +5,7 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.dto.response.PayDetailInfoRespDto;
 import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.global.common.CommonResponse;
@@ -85,26 +86,15 @@ public class UserController {
 
     }
 
-
     @GetMapping("/{userId}/purchase")
     public ResponseEntity<List<PayInfoRespDto>> userPurchaseInfo(@PathVariable Long userId) {
         return new ResponseEntity<>(userService.getUserPay(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/purchase/{purchaseId}")
-    public ResponseEntity<List<Map<String, Object>>> userPurchaseDetail(@PathVariable Long userId, @PathVariable String purchaseId) {
-        List<Map<String, Object>> json = new ArrayList<>();
-        Map<String, Object> injson1 = new HashMap<>();
-        Map<String, Object> injson2 = new HashMap<>();
-        injson1.put("itemName", "노트북");
-        injson1.put("count", "2");
-        injson1.put("price", "1250000");
-        injson2.put("itemName", "과자");
-        injson2.put("count", "5");
-        injson2.put("price", "5500");
-        json.add(injson1);
-        json.add(injson2);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    public ResponseEntity<List<PayDetailInfoRespDto>> userPurchaseDetail(@PathVariable Long userId, @PathVariable Long purchaseId) {
+        //TODO 유효성 검사
+        return new ResponseEntity<>(userService.getPayDetail(purchaseId), HttpStatus.OK);
     }
 
     @PostMapping("/qr")

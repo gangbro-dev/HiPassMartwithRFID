@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,6 +51,11 @@ public class Pay {
         this.card = card;
         card.getPays().add(this);
     }
+
+    @JsonIgnore
+//    @Builder.Default
+    @OneToMany(mappedBy = "pay")
+    private List<PayDetail> payDetails = new ArrayList<>();
 
     @Builder
     public Pay(String userName, String cardName, String buyDate, Long buyTotal) {

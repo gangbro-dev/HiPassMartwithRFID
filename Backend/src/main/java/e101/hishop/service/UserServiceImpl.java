@@ -5,12 +5,15 @@ import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
+import e101.hishop.domain.dto.response.PayDetailInfoRespDto;
 import e101.hishop.domain.dto.response.PayInfoRespDto;
 import e101.hishop.domain.dto.response.UserInfoRespDto;
 import e101.hishop.domain.entity.Card;
 import e101.hishop.domain.entity.Pay;
+import e101.hishop.domain.entity.PayDetail;
 import e101.hishop.domain.entity.User;
 import e101.hishop.global.common.CommonException;
+import e101.hishop.repository.PayDetailJPARepository;
 import e101.hishop.repository.PayJPARepository;
 import e101.hishop.repository.UserJPARepository;
 import e101.hishop.repository.UserRepository;
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
     private final PayJPARepository payJPARepository;
+    private final PayDetailJPARepository payDetailJPARepository;
 
 
     @Override
@@ -109,4 +113,14 @@ public class UserServiceImpl implements UserService {
         }
         return payList;
     }
+
+    public List<PayDetailInfoRespDto> getPayDetail(Long purchaseId) {
+        List<PayDetail> payDetails = payDetailJPARepository.findAllByPayId(purchaseId);
+        List<PayDetailInfoRespDto> payDetailList = new ArrayList<>();
+        for (PayDetail p: payDetails) {
+            payDetailList.add(PayDetailInfoRespDto.of(p));
+        }
+        return payDetailList;
+    }
+
 }

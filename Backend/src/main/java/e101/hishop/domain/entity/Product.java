@@ -1,10 +1,13 @@
 package e101.hishop.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -30,6 +33,17 @@ public class Product {
     private String barcode;
 
     private String image;
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "product")
+    private List<PayDetail> payDetails = new ArrayList<>();
+
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "product")
+    private List<Shopping> shoppings = new ArrayList<>();
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "manu_id")
