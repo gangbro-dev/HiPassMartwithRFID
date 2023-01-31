@@ -40,19 +40,19 @@ void setup() {
   // delay(50);
   char c[10];
   int i = 0;
-  // while (mySerial.available() > 0) {
-  //  c[i] = mySerial.read();
-  //  i++;
-  // }
-  // if (c[3]) {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("OK");
-  // }
-  // else {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("FAIL");
-  // }
-  // Serial.println("============================\n\n\n");
+  while (mySerial.available() > 0) {
+   c[i] = mySerial.read();
+   i++;
+  }
+  if (c[3]) {
+    Serial.println(c[3], HEX);
+    Serial.println("OK");
+  }
+  else {
+    Serial.println(c[3], HEX);
+    Serial.println("FAIL");
+  }
+  Serial.println("============================\n\n\n");
   Serial.println("RF Setting...");
   Serial.println("============================");
   RFID_COMMAND RF_setting;
@@ -120,6 +120,42 @@ void setup() {
   // }
   // Serial.println("============================\n\n\n");
   // Reading Continue 모드 테스트
+  // Serial.println("RFID Reading Continue");
+  // Serial.println("============================");
+  // RFID_COMMAND ReadingStay;
+  // ReadingStay.SF = 0x33;
+  // ReadingStay.LEN = 0x04;
+  // ReadingStay.COM = 0xB2;
+  // ReadingStay.EF = 0x99;
+  // ReadingStay.data = "";
+  // String request = "";
+  // request += ReadingStay.SF;
+  // request += ReadingStay.LEN;
+  // request += ReadingStay.COM;
+  // request += ReadingStay.data;
+  // request += ReadingStay.EF;
+  // mySerial.print(request);
+  // while (mySerial.available() > 0) {
+  //   c[i] = mySerial.read();
+  //   Serial.print(c[i], HEX);
+  //   Serial.print(" ");
+  //   i++;
+  // }
+  // if (c[3]) {
+  //   Serial.println(c[3], HEX);
+  //   Serial.println("OK");
+  // }
+  // else {
+  //   Serial.println(c[3], HEX);
+  //   Serial.println("FAIL");
+  // }
+  // Serial.println("============================\n\n\n");
+}
+
+void loop() {
+  while (!Serial.available()) {}
+  while (Serial.available()) Serial.read();
+  // 입력이 오면 리딩모드 on
   Serial.println("RFID Reading Continue");
   Serial.println("============================");
   RFID_COMMAND ReadingStay;
@@ -135,6 +171,9 @@ void setup() {
   request += ReadingStay.data;
   request += ReadingStay.EF;
   mySerial.print(request);
+  delay(100);
+  char c[20];
+  int i = 0;
   while (mySerial.available() > 0) {
     c[i] = mySerial.read();
     Serial.print(c[i], HEX);
@@ -150,15 +189,12 @@ void setup() {
     Serial.println("FAIL");
   }
   Serial.println("============================\n\n\n");
-}
-
-void loop() {
-  Serial.println("\n\n============================");
-  char c = 0;
-  while (mySerial.available() > 0) {
-    Serial.print(mySerial.read(), HEX);
-    Serial.print(" ");
+  int count = 0;
+  while (count > 15){
+    while (mySerial.available() > 0) {
+      Serial.print(mySerial.read(), HEX);
+    }
+  count++;
+  delay(100);
   }
-  Serial.println("\n============================");
-  delay(300);
 }
