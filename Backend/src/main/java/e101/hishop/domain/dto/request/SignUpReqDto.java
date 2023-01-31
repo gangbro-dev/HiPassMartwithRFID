@@ -4,7 +4,6 @@ package e101.hishop.domain.dto.request;
 import e101.hishop.AppConfig;
 import e101.hishop.domain.entity.User;
 import e101.hishop.global.enumeration.Gender;
-import e101.hishop.global.enumeration.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor()
+@AllArgsConstructor
 @Builder
 public class SignUpReqDto {
 
@@ -46,8 +45,6 @@ public class SignUpReqDto {
     @NotBlank
     private String adSelect;
 
-    @Builder.Default
-    private Role role = Role.ROLE_USER;
 
     public User toUsersEntity(){
         return User.builder()
@@ -57,8 +54,26 @@ public class SignUpReqDto {
                 .adSelect(adSelect)
                 .email(email)
                 .name(name)
-                .role(role)
                 .password(AppConfig.testPasswordEncoder().encode(password))
                 .build();
     }
+//    SignUpReqDto.builder()
+//            .loginId("user1234!")
+//                .gender(Gender.MALE)
+//                .birthDate(LocalDate.of(1993,12,31))
+//            .adSelect("YES")
+//                .email("EMAIL@naver.com")
+//                .name("NAME")
+//                .role(Role.ROLE_USER)
+//                .password("user1234!")
+//                .build().toUsersEntity());
+
+//    {
+//        "loginId": "user123456",
+//            "password" :"pass1234!!",
+//            "name" :"NAMMME",
+//            "gender" :"MALE",
+//            "birthDate" :"1919-11-01",
+//            "adSelect": "YES"
+//    }
 }

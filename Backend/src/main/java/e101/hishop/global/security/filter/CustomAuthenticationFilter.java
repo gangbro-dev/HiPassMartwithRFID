@@ -82,4 +82,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 //        response.setContentType(APPLICATION_JSON_VALUE);
 //        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+
+
+        log.error("Error login in: {} ", failed.getMessage());
+        response.setHeader("error", failed.getMessage());
+        response.setHeader("error-type", failed.getClass().getSimpleName());
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+    }
 }
