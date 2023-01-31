@@ -25,6 +25,7 @@ public class UserController {
 
     private final UserService userService;
 
+//    private final UserInfoLoder userInfoLoder;
     @GetMapping("/{userId}")
     public ResponseEntity<UserInfoRespDto> getUserInfo(@PathVariable Long userId) {
         return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
