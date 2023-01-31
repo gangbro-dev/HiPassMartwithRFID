@@ -2,6 +2,8 @@ package e101.hishop.global.security;
 
 import e101.hishop.global.security.filter.CustomAuthenticationFilter;
 import e101.hishop.global.security.filter.CustomAuthorizationFilter;
+import e101.hishop.repository.UserJPARepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +20,14 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String LOGIN_URL = "/api/login";
+    private final UserJPARepository userJPARepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), userJPARepository);
         //url로 들어왔을떄 해당필터를 실행
         customAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
         CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter();
@@ -77,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        configuration.setAllowedOrigins(List.of("http://localhost"));
         configuration.setAllowedOriginPatterns(List.of("http://localhost*", "http://192.168.*"));
         configuration.setAllowedMethods(List.of("GET","POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
-        configuration.setExposedHeaders(List.of("access-token", "refresh-token")); //리액트에서 헤더 값 받을수있게 설정
+        configuration.setExposedHeaders(List.of("access-token", "refresh-token", "error", "error-type")); //리액트에서 헤더 값 받을수있게 설정
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
         configuration.setAllowedHeaders(List.of("*"));

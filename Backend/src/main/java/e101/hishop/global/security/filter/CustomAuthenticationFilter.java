@@ -2,7 +2,11 @@ package e101.hishop.global.security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import e101.hishop.global.common.CommonException;
+import e101.hishop.repository.UserJPARepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,13 +24,12 @@ import java.util.*;
 
 
 @Slf4j
+@RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final UserJPARepository userJPARepository;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager){
-        this.authenticationManager = authenticationManager;
-    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -46,24 +49,27 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         //Security User Class
         User user = (User)authentication.getPrincipal();
-        //추후 key 따로저장
+        //TODO 추후 key 따로저장
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         // repository에서 id검색
-
+        e101.hishop.domain.entity.User jpaUser = userJPARepository.findByLoginId(user.getUsername())
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         List<String> authorities = new ArrayList<>();
         for (GrantedAuthority authority : user.getAuthorities()) {
             authorities.add(authority.getAuthority());
         }
+        //TODO accesstoken 시간변경
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 300 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", authorities)
+                .withClaim("user-id",jpaUser.getId() )
                 // .withClaim("id", id)
                 .sign(algorithm);
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 3000 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30000 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         response.setHeader("access-token", accessToken);

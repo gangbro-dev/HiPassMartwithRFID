@@ -46,7 +46,8 @@ public class SignUpReqDto {
     @NotBlank
     private String adSelect;
 
-    private Role role;
+    @Builder.Default
+    private Role role = Role.ROLE_USER;
 
     public User toUsersEntity(){
         return User.builder()
