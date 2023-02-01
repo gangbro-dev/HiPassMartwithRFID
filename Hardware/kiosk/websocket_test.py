@@ -9,7 +9,7 @@ async def accept(websocket, path):
         
 # "0.0.0.0" => 서버 pc에 ip 주소를 입력해준다.
 # 0000 => 서버 pc에 포트를 입력 해 준다.
-start_server = websockets.serve(accept, "192.168.56.1", 8888);
+start_server = websockets.serve(accept, "192.168.40.111", 8888);
 
 # 비동기로 서버를 대기한다.
 asyncio.get_event_loop().run_until_complete(start_server);
