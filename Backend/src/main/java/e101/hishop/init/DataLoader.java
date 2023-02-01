@@ -30,16 +30,15 @@ public class DataLoader {
     //method invoked during the startup
     @PostConstruct
     public void loadData() {
-        authService.signUp(SignUpReqDto.builder()
+        authService.signUp(User.builder()
                 .loginId("user1234!")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.of(1993,12,31))
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .role(Role.ROLE_USER)
                 .password("user1234!")
-                .build().toUsersEntity());
+                .build());
 
         userService.saveCard(Card.builder()
                 .cardNo("1234-1212-1111-1111")
@@ -60,16 +59,16 @@ public class DataLoader {
                 .buyTotal(50000L)
                 .build(), 1L, 2L);
 
-        authService.signUp(SignUpReqDto.builder()
+        authService.signUp(User.builder()
                 .loginId("admin1234!")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.of(1999,12,31))
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .role(Role.ROLE_ADMIN)
                 .password("admin1234!")
-                .build().toUsersEntity());
+                .role(Role.ROLE_ADMIN)
+                .build());
 
         adminService.saveProduct(Product.builder()
                 .name("세우깡")

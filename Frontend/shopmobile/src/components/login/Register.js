@@ -21,6 +21,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import HOST from "../../Host";
+import { useNavigate } from "react-router";
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -76,7 +77,7 @@ const Register = () => {
   React.useEffect(() => {
     ref.current.ownerDocument.body.scrollTop = 0;
   });
-  
+
   const theme = createTheme();
   const [checked, setChecked] = useState(false);
   const [userIdError, setUserIdError] = useState("");
@@ -87,32 +88,32 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
   const [registerError, setRegisterError] = useState("");
+  const movePage = useNavigate();
 
   const handleAgree = (event) => {
     setChecked(event.target.checked);
   };
 
   const onhandlePost = async (data) => {
-    const { userid, password, name, gender, phone, birth, email, address } =
-      data;
-    birth.replace(/^(\d{4})(\d{2})(\d{2})$/, `$1-$2-$3`);
-    const formData = new FormData();
-    formData.append("userid", userid);
-    formData.append("password", password);
-    formData.append("name", name);
-    formData.append("gender", gender);
-    formData.append("phone", phone);
-    formData.append("birth", birth);
-    formData.append("email", email);
-    formData.append("address", address);
-    console.log(formData);
+    const jsonData = {
+      loginId : data.id,
+      password : data.password,
+      name: data.name,
+      phone: data.phone,
+      birthDate: data.birthday.replace(/^(\d{4})(\d{2})(\d{2})$/, `$1-$2-$3`),
+      gender: data.gender,
+      mail: data.mail,
+      adSelect: data.adSelect,
+    }
 
+    console.log(jsonData);
     // post
-    const API_URI = `${HOST}/signup`;
+    const API_URI = `${HOST}/sign-up`;
     await axios
-      .post(API_URI, formData)
+      .post(API_URI, jsonData)
       .then(function (response) {
         console.log(response, "성공");
+        movePage("/app");
       })
       .catch(function (err) {
         console.log(err);
@@ -125,7 +126,7 @@ const Register = () => {
 
     const data = new FormData(e.currentTarget);
     const joinData = {
-      userid: data.get("userid"),
+      id: data.get("id"),
       password: data.get("password"),
       rePassword: data.get("rePassword"),
       name: data.get("name"),
@@ -133,25 +134,16 @@ const Register = () => {
       phone: data
         .get("phone")
         .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`),
-      birth: data.get("birth"),
-      email: data.get("email"),
-      address: data.get("address"),
+      birthday: data.get("birthday"),
+      mail: data.get("mail"),
+      adSelect: "YES",
     };
-    const {
-      userid,
-      password,
-      rePassword,
-      name,
-      gender,
-      phone,
-      birth,
-      // email,
-      // address,
-    } = joinData;
+    const { id, password, rePassword, name, gender, phone, birthday } =
+      joinData;
 
     let flag = true;
     // 아이디 입력 체크
-    if (userid.length < 1) {
+    if (id.length < 1) {
       setUserIdError("아이디를 입력해주세요");
       flag = false;
     } else setUserIdError("");
@@ -180,7 +172,7 @@ const Register = () => {
     } else setNameError("");
 
     // 성별 유효성 검사
-    if (gender === "남" || gender === "여") {
+    if (gender === "MALE" || gender === "FEMALE") {
       setGenderError("");
     } else {
       setGenderError("성별을 선택해주세요");
@@ -195,7 +187,7 @@ const Register = () => {
     } else setPhoneError("");
 
     // 생년월일 유효성 검사
-    if (!isBirthday(birth) || birth.length < 1) {
+    if (!isBirthday(birthday) || birthday.length < 1) {
       setBirthError("생년월일을 확인해주세요");
       flag = false;
     } else setBirthError("");
@@ -239,8 +231,8 @@ const Register = () => {
                       required
                       autoFocus
                       fullWidth
-                      id="userid"
-                      name="userid"
+                      id="id"
+                      name="id"
                       label="아이디"
                       error={userIdError !== "" || false}
                     />
@@ -296,14 +288,14 @@ const Register = () => {
                         error={genderError !== "" || false}
                       >
                         <FormControlLabel
-                          value="여"
+                          value="FEMALE"
                           control={<Radio />}
-                          label="Female"
+                          label="여"
                         />
                         <FormControlLabel
-                          value="남"
+                          value="MALE"
                           control={<Radio />}
-                          label="Male"
+                          label="남"
                         />
                       </RadioGroup>
                     </FormControl>
@@ -327,9 +319,9 @@ const Register = () => {
                       required
                       fullWidth
                       inputProps={{ maxLength: 8 }}
-                      id="birth"
+                      id="birthday"
                       label="생년월일(-없이 8자리)"
-                      name="birth"
+                      name="birthday"
                       autoComplete="new-birth"
                       error={birthError !== "" || false}
                     />
@@ -338,21 +330,11 @@ const Register = () => {
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
-                      name="email"
+                      name="mail"
                       label="이메일"
-                      type="email"
-                      id="email"
+                      type="mail"
+                      id="mail"
                       autoComplete="new-email"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      name="address"
-                      label="주소"
-                      type="address"
-                      id="address"
-                      autoComplete="new-address"
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -360,7 +342,7 @@ const Register = () => {
                       control={
                         <Checkbox onChange={handleAgree} color="primary" />
                       }
-                      label="회원가입 약관에 동의합니다."
+                      label="회원가입 약관에 동의합니다.(필수)"
                     />
                   </Grid>
                 </Grid>

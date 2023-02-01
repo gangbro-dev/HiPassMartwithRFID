@@ -39,7 +39,7 @@ function Test() {
       >
         QR생성
       </Card>
-      <Grid container spacing={2}>
+      <Grid style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
         <Grid item xs={1} />
         <Grid item xs={10} mt={12}>
           <CssBaseline />

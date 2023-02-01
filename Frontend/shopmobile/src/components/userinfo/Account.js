@@ -7,6 +7,7 @@ import { Card, Container } from "@mui/material";
 import Link from "@mui/material/Link";
 import axios from "axios";
 import HOST from "../../Host";
+import { useState, useEffect } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -16,32 +17,32 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const AccountInfo = async (data) => {
-  // formdata처리
-
-  
-  // get
-  console.log("AccountInfo");
-  const API_URI = `${HOST}/api/user/{userId}`;
-  await axios
-    .get(API_URI)
-    .then((response) => {
-      // TODO 계정 정보 처리 로직
-
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-}
-
 export default function Account() {
-  AccountInfo();
+  const [userId, setUserId] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthDate, setbirthDate] = useState("");
+
+  const API_URI = `${HOST}/user/1`;
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(API_URI);
+
+      setUserId(data.userId);
+      setName(data.name);
+      setPhone(data.phone);
+      setGender(data.gender);
+      setEmail(data.email);
+      setbirthDate(data.birthDate);
+    })();
+  });
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
           flexGrow: 1,
-
           flexDirection: "column",
           alignItems: "center",
         }}
@@ -66,7 +67,7 @@ export default function Account() {
             <Item>아이디</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>as****34</Item>
+            <Item>{userId}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>패스워드</Item>
@@ -78,37 +79,31 @@ export default function Account() {
             <Item>이름</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>홍*동</Item>
+            <Item>{name}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>휴대전화</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>010-****-1111</Item>
+            <Item>{phone}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>성별</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>Male</Item>
+            <Item>{gender}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>생년월일</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>1997.11.11</Item>
+            <Item>{birthDate}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>이메일</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>.</Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>주소</Item>
-          </Grid>
-          <Grid item xs={8}>
-            <Item>.</Item>
+            <Item>{email}</Item>
           </Grid>
         </Grid>
         <Grid container sx={{ mt: 2, mb: 2 }}>

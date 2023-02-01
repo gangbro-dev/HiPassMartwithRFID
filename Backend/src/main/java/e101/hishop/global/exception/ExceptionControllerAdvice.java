@@ -16,35 +16,35 @@ import java.nio.file.AccessDeniedException;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
-    @ExceptionHandler
+    @ExceptionHandler(CommonException.class)
     public ResponseEntity commonExHandle(CommonException ex) {
         log.warn("Exception Name = {}, Code = {}, Message = {}", ex.getClass().getName(), ex.getErrorCode(), ex.getMessage());
         return ResponseEntity.status(ex.getHttpStatus())
                 .body(CommonResponse.builder().errorCode(ex.getErrorCode()).errorMessage(ex.getErrorMessage()).build());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity accessDeniedExHandle(AccessDeniedException ex) {
         log.warn("Exception Name = {}, Message = {}", ex.getClass().getName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(CommonResponse.builder().errorCode(3).errorMessage(ex.getMessage()).build());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity methodNotAllowedExHandle(HttpRequestMethodNotSupportedException ex) {
         log.warn("Exception Name = {}, Message = {}", ex.getClass().getName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body(CommonResponse.builder().errorCode(405).errorMessage(ex.getMessage()).build());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity illegalArgumentExceptionExHandle(IllegalArgumentException ex) {
         log.warn("Exception Name = {}, Message = {}", ex.getClass().getName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(CommonResponse.builder().errorCode(400).errorMessage(ex.getMessage()).build());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity constraintViolationExceptionExceptionExHandle(ConstraintViolationException ex) {
         log.warn("Exception Name = {}, Message = {}", ex.getClass().getName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

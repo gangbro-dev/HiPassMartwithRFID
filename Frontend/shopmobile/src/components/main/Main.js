@@ -8,7 +8,6 @@ import { Grid } from "@mui/material";
 
 export default function Main() {
   const ref = React.useRef(null);
-
   React.useEffect(() => {
     ref.current.ownerDocument.body.scrollTop = 0;
   });

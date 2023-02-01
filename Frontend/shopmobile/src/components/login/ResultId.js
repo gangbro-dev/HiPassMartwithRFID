@@ -42,7 +42,7 @@ const Register = () => {
 
     // patch
     await axios
-      .patch(`/api/users/${userId}`, patchData)
+      .patch(`/users/${userId}`, patchData)
       .then(function (response) {
         console.log(response, "성공");
 

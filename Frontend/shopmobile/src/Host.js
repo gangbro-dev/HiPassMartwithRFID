@@ -1,3 +1,3 @@
-const HOST = 'http://13.125.42.187'
+const HOST = 'https://himart.shop/api'
 
 export default HOST;

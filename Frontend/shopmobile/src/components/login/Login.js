@@ -56,16 +56,18 @@ const SignIn = () => {
     // console.log(formData);
 
     // post
-    const API_URI = `${HOST}/api/login`;
+    const API_URI = `${HOST}/login`;
+    console.log(API_URI);
     await axios
       .post(API_URI, formData)
       .then((response) => {
-        console.log(response.headers["access-token"]);
-        console.log(response.headers["refresh-token"]);
-        sessionStorage.setItem("refreshtoken", response.headers["refresh-token"]);
+        localStorage.setItem("refreshtoken", response.headers["refresh-token"]);
+        localStorage.setItem("access-token", response.headers["access-token"]);
+
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.headers["access-token"]}`;
+        
         movePage("/app")
         setLoginError("");
       })
