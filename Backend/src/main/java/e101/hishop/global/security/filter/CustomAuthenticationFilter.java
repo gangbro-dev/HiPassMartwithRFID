@@ -61,7 +61,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         //TODO accesstoken 시간변경
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3000 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", authorities)
                 .withClaim("user-id",jpaUser.getId() )
