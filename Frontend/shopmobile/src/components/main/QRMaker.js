@@ -4,7 +4,7 @@ import { Box, Button, Card } from "@mui/material";
 import { Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-function Test() {
+function QRMaker() {
   const initialValue = "https://www.example.com";
   const [value, setValue] = useState(initialValue);
   const [countdown, setCountdown] = useState(59);
@@ -68,4 +68,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default QRMaker;

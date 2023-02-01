@@ -30,7 +30,7 @@ export default function ListDividers() {
           <ListItemText primary="계정 관리" />
         </ListItem>
         <Divider />
-        <ListItem button component={Link} to="/app/card">
+        <ListItem button component={Link} to="/app/mycard">
           <ListItemText primary="카드 관리" />
         </ListItem>
         <ListItem button component={Link} to="/app/payment">
