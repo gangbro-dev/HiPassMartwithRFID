@@ -19,7 +19,7 @@ public interface UserService {
 
     Boolean deleteCard(Long userId, Long cardId);
 
-    UserInfoRespDto getUserInfo(Long userPK);
+    UserInfoRespDto getUserInfo();
 
     Long updateUserInfo(UserInfoReqDto dto, Long userPK);
 

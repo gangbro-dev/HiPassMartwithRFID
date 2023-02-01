@@ -1,6 +1,6 @@
 package e101.hishop.init;
 
-import e101.hishop.domain.dto.request.SignUpReqDto;
+import e101.hishop.AppConfig;
 import e101.hishop.domain.entity.*;
 import e101.hishop.global.enumeration.Gender;
 import e101.hishop.global.enumeration.Role;
@@ -37,7 +37,7 @@ public class DataLoader {
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .password("user1234!")
+                .password(AppConfig.testPasswordEncoder().encode("user1234!"))
                 .build());
 
         userService.saveCard(Card.builder()
@@ -66,7 +66,7 @@ public class DataLoader {
                 .adSelect("YES")
                 .email("EMAIL@naver.com")
                 .name("NAME")
-                .password("admin1234!")
+                .password(AppConfig.testPasswordEncoder().encode("admin1234!"))
                 .role(Role.ROLE_ADMIN)
                 .build());
 

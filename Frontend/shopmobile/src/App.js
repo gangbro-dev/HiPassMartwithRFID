@@ -9,7 +9,8 @@ import Qrscan from "./components/main/QRReader";
 import Qrmake from "./components/main/QRMaker";
 import Nav from "./components/main/Nav";
 import Userinfo from "./components/userinfo/UserInfo"
-import Card from "./components/userinfo/Card";
+import MyCard from "./components/userinfo/MyCard";
+import AddCard from "./components/userinfo/AddCard";
 import Payment from "./components/userinfo/Payment";
 import PaymentDetail from "./components/userinfo/PaymentDetail";
 import Account from "./components/userinfo/Account";
@@ -27,7 +28,8 @@ function App() {
         <Route path="/app/qrreader" element={<Qrscan />} />
         <Route path="/app/qrmaker" element={<Qrmake />} />
         <Route path="/app/userinfo" element={<Userinfo />} />
-        <Route path="/app/card" element={<Card />} />
+        <Route path="/app/mycard" element={<MyCard />} />
+        <Route path="/app/addcard" element={<AddCard />} />
         <Route path="/app/payment" element={<Payment />} />
         <Route path="/app/paymentDetail" element={<PaymentDetail />} />
         <Route path="/app/account" element={<Account />} />

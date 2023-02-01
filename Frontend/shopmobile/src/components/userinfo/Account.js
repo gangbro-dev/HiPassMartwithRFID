@@ -85,7 +85,7 @@ export default function Account() {
             <Item>휴대전화</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>{phone}</Item>
+            <Item>{phone ? phone : "."}</Item>
           </Grid>
           <Grid item xs={4}>
             <Item>성별</Item>
@@ -103,7 +103,7 @@ export default function Account() {
             <Item>이메일</Item>
           </Grid>
           <Grid item xs={8}>
-            <Item>{email}</Item>
+            <Item>{email ? email : "."}</Item>
           </Grid>
         </Grid>
         <Grid container sx={{ mt: 2, mb: 2 }}>

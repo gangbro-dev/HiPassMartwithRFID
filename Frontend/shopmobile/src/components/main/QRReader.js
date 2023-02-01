@@ -4,7 +4,7 @@ import { Box, Card } from "@mui/material";
 import { Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const Test = (props) => {
+const QRReader = (props) => {
   const [result, setResult] = useState("No result");
   const ref = React.useRef(null);
   console.log(result);
@@ -54,4 +54,4 @@ const Test = (props) => {
   );
 };
 
-export default Test;
+export default QRReader;

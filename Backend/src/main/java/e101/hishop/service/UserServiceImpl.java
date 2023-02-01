@@ -1,7 +1,6 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
-//import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.domain.dto.response.CardInfoRespDto;
@@ -20,6 +19,8 @@ import e101.hishop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -91,8 +92,8 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    public UserInfoRespDto getUserInfo(Long userId) {
-        User user = userJPARepository.findById(userId)
+    public UserInfoRespDto getUserInfo() {
+        User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         return UserInfoRespDto.of(user);
     }
@@ -131,4 +132,13 @@ public class UserServiceImpl implements UserService {
         return payDetailList;
     }
 
+    public Long getUserId() {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+
+        User user = userJPARepository.findByLoginId(username)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+
+        return user.getId();
+    }
 }
