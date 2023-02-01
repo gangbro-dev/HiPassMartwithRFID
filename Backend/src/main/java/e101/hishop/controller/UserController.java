@@ -66,7 +66,7 @@ public class UserController {
     @DeleteMapping("/{userId}/card/{cardId}")
     public ResponseEntity<String> userCardDelete(@PathVariable Long userId, @PathVariable Long cardId) {
         //TODO 카드아이디가 해당 유저 소속인지 유효성검사 필요
-        userService.deleteCard(cardId);
+        userService.deleteCard(userId, cardId);
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
 

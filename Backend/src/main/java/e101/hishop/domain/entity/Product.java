@@ -40,10 +40,6 @@ public class Product {
     private List<PayDetail> payDetails = new ArrayList<>();
 
 
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy = "product")
-    private List<Shopping> shoppings = new ArrayList<>();
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "manu_id")

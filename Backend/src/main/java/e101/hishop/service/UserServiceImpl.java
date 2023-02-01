@@ -56,16 +56,24 @@ public class UserServiceImpl implements UserService {
             log.info("{}", p);
             respList.add(CardInfoRespDto.builder()
                     .cardId(p.getId())
-                    .cardNo(p.getCardNo())
+                    .cardNo(p.getCardNo().substring(0, 4))
                     .name(p.getName())
-                    .validDate(p.getValidDate())
                     .build());
         }
         return respList;
     }
 
     @Override
-    public Boolean deleteCard(Long cardId) {
+    public Boolean deleteCard(Long userId, Long cardId) {
+        User user = userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        Card card = userRepository.findCardById(cardId);
+        if (!card.getUser().equals(user)) {
+            throw new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (user.getDefaultCardId() == cardId) {
+            editMainCard(userId, null);
+        }
         userRepository.deleteCard(cardId);
         return true;
     }

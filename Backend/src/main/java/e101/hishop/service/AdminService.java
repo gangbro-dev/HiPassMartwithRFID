@@ -6,7 +6,7 @@ import e101.hishop.domain.entity.*;
 import java.util.List;
 
 public interface AdminService {
-    Long savePay(Pay pays, Long userId, Long paymentId);
+    Long savePay(Pay pays, Long userId);
 
     List<PayInfoRespDto> getPayInfo();
 
@@ -20,5 +20,4 @@ public interface AdminService {
 
     Long saveKiosk(Kiosk kiosk, Long branchId);
 
-    Long saveShopping(Shopping shopping, Long kioskId, Long productId);
 }

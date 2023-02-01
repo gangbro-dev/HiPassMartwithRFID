@@ -41,13 +41,13 @@ public class DataLoader {
                 .build());
 
         userService.saveCard(Card.builder()
-                .cardNo("1234-1212-1111-1111")
+                .cardNo("1234121211111111")
                 .name("신한")
                 .validDate("0121")
                 .build(), 1L);
 
         userService.saveCard(Card.builder()
-                .cardNo("4434-1212-1111-1111")
+                .cardNo("4434431115871111")
                 .name("삼삼")
                 .validDate("2221")
                 .build(), 1L);
@@ -57,7 +57,7 @@ public class DataLoader {
                 .cardName("삼성")
                 .buyDate("2022-09-01")
                 .buyTotal(50000L)
-                .build(), 1L, 2L);
+                .build(), 1L);
 
         authService.signUp(User.builder()
                 .loginId("admin1234!")
@@ -125,20 +125,11 @@ public class DataLoader {
 
         adminService.saveKiosk(Kiosk.builder().build(), 9L);
 
-        adminService.saveShopping(Shopping.builder()
-                .count(2)
-                .price(4000L)
-                .build(), 14L, 7L);
-
-        adminService.saveShopping(Shopping.builder()
-                .count(1)
-                .price(1500L)
-                .build(), 14L, 6L);
-
-        adminService.saveShopping(Shopping.builder()
-                .count(1)
-                .price(1430L)
-                .build(), 14L, 8L);
+        userService.saveCard(Card.builder()
+                .cardNo("1968267535975189")
+                .name("사사")
+                .validDate("2221")
+                .build(), 5L);
     }
 
     //method invoked during the shutdown

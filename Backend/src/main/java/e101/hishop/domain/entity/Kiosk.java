@@ -25,10 +25,6 @@ public class Kiosk {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-    @JsonIgnore
-    @Builder.Default
-    @OneToMany(mappedBy = "kiosk")
-    private List<Shopping> shopping = new ArrayList<>();
 
     public void setBranchAndKiosk(Branch branch) {
         this.branch = branch;

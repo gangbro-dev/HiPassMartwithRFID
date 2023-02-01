@@ -2,6 +2,7 @@ package e101.hishop.repository;
 
 import e101.hishop.domain.dto.request.EditNameReqDto;
 import e101.hishop.domain.entity.Card;
+import e101.hishop.domain.entity.Kiosk;
 import e101.hishop.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,11 @@ public class UserRepositoryImpl implements UserRepository {
     public Long saveCard(Card card) {
         em.persist(card);
         return card.getId();
+    }
+
+    @Override
+    public Card findCardById(Long id) {
+        return em.find(Card.class, id);
     }
 
     @Override

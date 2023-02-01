@@ -15,5 +15,5 @@ public interface AdminRepository {
     Long saveStaff(Staff staff);
     Long saveKiosk(Kiosk kiosk);
     Kiosk findKioskById(Long id);
-    Long saveShopping(Shopping shopping);
+
 }

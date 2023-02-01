@@ -17,7 +17,7 @@ public interface UserService {
 
     List<CardInfoRespDto> cardInfo(Long userId);
 
-    Boolean deleteCard(Long cardId);
+    Boolean deleteCard(Long userId, Long cardId);
 
     UserInfoRespDto getUserInfo(Long userPK);
 

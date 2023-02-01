@@ -39,10 +39,6 @@ public class Card {
     @JoinColumn(name = "card_category_id")
     private CardCategory cardCategory;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
-    private List<Pay> pays = new ArrayList<>();
-
     //입력하지않으면 기본값 false
 //    @PrePersist
 //    public void prePersist(){
