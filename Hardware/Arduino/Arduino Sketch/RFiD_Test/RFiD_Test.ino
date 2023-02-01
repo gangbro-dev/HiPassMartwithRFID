@@ -1,200 +1,106 @@
 #include <SoftwareSerial.h>
+
 // SoftwareSerial 사용 핀 설정
 const byte rxPin = 4;
 const byte txPin = 3;
 
 // Set up a new SoftwareSerial object
-SoftwareSerial mySerial (rxPin, txPin);
+SoftwareSerial mySerial(rxPin, txPin);
 
-typedef struct RFID_COMMAND {
-  char SF = 0x33;
-  char LEN = 0x00;
-  char COM = 0x00;
-  char EF = 0x99;
-  String data = "";
-};
+void flushSerialBuffer() {
+  while (Serial.available()) {
+    Serial.read();
+  }
+}
+
+void flushmySerialBuffer() {
+  while (mySerial.available()) {
+    mySerial.read();
+  }
+}
+
+void execute_commandline(String message, unsigned char * cl) {
+  char c[20];
+  char i;
+  Serial.println(message);
+  for (i = 0; i < cl[1]; i++) {
+    Serial.print(cl[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+  flushmySerialBuffer();
+  for (i = 0; i < cl[1]; i++) {
+    mySerial.print(cl[i]);
+  }
+  delay(1000);
+  Serial.println("============================");
+  while (mySerial.available() > 0) {
+    c[i] = mySerial.read();
+    Serial.print(c[i], HEX);
+    Serial.print(" ");
+    i++;
+  }
+  if (c[3]) {
+    Serial.println(c[3], HEX);
+    Serial.println("OK");
+  } else {
+    Serial.println(c[3], HEX);
+    Serial.println("FAIL");
+  }
+  Serial.println("============================\n\n\n");
+}
+
+
+// 명령어 생성
+
+// // set_baud_request = baudrate 값 세팅
+unsigned char set_baud_request[5] = {0x33, 0x05, 0xC3, 0x00, 0x99};
+
+// // set_RF_request = RFID 읽기모드 ON/OFF
+unsigned char set_RF_request_on[5] = {0x33, 0x05, 0xC1, 0x01, 0x99};
+unsigned char set_RF_request_off[5] = {0x33, 0x05, 0xC1, 0x00, 0x99};
+
+// // readingStay_request = RFID Reading STAY 모드 설정
+unsigned char readingStay_request[4] = {0x33, 0x04, 0xB1, 0x99};
+
+// // readingContinue_request = RFID Reading Continue 모드 설정
+unsigned char  readingContinue_request[4] = {0x33, 0x04, 0xB2, 0x99};
 
 void setup() {
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
+  byte c[10];
+  int i = 0;
   Serial.begin(9600);
   mySerial.begin(9600);
   Serial.println("Device ON");
   Serial.println("initailizing...");
-  // Serial.println("Baudrate Setting...");
-  // Serial.println("============================");
-  // RFID_COMMAND baud_setting;
-  // baud_setting.SF = 0x33;
-  // baud_setting.LEN = 0x05;
-  // baud_setting.COM = 0xC3;
-  // baud_setting.EF = 0x99;
-  // baud_setting.data = "";
-  // char baudrate = 0x00;  // 9600
-  // String setBaudRequest = "";
-  // setBaudRequest += baud_setting.SF;
-  // setBaudRequest += baud_setting.LEN;
-  // setBaudRequest += baud_setting.COM;
-  // setBaudRequest += baudrate;
-  // setBaudRequest += baud_setting.EF;
-  // mySerial.print(setBaudRequest);
-  // delay(50);
-  char c[10];
-  int i = 0;
-  while (mySerial.available() > 0) {
-   c[i] = mySerial.read();
-   i++;
-  }
-  if (c[3]) {
-    Serial.println(c[3], HEX);
-    Serial.println("OK");
-  }
-  else {
-    Serial.println(c[3], HEX);
-    Serial.println("FAIL");
-  }
-  Serial.println("============================\n\n\n");
-  Serial.println("RF Setting...");
-  Serial.println("============================");
-  RFID_COMMAND RF_setting;
-  RF_setting.SF = 0x33;
-  RF_setting.LEN = 0x05;
-  RF_setting.COM = 0xC1;
-  RF_setting.EF = 0x99;
-  RF_setting.data = "";
-  char RF = 0x01;  // 9600
-  String setRFRequest = "";
-  setRFRequest += RF_setting.SF;
-  setRFRequest += RF_setting.LEN;
-  setRFRequest += RF_setting.COM;
-  setRFRequest += RF;
-  setRFRequest += RF_setting.EF;
-  mySerial.print(setRFRequest);
-  delay(1000);
-  i = 0;
-  while (mySerial.available() > 0) {
-    c[i] = mySerial.read();
-    Serial.print(c[i], HEX);
-    Serial.print(" ");
-    i++;
-  }
-  if (c[3]) {
-    Serial.println(c[3], HEX);
-    Serial.println("OK");
-  }
-  else {
-    Serial.println(c[3], HEX);
-    Serial.println("FAIL");
-  }
-  Serial.println("============================\n\n\n");
+  // 버퍼 비우기
+  flushSerialBuffer();
+  // RF 리딩모트 끄기
+  execute_commandline("RF carrier off", set_RF_request_off);
+  // baudrate 세팅 (9600)
+  execute_commandline("Baudrate Setting...", set_baud_request);
   // // Reading Stay 모드 테스트
-  // Serial.println("RFID Reading Stay");
-  // Serial.println("============================");
-  // RFID_COMMAND ReadingStay;
-  // ReadingStay.SF = 0x33;
-  // ReadingStay.LEN = 0x04;
-  // ReadingStay.COM = 0xB1;
-  // ReadingStay.EF = 0x99;
-  // ReadingStay.data = "";
-  // String request = "";
-  // request += ReadingStay.SF;
-  // request += ReadingStay.LEN;
-  // request += ReadingStay.COM;
-  // request += ReadingStay.data;
-  // request += ReadingStay.EF;
-  // mySerial.print(request);
-  // delay(1000);
-  // i = 0;
-  // while (mySerial.available() > 0) {
-  //   c[i] = mySerial.read();
-  //   Serial.print(c[i], HEX);
-  //   Serial.print(" ");
-  //   i++;
-  // }
-  // if (c[3]) {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("OK");
-  // }
-  // else {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("FAIL");
-  // }
-  // Serial.println("============================\n\n\n");
+  // execute_commandline("RFID Reading Stay", readingStay_request);
   // Reading Continue 모드 테스트
-  // Serial.println("RFID Reading Continue");
-  // Serial.println("============================");
-  // RFID_COMMAND ReadingStay;
-  // ReadingStay.SF = 0x33;
-  // ReadingStay.LEN = 0x04;
-  // ReadingStay.COM = 0xB2;
-  // ReadingStay.EF = 0x99;
-  // ReadingStay.data = "";
-  // String request = "";
-  // request += ReadingStay.SF;
-  // request += ReadingStay.LEN;
-  // request += ReadingStay.COM;
-  // request += ReadingStay.data;
-  // request += ReadingStay.EF;
-  // mySerial.print(request);
-  // while (mySerial.available() > 0) {
-  //   c[i] = mySerial.read();
-  //   Serial.print(c[i], HEX);
-  //   Serial.print(" ");
-  //   i++;
-  // }
-  // if (c[3]) {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("OK");
-  // }
-  // else {
-  //   Serial.println(c[3], HEX);
-  //   Serial.println("FAIL");
-  // }
-  // Serial.println("============================\n\n\n");
+  execute_commandline("RFID Reading Continue", readingContinue_request);
 }
 
 void loop() {
-  while (!Serial.available()) {}
-  while (Serial.available()) Serial.read();
-  // 입력이 오면 리딩모드 on
-  Serial.println("RFID Reading Continue");
-  Serial.println("============================");
-  RFID_COMMAND ReadingStay;
-  ReadingStay.SF = 0x33;
-  ReadingStay.LEN = 0x04;
-  ReadingStay.COM = 0xB2;
-  ReadingStay.EF = 0x99;
-  ReadingStay.data = "";
-  String request = "";
-  request += ReadingStay.SF;
-  request += ReadingStay.LEN;
-  request += ReadingStay.COM;
-  request += ReadingStay.data;
-  request += ReadingStay.EF;
-  mySerial.print(request);
-  delay(100);
-  char c[20];
-  int i = 0;
-  while (mySerial.available() > 0) {
-    c[i] = mySerial.read();
-    Serial.print(c[i], HEX);
-    Serial.print(" ");
-    i++;
-  }
-  if (c[3]) {
-    Serial.println(c[3], HEX);
-    Serial.println("OK");
-  }
-  else {
-    Serial.println(c[3], HEX);
-    Serial.println("FAIL");
-  }
-  Serial.println("============================\n\n\n");
+  while(!Serial.available()) {}
+  flushmySerialBuffer();
+  // // 입력이 오면 리딩모드 on
+  execute_commandline("RF carrier on", set_RF_request_on);
   int count = 0;
-  while (count > 15){
+  byte data;
+  while (count > 50) {
     while (mySerial.available() > 0) {
-      Serial.print(mySerial.read(), HEX);
+      data = mySerial.read();
+      Serial.print(data, HEX);
     }
-  count++;
-  delay(100);
+    count++;
+    delay(100);
   }
+  execute_commandline("RF carrier off", set_RF_request_off);
 }

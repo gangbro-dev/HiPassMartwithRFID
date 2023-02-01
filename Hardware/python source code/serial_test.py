@@ -24,7 +24,7 @@ def main():
         if data == "serial exit": # 종료 명령어
             break
         if data:
-            ser.write(data)
+            ser.write(data.encode())
         time.sleep(0.5)
 
 
@@ -37,7 +37,7 @@ def readthread(ser):
             data_line = set()
             tag_uid = dict()
             data = ser.readline()
-            print("Received data", list(map(hex, data)))
+            # print("Received data", list(map(hex, data)))
             while len(data) > 3:
                 uid = ''
                 received_command = [0, 0]
@@ -87,8 +87,8 @@ def readthread(ser):
                             data_line.add(uid)
                 else:
                     print("Error Request")
-            print(data_line)
             if data_line:
+                print(data_line)
                 request_data = {
                     "kioskId": 1,
                     "products": data_line
