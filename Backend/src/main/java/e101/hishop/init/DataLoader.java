@@ -4,6 +4,8 @@ import e101.hishop.AppConfig;
 import e101.hishop.domain.entity.*;
 import e101.hishop.global.enumeration.Gender;
 import e101.hishop.global.enumeration.Role;
+import e101.hishop.repository.CardJPARepository;
+import e101.hishop.repository.UserJPARepository;
 import e101.hishop.service.AdminService;
 import e101.hishop.service.AuthService;
 import e101.hishop.service.UserService;
@@ -25,11 +27,18 @@ public class DataLoader {
     private UserService userService;
 
     @Autowired
+    private CardJPARepository cardJPARepository;
+
+    @Autowired
+    private UserJPARepository userJPARepository;
+
+    @Autowired
     private AdminService adminService;
 
     //method invoked during the startup
     @PostConstruct
-    public void loadData() {
+    public void loadData(){
+
         authService.signUp(User.builder()
                 .loginId("user1234!")
                 .gender(Gender.MALE)
@@ -40,16 +49,18 @@ public class DataLoader {
                 .password(AppConfig.testPasswordEncoder().encode("user1234!"))
                 .build());
 
-        userService.saveCard(Card.builder()
+        userService.cardLoad(Card.builder()
                 .cardNo("1234121211111111")
                 .name("신한")
                 .validDate("0121")
                 .build(), 1L);
 
-        userService.saveCard(Card.builder()
-                .cardNo("4434431115871111")
-                .name("삼삼")
-                .validDate("2221")
+
+
+        userService.cardLoad(Card.builder()
+                .cardNo("555121211111111")
+                .name("국민")
+                .validDate("0121")
                 .build(), 1L);
 
         adminService.savePay(Pay.builder()
@@ -125,7 +136,7 @@ public class DataLoader {
 
         adminService.saveKiosk(Kiosk.builder().build(), 9L);
 
-        userService.saveCard(Card.builder()
+        userService.cardLoad(Card.builder()
                 .cardNo("1968267535975189")
                 .name("사사")
                 .validDate("2221")

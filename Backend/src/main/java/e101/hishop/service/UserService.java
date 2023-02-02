@@ -13,25 +13,28 @@ import java.util.List;
 
 public interface UserService {
 
-    Long saveCard(Card cards, Long userId);
+    Card saveCard(Card cards);
+    Card cardLoad(Card cards, Long id);
 
-    List<CardInfoRespDto> cardInfo(Long userId);
+    List<CardInfoRespDto> cardInfo();
 
-    Boolean deleteCard(Long userId, Long cardId);
+    Boolean deleteCard(Long cardId);
 
     UserInfoRespDto getUserInfo();
 
-    Long updateUserInfo(UserInfoReqDto dto, Long userPK);
+    Long updateUserInfo(UserInfoReqDto dto);
 
-    void deleteUserInfo(Long userPK);
+    void deleteUserInfo();
 
     Boolean editName(EditNameReqDto dto, Long cardId);
 
-    Boolean editPayPassword(PayPasswordReqDto dto, Long userId);
+    Boolean editPayPassword(PayPasswordReqDto dto);
 
-    void editMainCard(Long userId, Long cardId);
+    void editMainCard(Long cardId);
 
-    List<PayInfoRespDto> getUserPay(Long userId);
+    List<PayInfoRespDto> getUserPay();
 
     List<PayDetailInfoRespDto> getPayDetail(Long purchaseId);
+
+    Long getUserId();
 }
