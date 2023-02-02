@@ -13,33 +13,33 @@ export default function KioskMain() {
   const navigate = useNavigate();
   const initialValue = "1";
   const [value] = useState(initialValue);
-  const [socket, setSocket] = useState(null);
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  // const [socket, setSocket] = useState(null);
+  // const [message, setMessage] = useState("");
+  // const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://192.168.40.111:8888");
+  // useEffect(() => {
+  //   const ws = new WebSocket("ws://192.168.40.111:8888");
 
-    ws.onopen = () => {
-      console.log("WebSocket connection established.");
-    };
+  //   ws.onopen = () => {
+  //     console.log("WebSocket connection established.");
+  //   };
 
-    ws.onmessage = (event) => {
-      setMessages((prevMessages) => [...prevMessages, event.data]);
-    };
+  //   ws.onmessage = (event) => {
+  //     setMessages((prevMessages) => [...prevMessages, event.data]);
+  //   };
 
-    setSocket(ws);
+  //   setSocket(ws);
 
-    return () => {
-      ws.close();
-    };
-  }, []);
+  //   return () => {
+  //     ws.close();
+  //   };
+  // }, []);
 
-  const sendMessage = (event) => {
-    event.preventDefault();
-    socket.send(message);
-    setMessage("");
-  };
+  // const sendMessage = (event) => {
+  //   event.preventDefault();
+  //   socket.send(message);
+  //   setMessage("");
+  // };
 
   useEffect(() => {
     const handleKeyDown = (event) => {

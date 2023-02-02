@@ -3,7 +3,6 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Button } from "@mui/material";
 
 const cardImage = (date) => {
