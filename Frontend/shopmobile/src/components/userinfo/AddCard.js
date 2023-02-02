@@ -12,39 +12,25 @@ import {
   Box,
   Typography,
   Container,
-  Radio,
-  RadioGroup,
   FormLabel,
-  Link,
+  Select,
+  MenuItem,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
-import HOST from "../../Host";
-import { useNavigate } from "react-router";
-
-const FormHelperTexts = styled(FormHelperText)`
-  width: 100%;
-  padding-left: 16px;
-  font-weight: 700 !important;
-  color: #d32f2f !important;
-`;
-
 
 const Boxs = styled(Box)`
   padding-bottom: 40px !important;
 `;
 
-
-const Register = () => {
-
+const AddCard = () => {
   const ref = React.useRef(null);
 
   React.useEffect(() => {
     ref.current.ownerDocument.body.scrollTop = 0;
   });
 
-
-
+  const [checked, setChecked] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiration, setCardExpiration] = useState("");
   const [cardCompany, setCardCompany] = useState("");
@@ -53,8 +39,17 @@ const Register = () => {
     cardExpiration: false,
   });
 
+  const theme = createTheme();
+
+  const handleAgree = (event) => {
+    setChecked(event.target.checked);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // 회원가입 동의 체크
+    if (!checked) alert("회원가입 약관에 동의해주세요.");
+
     if (cardNumber === "" || cardExpiration === "") {
       setError({
         cardNumber: cardNumber === "",
@@ -66,9 +61,29 @@ const Register = () => {
     }
   };
 
+  const handleCardNumber = (e) => {
+    const cardNum = e.target.value;
+    if (!/^\d+$/.test(cardNum)) {
+      setError({ ...error, cardNumber: true });
+    } else {
+      setError({ ...error, cardNumber: false });
+      setCardNumber(cardNum);
+    }
+  };
+
+  const handleCardExpiration = (e) => {
+    const cardExp = e.target.value;
+    if (!/^\d+$/.test(cardExp)) {
+      setError({ ...error, cardExpiration: true });
+    } else {
+      setError({ ...error, cardExpiration: false });
+      setCardExpiration(cardExp);
+    }
+  };
+
   return (
     <Box sx={{ pb: 7 }} ref={ref}>
-      <ThemeProvider>
+      <ThemeProvider theme={theme}>
         <Container maxWidth="xs">
           <CssBaseline />
           <Box
@@ -81,99 +96,93 @@ const Register = () => {
           >
             <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
             <Typography component="h1" variant="h5">
-              회원가입
+              카드등록
             </Typography>
-            <Boxs
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
-            >
+            <Boxs component="form" noValidate sx={{ mt: 3 }}>
               <FormControl>
-                
-              <Container>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              error={error.cardNumber}
-              required
-              fullWidth
-              id="cardNumber"
-              label="카드번호"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-            />
-            {error.cardNumber && (
-              <FormHelperText error>This field is required</FormHelperText>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              error={error.cardExpiration}
-              required
-              fullWidth
-              id="cardExpiration"
-              label="유효기간"
-              value={cardExpiration}
-              onChange={(e) => setCardExpiration(e.target.value)}
-            />
-            {error.cardExpiration && (
-              <FormHelperText error>This field is required</FormHelperText>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <FormLabel>카드회사</FormLabel>
-              <RadioGroup
-                value={cardCompany}
-                onChange={(e) => setCardCompany(e.target.value)}
-                >
-                <FormControlLabel value="신한" control={<Radio />} label="신한" />
-                <FormControlLabel value="현대" control={<Radio />} label="현대" />
-                <FormControlLabel value="ibk" control={<Radio />} label="ibk" />
-                <FormControlLabel value="하나" control={<Radio />} label="하나" />
-                <FormControlLabel value="우리" control={<Radio />} label="우리" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" justifyContent="flex-end">
-              <button type="submit">Register</button>
-            </Box>
-          </Grid>
-        </Grid>
-      </form>
-    </Container>
+                <Grid container spacing={2}>
+                  <Container>
+                    <Boxs onSubmit={handleSubmit}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            error={error.cardNumber}
+                            required
+                            fullWidth
+                            id="cardNumber"
+                            label="카드번호"
+                            value={cardNumber}
+                            onChange={handleCardNumber}
+                            inputProps={{ maxLength: 16 }}
+                          />
+                          {error.cardNumber && (
+                            <FormHelperText error>
+                              올바른 값을 입력해주세요.
+                            </FormHelperText>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            error={error.cardExpiration}
+                            required
+                            fullWidth
+                            id="cardExpiration"
+                            label="유효기간"
+                            value={cardExpiration}
+                            onChange={handleCardExpiration}
+                            inputProps={{ maxLength: 4 }}
+                          />
+                          {error.cardExpiration && (
+                            <FormHelperText error>
+                              올바른 값을 입력해주세요.
+                            </FormHelperText>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl fullWidth>
+                            <FormLabel>카드회사</FormLabel>
+                            <Select
+                              value={cardCompany}
+                              onChange={(e) => setCardCompany(e.target.value)}
+                            >
+                              <MenuItem value="신한">신한</MenuItem>
+                              <MenuItem value="현대">현대</MenuItem>
+                              <MenuItem value="ibk">ibk</MenuItem>
+                              <MenuItem value="하나">하나</MenuItem>
+                              <MenuItem value="우리">우리</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                    </Boxs>
+                  </Container>
 
-
-
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox onChange={handleAgree} color="primary" />
+                      }
+                      label="개인정보 수집 및 이용에 동의합니다.(필수)"
+                    />
+                  </Grid>
+                </Grid>
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
-                  size="large"
+                  color="primary"
+                  style={{ height: "50px" }}
+                  onClick={handleSubmit}
                 >
-                  회원가입
+                  카드등록
                 </Button>
               </FormControl>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/app/login" variant="body2">
-                    로그인으로
-                  </Link>
-                </Grid>
-              </Grid>
             </Boxs>
           </Box>
         </Container>
       </ThemeProvider>
     </Box>
-
-
-    
   );
 };
 
-export default Register;
+export default AddCard;

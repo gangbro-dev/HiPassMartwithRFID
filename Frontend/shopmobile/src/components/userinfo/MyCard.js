@@ -4,8 +4,8 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Grid, Button } from "@mui/material";
+// import { useNavigate } from "react-router-dom";
 
 // "cardNo" : "1234-5678-9234-2345",
 // 		"isDefault" : false,
@@ -37,31 +37,29 @@ const cards = [
   ["5", "1234-5678-9234-2345", "우리", "0124"],
 ];
 
-const mainCard = []
+const mainCard = [];
 // 유저 정보에서 card id 뽑아서 카드 목록과 비교 후 저장
-
 
 // 카드 목록 등록 함수
 const renderCards = () => {
   return cards.map((card, index) => {
     return (
       <Grid item margin={1} key={index}>
-        <Card sx={{ mx:2 }}>
-          <CardMedia
-            component="img"
-            image={cardImage(card[2])}
-            onClick={() => {
-              console.log(`${card}`)
+        <Button
+          sx={{ width: "100%", height: "100%", p: 0 }}
+          onClick={() => {
+            console.log(`${card}`);
           }}
-          />
-        </Card>
+        >
+          <CardMedia component="img" image={cardImage(card[2])} />
+        </Button>
       </Grid>
     );
   });
 };
 
 export default function CardInfo() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Box sx={{ pb: 7 }}>
@@ -70,15 +68,18 @@ export default function CardInfo() {
         <Grid item xs={10} mt={4}>
           <CssBaseline />
           <Card sx={{ border: 1 }}>
-            <CardHeader title="메인 카드" sx={{ textAlign: "center", borderBottom:1}} />
+            <CardHeader
+              title="메인 카드"
+              sx={{ textAlign: "center", borderBottom: 1 }}
+            />
             <Grid item margin={1}>
-              <Card sx={{  mx:2 }}>
-              <CardMedia
-                component="img"
-                image={mainCard.length > 0 ? cardImage(mainCard[0][2]) : null}
-              />
+              <Card sx={{ mx: 2 }}>
+                <CardMedia
+                  component="img"
+                  image={mainCard.length > 0 ? cardImage(mainCard[0][2]) : null}
+                />
               </Card>
-              </Grid>
+            </Grid>
           </Card>
         </Grid>
       </Grid>
@@ -91,20 +92,19 @@ export default function CardInfo() {
               title="카드 목록"
               sx={{ textAlign: "center", borderBottom: 1 }}
             />
-            <Card>{renderCards()}
-            <Grid item margin={3}>
-            <Card sx={{ mx:2}}>
-            <CardMedia
-            id="addCard"
-            component="img"
-            image="/app/images/addCard.png"
-            onClick={() => {
-              window.location.href="/app/addcard";
-          }}
-          />
+            <Card>
+              {renderCards()}
+              <Grid item margin={3}>
+                <Button
+                  id="addCard"
+                  onClick={() => {
+                    window.location.href = "/app/addcard";
+                  }}
+                >
+                  <CardMedia sx={{borderStyle:'dashed', borderRadius:3, color:'gray'}} component="img" image="/app/images/addCard.png" />
+                </Button>
+              </Grid>
             </Card>
-          </Grid>
-          </Card>
           </Card>
         </Grid>
       </Grid>

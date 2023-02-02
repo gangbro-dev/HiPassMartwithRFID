@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from '@mui/material/TableCell';
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -11,22 +11,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import Modal from '@mui/material/Modal';
-import LinearProgress from '@mui/material/LinearProgress';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { id: "name", label: "품명", minWidth: 140 },
@@ -67,107 +52,167 @@ const rows = [
 
 const lstStyle = {
   fontSize: "24px",
+};
+
+function UserTrue() {
+  const navigate = useNavigate();
+  return (
+    <Button
+      variant="contained"
+      onClick={() => navigate("/kiosk/cardcheck")}
+      sx={{
+        position: "absolute",
+        right: 0,
+        fontSize: 30,
+        fontWeight: "bold",
+        margin: 1,
+      }}
+    >
+      결제하기
+    </Button>
+  );
+}
+
+function UserFalse() {
+  const navigate = useNavigate();
+  return (
+    <Button
+      variant="contained"
+      onClick={() => navigate("/kiosk/cardpayment")}
+      sx={{
+        position: "absolute",
+        right: 0,
+        fontSize: 30,
+        fontWeight: "bold",
+        margin: 1,
+      }}
+    >
+      비회원결제
+    </Button>
+  );
 }
 
 export default function ItemList() {
   var paymentAll = 0;
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const navigate = useNavigate();
+  const user = sessionStorage.getItem("user");
 
   return (
     <Box
       sx={{
-        marginTop: 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Modal
-        hideBackdrop
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 400 }}>
-          <h1 id="child-modal-title">인식중</h1>
-          <p id="child-modal-description">
-            결제하려면 카트를 RFID태그에 갖다대세요
-          </p>
-          <LinearProgress />
-          <Button onClick={handleClose} sx={{ mt:2, width:'100%', fontWeight:'bold '}}>인식 취소</Button>
-        </Box>
-      </Modal>
-      <Typography component="h1" variant="h3" sx={{ mb: 3, fontWeight:'bold' }}>
-        장바구니
-      </Typography>
-      <Card sx={{ width: `90vw`, border: 1 }}>
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ minHeight: `50vh`, maxHeight: `50vh` }}>
-            <Table stickyHeader aria-label="sticky table" >
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={lstStyle}
-                      sx={{backgroundColor:'#90caf9', fontWeight:'bold'}}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => {
-                  paymentAll = row.fullprice + paymentAll;
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align} style={lstStyle} sx={{fontWeight:'bold'}} >
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box sx={{borderTop:1}}>
-          <Typography sx={{fontSize:33, fontWeight:'bold', color:'red', mx:4}}>
-            다음 상품은 바코드로 결제해주세요
-          </Typography>
-          </Box>
-          <CardActions sx={{borderTop:1}}>
-            <Typography sx={{fontSize:35, fontWeight:'bold', margin:1}}>
-              총 결제금액
-            </Typography>
-            <Typography sx={{position:"absolute", right:'6%',fontSize:30, fontWeight:'bold'}}>
-              {paymentAll}원
-            </Typography>
-          </CardActions>
-        </Paper>
-        <Button color="error" variant="contained" sx={{fontSize:30, margin:1}} onClick={handleOpen}>물품 다시찍기</Button>
-        <Button variant="contained" sx={{position:"absolute", right:'5%',fontSize:30, fontWeight:'bold', margin:1}}>결제하기</Button>
-      </Card>
+      <Box>
+        <Card
+          sx={{
+            fontSize: 40,
+            padding: 2,
+            textAlign: "center",
+            backgroundColor: "#ff8c8c",
+            fontWeight: "bold",
+          }}
+        >
+          장바구니
+        </Card>
+        <Card sx={{ width: `100vw`, border: 1 }}>
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ minHeight: `73vh`, maxHeight: `50vh` }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={lstStyle}
+                        sx={{ backgroundColor: "#90caf9", fontWeight: "bold" }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => {
+                    paymentAll = row.fullprice + paymentAll;
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              style={lstStyle}
+                              sx={{ fontWeight: "bold" }}
+                            >
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Box sx={{ borderTop: 1 }}>
+              <Typography
+                sx={{
+                  fontSize: 33,
+                  fontWeight: "bold",
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                다음 상품은 바코드로 결제해주세요
+              </Typography>
+            </Box>
+            <CardActions sx={{ borderTop: 1 }}>
+              <Typography sx={{ fontSize: 35, fontWeight: "bold", margin: 1 }}>
+                총 결제금액
+              </Typography>
+              <Typography
+                sx={{
+                  position: "absolute",
+                  right: "6%",
+                  fontSize: 30,
+                  fontWeight: "bold",
+                }}
+              >
+                {paymentAll}원
+              </Typography>
+            </CardActions>
+          </Paper>
+          <Button
+            color="error"
+            sx={{ fontSize: 30, margin: 1 }}
+            variant="contained"
+            onClick={() => navigate("/kiosk")}
+          >
+            결제취소
+          </Button>
+          <Button
+            
+            variant="outlined"
+            sx={{ fontSize: 30, margin: 1}}
+            onClick={() => navigate("/kiosk/rfidread")}
+          >
+            물품 다시찍기
+          </Button>
+          {user === "user" ? UserTrue() : UserFalse()}
+        </Card>
+      </Box>
     </Box>
   );
 }

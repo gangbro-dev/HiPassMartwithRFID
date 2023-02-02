@@ -7,7 +7,9 @@ import {
 import Home from './components/Home';
 import ResultPayment from './components/ResultPayment';
 import ItemList from './components/ItemList';
-
+import RfidRead from './components/RfidRead';
+import CardCheck from './components/CardCheck';
+import CardPayment from './components/CardPayment';
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
         <Route path="/kiosk" element={<Home />} />
         <Route path="/kiosk/resultpayment" element={<ResultPayment />} />
         <Route path="/kiosk/itemlist" element={<ItemList />} />
+        <Route path="/kiosk/rfidread" element={<RfidRead />} />
+        <Route path="/kiosk/cardcheck" element={<CardCheck />} />
+        <Route path="/kiosk/cardpayment" element={<CardPayment />} />
       </Routes>
     </BrowserRouter>
   );

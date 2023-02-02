@@ -7,36 +7,60 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useNavigate } from "react-router-dom";
 
 export default function KioskMain() {
-  const initialValue = "https://www.example.com";
-  const [value, setValue] = useState(initialValue);
-  const [countdown, setCountdown] = useState(59);
-  const ref = React.useRef(null);
+  const navigate = useNavigate();
+  const initialValue = "1";
+  const [value] = useState(initialValue);
+  const [socket, setSocket] = useState(null);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    if (countdown === 0) {
-      setValue(`${initialValue}}`);
-      setCountdown(59);
-    } else {
-      const intervalId = setInterval(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-      return () => clearInterval(intervalId);
-    }
-  }, [countdown]);
+    const ws = new WebSocket("ws://192.168.40.111:8888");
 
-  React.useEffect(() => {
-    ref.current.ownerDocument.body.scrollTop = 0;
-  });
+    ws.onopen = () => {
+      console.log("WebSocket connection established.");
+    };
+
+    ws.onmessage = (event) => {
+      setMessages((prevMessages) => [...prevMessages, event.data]);
+    };
+
+    setSocket(ws);
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  const sendMessage = (event) => {
+    event.preventDefault();
+    socket.send(message);
+    setMessage("");
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        sessionStorage.setItem("user", "user");
+        navigate("/kiosk/rfidread");
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
 
   return (
     <Box>
-      <Card sx={{ maxWidth: 700, minHeight: 1280 }}>
-        <Box sx={{ pb: 7 }} ref={ref}>
+      <Card sx={{ maxWidth: 760, minHeight: 1022 }}>
+        <Box sx={{ pb: 7 }}>
           <Card
             sx={{
-              fontSize: 33,
+              fontSize: 40,
               padding: 2,
               textAlign: "center",
               backgroundColor: "#ff8c8c",
@@ -52,7 +76,7 @@ export default function KioskMain() {
               alignItems: "center",
             }}
           >
-            <Grid item xs={10} sx={{ mt: 8 }}>
+            <Grid item xs={10} sx={{ mt: 1 }}>
               <CssBaseline />
               <Card sx={{ border: 1, padding: 1 }}>
                 <CardMedia
@@ -71,23 +95,9 @@ export default function KioskMain() {
               alignItems: "center",
             }}
           >
-            <Grid item xs={10}>
-              <Card sx={{ marginTop: 8, padding: 1 }}>
+            <Grid item xs={50}>
+              <Card sx={{ my: 2, padding: 1 }}>
                 <QRCode value={value} size="100%" />
-              </Card>
-              <Card sx={{ textAlign: "center", mb: 1 }}>
-                <Button
-                  onClick={() => {
-                    setValue(`${initialValue}`);
-                    setCountdown(59);
-                  }}
-                  sx={{ fontWeight: "bold" }}
-                >
-                  QR 재생성
-                </Button>
-              </Card>
-              <Card sx={{ textAlign: "center", mb: 1, fontWeight: "bold" }}>
-                자동 재생성까지 {countdown}초
               </Card>
             </Grid>
           </Grid>
@@ -97,10 +107,38 @@ export default function KioskMain() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            sx={{mt: 5, fontSize: 30, fontWeight:'bold', color:'red'}}
+            sx={{ mt: 5, fontSize: 22, fontWeight: "bold", color: "blue" }}
           >
-            바코드에 QR을 찍거나 앱으로 QR스캔하세요
+            회원결제를 위해 바코드에 QR을 찍거나 앱으로 QR스캔하세요
           </Grid>
+          <Grid container sx={{ mt: 2, mb: 2 }}>
+            <Grid item xs />
+            <Grid item>
+              <Button
+                sx={{ fontSize: 20, mr: 2 }}
+                variant="contained"
+                onClick={() => navigate("/kiosk/rfidread")}
+              >
+                비회원결제
+              </Button>
+            </Grid>
+          </Grid>
+          {/* <div>
+            <h1>WebSocket Chat</h1>
+            <ul>
+              {messages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+            <form onSubmit={sendMessage}>
+              <input
+                type="text"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              />
+              <button type="submit">Send</button>
+            </form>
+          </div> */}
         </Box>
       </Card>
     </Box>
