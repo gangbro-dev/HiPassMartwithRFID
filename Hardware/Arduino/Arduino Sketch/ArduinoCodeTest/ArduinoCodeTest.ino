@@ -1,43 +1,79 @@
+#include <SoftwareSerial.h>
+
+// SoftwareSerial 사용 핀 설정
+const int rxPin = 4;
+const int txPin = 7;
+
+SoftwareSerial mySerial(rxPin, txPin);
+
 void flushSerialBuffer() {
   while (Serial.available()) {
     Serial.read();
   }
 }
+const uint8_t check_reader[4] = {0x33, 0x04, 0xC2, 0x99};
+const uint8_t set_baud_request[5] = {0x33, 0x05, 0xC3, 0x00, 0x99};
 
-String command_line(unsigned char len, unsigned char com, unsigned char data = 0x00) {
-  const unsigned char sf = 0x33;
-  const unsigned char ef = 0x99;
-  unsigned char commandLine[len];
-  if (len == 4) {
-    commandLine[0] = sf;
-    commandLine[1] = len;
-    commandLine[2] = com;
-    commandLine[3] = ef;
-  } else if (len == 5) {
-    commandLine[0] = sf;
-    commandLine[1] = len;
-    commandLine[2] = com;
-    commandLine[3] = data;
-    commandLine[4] = ef;
+void execute_commandline(String message, uint8_t * cl) {
+  uint8_t c[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int i;
+  
+  Serial.println(message);
+  Serial.print("request bit : ");
+  for (i = 0; i < cl[1]; i++) {
+    Serial.print(cl[i], HEX);
+    Serial.print(" ");
   }
-  return commandLine;
+  Serial.println();
+  for (i = 0; i < cl[1]; i++) {
+    mySerial.write(cl[i]);
+  }
+  delay(1000);
+  Serial.println("============================");
+  i = 0;
+  Serial.print("response len : ");
+  Serial.println(mySerial.available());
+  Serial.print("response bit : ");
+  while (mySerial.available() > 0) {
+    c[i] = mySerial.read();
+    Serial.print(c[i], HEX);
+    Serial.print(" ");
+    i++;
+  }
+  Serial.println();
+  if (c[3]) {
+    Serial.println("OK");
+  } else {
+    Serial.println("FAIL");
+  }
+  Serial.println("============================\n\n\n");
 }
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(rxPin, INPUT);
+  pinMode(txPin, OUTPUT);
   Serial.begin(9600);
-  Serial.print("test: ");
-  String cm = command_line(0x05, 0xB1, 0x01);
-  for (int i = 0; i < cm.length(); i++) {
-    Serial.print((unsigned char) cm[i], HEX);
-    Serial.print(" ");
+  mySerial.begin(115200);
+  // baudrate 세팅 (9600)
+  execute_commandline("Baudrate Setting...", set_baud_request);
+  mySerial.end();
+  mySerial.begin(9600);
+  execute_commandline("Reader check...", check_reader);
+  for (int i = 0; i < check_reader[1]; i++) {
+    mySerial.write(check_reader[i]);
   }
-  Serial.println();
-  delay(3000);
-  while(1) {}
+  while(true) {}
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
+  Serial.print("input: ");
+  Serial.println(mySerial.available());
+  while(mySerial.available()) {
+    Serial.print(mySerial.read(), HEX);
+    Serial.print(" ");
+  }
+  Serial.println("\n input end");
+  delay(1000);
 }
