@@ -40,9 +40,9 @@ public class UserController {
     }
 
     @DeleteMapping
-    public String deleteUserInfo() {
+    public ResponseEntity<String> deleteUserInfo() {
         userService.deleteUserInfo();
-        return "제거 완료";
+        return new ResponseEntity<>("제거완료", HttpStatus.OK);
     }
 
     @GetMapping("/card")

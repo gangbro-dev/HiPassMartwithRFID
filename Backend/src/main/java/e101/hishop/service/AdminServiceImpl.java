@@ -1,9 +1,9 @@
 package e101.hishop.service;
 
 import e101.hishop.domain.dto.request.ProductReqDto;
-import e101.hishop.domain.dto.response.PayDetailInfoRespDto;
-import e101.hishop.domain.dto.response.PayInfoRespDto;
-import e101.hishop.domain.dto.response.ProductRespDto;
+import e101.hishop.domain.dto.request.StaffReqDto;
+import e101.hishop.domain.dto.request.UserInfoReqDto;
+import e101.hishop.domain.dto.response.*;
 import e101.hishop.domain.entity.*;
 import e101.hishop.global.common.CommonException;
 import e101.hishop.repository.*;
@@ -29,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
     private final KioskJPARepository kioskJPARepository;
     private final ProductJPARepository productJPARepository;
     private final BranchJPARepository branchJPARepository;
+    private final StaffJPARepository staffJPARepository;
 
     @Override
     public Pay savePay(Pay pays, Long userId) {
@@ -87,6 +88,61 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Product saveProduct(Product product) {
         return productJPARepository.save(product);
+    }
+
+    public List<UserInfoRespDto> getUsers() {
+        List<User> users = userJPARepository.findAll();
+        List<UserInfoRespDto> userList = new ArrayList<>();
+        for (User p: users) {
+            userList.add(UserInfoRespDto.of(p));
+        }
+        return userList;
+    }
+
+    @Override
+    public UserInfoRespDto getUser(Long userId) {
+        User user = userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        return UserInfoRespDto.of(user);
+    }
+
+    @Override
+    public Long modifyUser(UserInfoReqDto dto, Long userId) {
+        return userJPARepository.findById(userId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
+                .updateUserInfo(dto)
+                .updateUserByAdmin(dto)
+                .getId();
+    }
+
+    public void deleteUser(Long userId) {
+        userJPARepository.deleteById(userId);
+    }
+    @Override
+    public List<StaffRespDto> getStaff() {
+        List<Staff> staff = staffJPARepository.findAll();
+        List<StaffRespDto> staffList = new ArrayList<>();
+        for (Staff p: staff) {
+            staffList.add(StaffRespDto.of(p));
+        }
+        return staffList;
+    }
+    @Override
+    public StaffRespDto getStaffDetail(Long employeeId) {
+        Staff staff = staffJPARepository.findById(employeeId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        return StaffRespDto.of(staff);
+    }
+    @Override
+    public Long modifyStaff(StaffReqDto dto, Long employeeId) {
+        return staffJPARepository.findById(employeeId)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
+                .updateStaff(dto)
+                .getId();
+    }
+
+    public void deleteStaff(Long employeeId) {
+        staffJPARepository.deleteById(employeeId);
     }
 
     @Override

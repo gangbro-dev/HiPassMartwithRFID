@@ -71,6 +71,14 @@ public class User {
         return this;
     }
 
+    public User updateUserByAdmin(UserInfoReqDto dto) {
+        loginId = StringUtils.hasText(dto.getLoginId()) ? dto.getLoginId() : loginId;
+        name = StringUtils.hasText(dto.getName()) ? dto.getName() : name;
+        birthDate = dto.getBirthdate() != null ? dto.getBirthdate() : birthDate;
+        return this;
+    }
+
+
     public void changePayPassword(PayPasswordReqDto dto) {
         this.payPassword = dto.getPayPassword();
     }
