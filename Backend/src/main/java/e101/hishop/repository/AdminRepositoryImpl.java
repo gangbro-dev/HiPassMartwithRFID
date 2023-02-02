@@ -1,5 +1,6 @@
 package e101.hishop.repository;
 
+import e101.hishop.domain.dto.request.ProductReqDto;
 import e101.hishop.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,12 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public Card findPaymentById(Long id) {
         return em.find(Card.class, id);
+    }
+
+    public Boolean editProduct(ProductReqDto dto, Long productId) {
+        Product product = em.find(Product.class, productId);
+        product.setName(dto.getName());
+        return true;
     }
 
     @Override

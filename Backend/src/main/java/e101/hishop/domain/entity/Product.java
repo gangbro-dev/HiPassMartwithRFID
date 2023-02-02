@@ -1,7 +1,10 @@
 package e101.hishop.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import e101.hishop.domain.dto.request.ProductReqDto;
+import e101.hishop.domain.dto.request.UserInfoReqDto;
 import lombok.*;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -39,7 +42,14 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<PayDetail> payDetails = new ArrayList<>();
 
-
+    public Product updateProduct(ProductReqDto dto) {
+        name = StringUtils.hasText(dto.getName()) ? dto.getName() : name;
+        price = dto.getPrice() != null ? dto.getPrice() : price;
+        rfid = StringUtils.hasText(dto.getRfid()) ? dto.getRfid() : rfid;
+        barcode = StringUtils.hasText(dto.getBarcode()) ? dto.getBarcode() : barcode;
+        image = StringUtils.hasText(dto.getImage()) ? dto.getImage() : image;
+        return this;
+    }
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "manu_id")

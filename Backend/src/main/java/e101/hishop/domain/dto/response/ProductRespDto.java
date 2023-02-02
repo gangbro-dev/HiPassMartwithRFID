@@ -1,5 +1,6 @@
 package e101.hishop.domain.dto.response;
 
+import e101.hishop.domain.entity.PayDetail;
 import e101.hishop.domain.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,15 @@ public class ProductRespDto {
         this.image = image;
     }
 
-
+    public static ProductRespDto of (Product product) {
+        return ProductRespDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .rfid(product.getRfid())
+                .barcode(product.getBarcode())
+                .image(product.getImage())
+                .build();
+    }
 
 }

@@ -1,6 +1,9 @@
 package e101.hishop.controller;
 
+import e101.hishop.domain.dto.request.ProductReqDto;
+import e101.hishop.domain.dto.response.PayDetailInfoRespDto;
 import e101.hishop.domain.dto.response.PayInfoRespDto;
+import e101.hishop.domain.dto.response.ProductRespDto;
 import e101.hishop.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,108 +25,39 @@ public class AdminController {
     @GetMapping("/pays")
   public ResponseEntity<List<PayInfoRespDto>> pays() {
         return new ResponseEntity<>(adminService.getPayInfo(), HttpStatus.OK);
-//    public ResponseEntity<List<Map<String, Object>>> pays() {
-//        List<Map<String, Object>> json = new ArrayList<>();
-//        Map<String, Object> injson1 = new HashMap<>();
-//        Map<String, Object> injson2 = new HashMap<>();
-//        injson1.put("buyId", 60);
-//        injson1.put("userName", "김싸피");
-//        injson1.put("card", "삼성카드");
-//        injson1.put("buyDate", "2022-01-01");
-//        injson1.put("buyTotal", "12345");
-//        injson2.put("buyId", 61);
-//        injson2.put("userName", "이삼성");
-//        injson2.put("card", "신한카드");
-//        injson2.put("buyDate", "2022-01-25");
-//        injson2.put("buyTotal", "123123");
-//        json.add(injson1);
-//        json.add(injson2);
-//        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @GetMapping("/pays/{buyId}")
-    public ResponseEntity<List<Map<String, Object>>> paysDetail(@PathVariable String buyId) {
-        List<Map<String, Object>> json = new ArrayList<>();
-        Map<String, Object> injson1 = new HashMap<>();
-        Map<String, Object> injson2 = new HashMap<>();
-        Map<String, Object> injson3 = new HashMap<>();
-        injson1.put("paydetailId", 49);
-        injson1.put("buyId", 60);
-        injson1.put("branchId", 357);
-        injson1.put("productName", "과자");
-        injson1.put("couponName", null);
-        injson1.put("count", 3);
-        injson1.put("price", 4500);
-        injson2.put("paydetailId", 50);
-        injson2.put("buyId", 60);
-        injson2.put("branchId", 357);
-        injson2.put("productName", "샴푸");
-        injson2.put("couponName", null);
-        injson2.put("count", 1);
-        injson2.put("price", 5000);
-        injson3.put("paydetailId", 51);
-        injson3.put("buyId", 60);
-        injson3.put("branchId", 357);
-        injson3.put("productName", null);
-        injson3.put("couponName", "과자 쿠폰");
-        injson3.put("count", 1);
-        injson3.put("price", -500);
-        json.add(injson1);
-        json.add(injson2);
-        json.add(injson3);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    public ResponseEntity<List<PayDetailInfoRespDto>> paysDetail(@PathVariable Long buyId) {
+        return new ResponseEntity<>(adminService.getPayDetail(buyId), HttpStatus.OK);
     }
 
-    @GetMapping("/items")
-    public ResponseEntity<List<Map<String, Object>>> items() {
-        List<Map<String, Object>> json = new ArrayList<>();
-        Map<String, Object> injson1 = new HashMap<>();
-        Map<String, Object> injson2 = new HashMap<>();
-        injson1.put("productId", 4234);
-        injson1.put("name", "꺼깔콘");
-        injson1.put("price", 3000);
-        injson1.put("rfid", "3124875");
-        injson1.put("barcode", null);
-        injson1.put("discount", 0);
-        injson1.put("image", "img.jpg");
-        injson2.put("productId", 5137);
-        injson2.put("name", "봐밤바");
-        injson2.put("price", 1500);
-        injson2.put("rfid", null);
-        injson2.put("barcode", "8803154372");
-        injson2.put("discount", 500);
-        injson2.put("image", "img.jpg");
-        json.add(injson1);
-        json.add(injson2);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    @GetMapping("/product")
+    public ResponseEntity<List<ProductRespDto>> products() {
+        return new ResponseEntity<>(adminService.getProduct(), HttpStatus.OK);
     }
 
-    @GetMapping("/items/{itemId}")
-    public ResponseEntity<Map<String, Object>> itemDetail(@PathVariable String itemId) {
-        Map<String, Object> json = new HashMap<>();
-        json.put("productId", 4234);
-        json.put("name", "꺼깔콘");
-        json.put("price", 3000);
-        json.put("rfid", "3124875");
-        json.put("barcode", null);
-        json.put("discount", 0);
-        json.put("image", "img.jpg");
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ProductRespDto> productDetail(@PathVariable Long productId) {
+        return new ResponseEntity<>(adminService.getProductDetail(productId), HttpStatus.OK);
     }
 
-    @PatchMapping("/items/{itemId}")
-    public String itemModify(@PathVariable String itemId) {
-        return "itemModify" + itemId;
+    @PatchMapping("/product/{productId}")
+    public ResponseEntity<String> productModify(@RequestBody ProductReqDto dto, @PathVariable Long productId) {
+        adminService.editProduct(dto, productId);
+        return new ResponseEntity<>("수정완료", HttpStatus.OK);
     }
 
-    @PostMapping("/items")
-    public String itemCreate() {
-        return "itemCreate";
+    @PostMapping("/product")
+    public ResponseEntity<String> productCreate(@RequestBody ProductReqDto dto) {
+        adminService.saveProduct(dto.toProductEntity());
+        return new ResponseEntity<>("저장완료", HttpStatus.OK);
     }
 
-    @DeleteMapping("/items/{itemId}")
-    public String itemDelete(@PathVariable String itemId) {
-        return "itemDelete" + itemId;
+    @DeleteMapping("/product/{productId}")
+    public ResponseEntity<String> productDelete(@PathVariable Long productId) {
+        adminService.deleteProduct(productId);
+        return new ResponseEntity<>("제거완료", HttpStatus.OK);
     }
 
     @GetMapping("/users")
