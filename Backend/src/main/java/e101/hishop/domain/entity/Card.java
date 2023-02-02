@@ -1,13 +1,10 @@
 package e101.hishop.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@ToString(exclude = {"user, pays"})
+@ToString(exclude = {"user, cardCategory"})
 @Entity
 @Getter
 @Setter

@@ -27,59 +27,59 @@ public class UserController {
     private final UserService userService;
 
 //    private final UserInfoLoder userInfoLoder;
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<UserInfoRespDto> getUserInfo() {
         return new ResponseEntity<>(userService.getUserInfo(), HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}")
-    public CommonResponse updateUserInfo(@RequestBody UserInfoReqDto dto, @PathVariable Long userId) {
+    @PatchMapping
+    public CommonResponse updateUserInfo(@RequestBody UserInfoReqDto dto) {
         return CommonResponse.builder()
-                .data(Map.of("userId", userService.updateUserInfo(dto, userId)))
+                .data(Map.of("userId", userService.updateUserInfo(dto)))
                 .build();
     }
 
-    @DeleteMapping("/{userId}")
-    public String deleteUserInfo(@PathVariable Long userId) {
-        userService.deleteUserInfo(userId);
+    @DeleteMapping
+    public String deleteUserInfo() {
+        userService.deleteUserInfo();
         return "제거 완료";
     }
 
-    @GetMapping("/{userId}/card")
-    public ResponseEntity<List<CardInfoRespDto>> userCardInfo(@PathVariable Long userId) {
-        List<CardInfoRespDto> payments = userService.cardInfo(userId);
+    @GetMapping("/card")
+    public ResponseEntity<List<CardInfoRespDto>> userCardInfo() {
+        List<CardInfoRespDto> payments = userService.cardInfo();
         return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/card")
-    public ResponseEntity<String> userCardSave(@PathVariable Long userId, @RequestBody @Validated CardSaveReqDto dto) {
-        userService.saveCard(dto.toPaymentEntity(), userId);
+    @PostMapping("/card")
+    public ResponseEntity<String> userCardSave(@RequestBody @Validated CardSaveReqDto dto) {
+        userService.saveCard(dto.toPaymentEntity());
         return new ResponseEntity<>("저장완료", HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}/card/{cardId}")
-    public ResponseEntity<String> cardNameEdit(@RequestBody EditNameReqDto dto, @PathVariable Long userId, @PathVariable Long cardId) {
+    @PatchMapping("/card/{cardId}")
+    public ResponseEntity<String> cardNameEdit(@RequestBody EditNameReqDto dto,@PathVariable Long cardId) {
         userService.editName(dto, cardId);
         return new ResponseEntity<>("수정완료", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}/card/{cardId}")
-    public ResponseEntity<String> userCardDelete(@PathVariable Long userId, @PathVariable Long cardId) {
+    @DeleteMapping("/card/{cardId}")
+    public ResponseEntity<String> userCardDelete(@PathVariable Long cardId) {
         //TODO 카드아이디가 해당 유저 소속인지 유효성검사 필요
-        userService.deleteCard(userId, cardId);
+        userService.deleteCard(cardId);
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}/card/{cardId}/main")
-    public ResponseEntity<String> cardMainEdit(@PathVariable Long userId, @PathVariable Long cardId) {
-        userService.editMainCard(userId, cardId);
+    @PatchMapping("/card/{cardId}/main")
+    public ResponseEntity<String> cardMainEdit(@PathVariable Long cardId) {
+        userService.editMainCard(cardId);
         return new ResponseEntity<>("수정완료", HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}/card/password")
-    public ResponseEntity<String> userPayPasswordEdit(@PathVariable Long userId, @RequestBody @Validated PayPasswordReqDto dto) {
+    @PatchMapping("/card/password")
+    public ResponseEntity<String> userPayPasswordEdit(@RequestBody @Validated PayPasswordReqDto dto) {
             try {
-                userService.editPayPassword(dto, userId);
+                userService.editPayPassword(dto);
                 return new ResponseEntity<>("수정완료", HttpStatus.OK);
             } catch (NoSuchElementException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "비밀번호는 숫자 4자리여야 합니다.");
@@ -87,13 +87,13 @@ public class UserController {
 
     }
 
-    @GetMapping("/{userId}/purchase")
-    public ResponseEntity<List<PayInfoRespDto>> userPurchaseInfo(@PathVariable Long userId) {
-        return new ResponseEntity<>(userService.getUserPay(userId), HttpStatus.OK);
+    @GetMapping("/purchase")
+    public ResponseEntity<List<PayInfoRespDto>> userPurchaseInfo() {
+        return new ResponseEntity<>(userService.getUserPay(), HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/purchase/{purchaseId}")
-    public ResponseEntity<List<PayDetailInfoRespDto>> userPurchaseDetail(@PathVariable Long userId, @PathVariable Long purchaseId) {
+    @GetMapping("/purchase/{purchaseId}")
+    public ResponseEntity<List<PayDetailInfoRespDto>> userPurchaseDetail(@PathVariable Long purchaseId) {
         //TODO 유효성 검사
         return new ResponseEntity<>(userService.getPayDetail(purchaseId), HttpStatus.OK);
     }

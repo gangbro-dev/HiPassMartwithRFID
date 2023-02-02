@@ -12,10 +12,7 @@ import e101.hishop.domain.entity.Pay;
 import e101.hishop.domain.entity.PayDetail;
 import e101.hishop.domain.entity.User;
 import e101.hishop.global.common.CommonException;
-import e101.hishop.repository.PayDetailJPARepository;
-import e101.hishop.repository.PayJPARepository;
-import e101.hishop.repository.UserJPARepository;
-import e101.hishop.repository.UserRepository;
+import e101.hishop.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,25 +30,35 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
     private final UserJPARepository userJPARepository;
     private final PayJPARepository payJPARepository;
     private final PayDetailJPARepository payDetailJPARepository;
+    private final CardJPARepository cardJPARepository;
 
 
     @Override
-    public Long saveCard(Card cards, Long userId) {
-        User user = userJPARepository.findById(userId)
+    public Card saveCard(Card cards) {
+        User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         log.info("user, {}", user);
         cards.setUsersAndCards(user);
-        return userRepository.saveCard(cards);
+        return cardJPARepository.save(cards);
     }
 
     @Override
-    public List<CardInfoRespDto> cardInfo(Long userId) {
+    public Card cardLoad(Card cards, Long id) {
+        User user = userJPARepository.findById(id)
+                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        log.info("user, {}", user);
+        cards.setUsersAndCards(user);
+        return cardJPARepository.save(cards);
+    }
+
+
+    @Override
+    public List<CardInfoRespDto> cardInfo() {
         List<CardInfoRespDto> respList = new ArrayList<>();
-        List<Card> list = userRepository.getCardInfo(userId);
+        List<Card> list = cardJPARepository.findAllByUserId(getUserId());
         for (Card p : list) {
             log.info("CARD_INFO=========================================================");
             log.info("{}", p);
@@ -65,57 +72,67 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean deleteCard(Long userId, Long cardId) {
-        User user = userJPARepository.findById(userId)
+    public Boolean deleteCard(Long cardId) {
+        User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
-        Card card = userRepository.findCardById(cardId);
+        Card card = cardJPARepository.findById(cardId)
+                .orElseThrow(() -> new CommonException(2, "Card객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));;
         if (!card.getUser().equals(user)) {
             throw new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user.getDefaultCardId() == cardId) {
-            editMainCard(userId, null);
+            editMainCard(null);
         }
-        userRepository.deleteCard(cardId);
+        cardJPARepository.deleteById(cardId);
         return true;
     }
 
-    public void editMainCard(Long userId, Long cardId){
-        User user = userJPARepository.findById(userId)
+    @Override
+    public void editMainCard(Long cardId){
+        User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         user.changeDefaultCard(cardId);
     }
 
-    public Boolean editPayPassword(PayPasswordReqDto dto, Long userId){
-        User user = userJPARepository.findById(userId)
+    @Override
+    public Boolean editPayPassword(PayPasswordReqDto dto){
+        User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         user.changePayPassword(dto);
         return true;
     }
 
+    @Override
     public UserInfoRespDto getUserInfo() {
         User user = userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         return UserInfoRespDto.of(user);
     }
 
-    public Long updateUserInfo(UserInfoReqDto dto, Long userId) {
-        return userJPARepository.findById(userId)
+    @Override
+    public Long updateUserInfo(UserInfoReqDto dto) {
+        return userJPARepository.findById(getUserId())
                 .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
                 .updateUserInfo(dto)
                 .getId();
     }
 
-    public void deleteUserInfo(Long userPK) {
-        userJPARepository.deleteById(userPK);
+    @Override
+    public void deleteUserInfo() {
+        userJPARepository.deleteById(getUserId());
     }
 
     @Override
     public Boolean editName(EditNameReqDto dto, Long cardId) {
-        return userRepository.editName(cardId, dto);
+        Card card = cardJPARepository.findById(cardId)
+                .orElseThrow(() -> new CommonException(2, "Card객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        card.setName(dto.getName());
+        return true;
     }
 
-    public List<PayInfoRespDto> getUserPay(Long userId) {
-        List<Pay> pay = payJPARepository.findAllByUserId(userId);
+    @Override
+    public List<PayInfoRespDto> getUserPay() {
+        List<Pay> pay = payJPARepository.findAllByUserId(getUserId());
         List<PayInfoRespDto> payList = new ArrayList<>();
         for (Pay p: pay) {
             payList.add(PayInfoRespDto.of(p));
@@ -123,6 +140,7 @@ public class UserServiceImpl implements UserService {
         return payList;
     }
 
+    @Override
     public List<PayDetailInfoRespDto> getPayDetail(Long purchaseId) {
         List<PayDetail> payDetails = payDetailJPARepository.findAllByPayId(purchaseId);
         List<PayDetailInfoRespDto> payDetailList = new ArrayList<>();
@@ -132,6 +150,7 @@ public class UserServiceImpl implements UserService {
         return payDetailList;
     }
 
+    @Override
     public Long getUserId() {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
