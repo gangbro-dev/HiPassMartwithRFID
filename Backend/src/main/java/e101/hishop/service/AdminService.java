@@ -9,7 +9,7 @@ import e101.hishop.domain.entity.*;
 import java.util.List;
 
 public interface AdminService {
-    Long savePay(Pay pays, Long userId);
+    Pay savePay(Pay pays, Long userId);
 
     List<PayInfoRespDto> getPayInfo();
     List<PayDetailInfoRespDto> getPayDetail(Long buyId);
@@ -18,14 +18,14 @@ public interface AdminService {
     Long editProduct(ProductReqDto dto, Long productId);
 
     void deleteProduct(Long productId);
-    Long saveProduct(Product product);
+    Product saveProduct(Product product);
 
-    Long savePayDetail(PayDetail payDetail, Long payId, Long productId, Long branchId);
+    PayDetail savePayDetail(PayDetail payDetail, Long payId, Long productId, Long branchId);
 
-    Long saveBranch(Branch branch);
+    Branch saveBranch(Branch branch);
 
-    Long saveStaff(Staff staff, Long branchId);
+    Staff saveStaff(Staff staff, Long branchId);
 
-    Long saveKiosk(Kiosk kiosk, Long branchId);
+    Kiosk saveKiosk(Kiosk kiosk, Long branchId);
 
 }

@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserJPARepository userJPARepository;
     private final PayJPARepository payJPARepository;
+
     private final PayDetailJPARepository payDetailJPARepository;
     private final CardJPARepository cardJPARepository;
 

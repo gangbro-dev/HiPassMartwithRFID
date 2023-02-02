@@ -22,25 +22,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminServiceImpl implements AdminService {
-    private final AdminRepository adminRepository;
     private final UserJPARepository userJPARepository;
     private final PayJPARepository payJPARepository;
     private final PayDetailJPARepository payDetailJPARepository;
+    private final StaffJPARepository staffJPARepository;
+    private final KioskJPARepository kioskJPARepository;
     private final ProductJPARepository productJPARepository;
     private final BranchJPARepository branchJPARepository;
 
     @Override
-    public Long savePay(Pay pays, Long userId) {
+    public Pay savePay(Pay pays, Long userId) {
         User user = userJPARepository.findById(userId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CommonException(2, "Pays객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         //TODO setter 삭제하고 의도있게 작성
         pays.setUsersAndPay(user);
-        return adminRepository.savePay(pays);
+        return payJPARepository.save(pays);
     }
 
     @Override
     public List<PayInfoRespDto> getPayInfo() {
-        return adminRepository.getPayInfo().stream()
+        return payJPARepository.findAll().stream()
                 .map(PayInfoRespDto::of)
                 .collect(Collectors.toList());
     }
@@ -68,13 +69,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ProductRespDto getProductDetail(Long productId) {
         Product product = productJPARepository.findById(productId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CommonException(2, "Product객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         return ProductRespDto.of(product);
     }
 
     public Long editProduct(ProductReqDto dto, Long productId) {
         return productJPARepository.findById(productId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
+                .orElseThrow(() -> new CommonException(2, "Product객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR))
                 .updateProduct(dto)
                 .getId();
     }
@@ -84,42 +85,43 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Long saveProduct(Product product) {
-        return adminRepository.saveProduct(product);
+    public Product saveProduct(Product product) {
+        return productJPARepository.save(product);
     }
 
     @Override
-    public Long savePayDetail(PayDetail payDetail, Long payId, Long productId, Long branchId) {
+    public PayDetail savePayDetail(PayDetail payDetail, Long payId, Long productId, Long branchId) {
         //TODO Exception
         Pay pay = payJPARepository.findById(payId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
-        Product product = adminRepository.findProductById(productId);
+                .orElseThrow(() -> new CommonException(2, "Pay객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        Product product = productJPARepository.findById(productId)
+                .orElseThrow(() -> new CommonException(2, "Product객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));;
         Branch branch = branchJPARepository.findById(branchId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CommonException(2, "Branch객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         payDetail.setPayAndPayDetail(pay);
         payDetail.setProductAndPayDetail(product);
         payDetail.setBranchAndPayDetail(branch);
-        return adminRepository.savePayDetail(payDetail);
+        return payDetailJPARepository.save(payDetail);
     }
 
     @Override
-    public Long saveBranch(Branch branch) { return adminRepository.saveBranch(branch); }
+    public Branch saveBranch(Branch branch) { return branchJPARepository.save(branch); }
 
     @Override
-    public Long saveStaff(Staff staff, Long branchId) {
+    public Staff saveStaff(Staff staff, Long branchId) {
         //TODO Exception
         Branch branch = branchJPARepository.findById(branchId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CommonException(2, "Branch객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         staff.setBranchAndStaff(branch);
-        return adminRepository.saveStaff(staff);
+        return staffJPARepository.save(staff);
     }
 
     @Override
-    public Long saveKiosk(Kiosk kiosk, Long branchId) {
+    public Kiosk saveKiosk(Kiosk kiosk, Long branchId) {
         Branch branch = branchJPARepository.findById(branchId)
-                .orElseThrow(() -> new CommonException(2, "User객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CommonException(2, "Branch객체가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
         kiosk.setBranchAndKiosk(branch);
-        return adminRepository.saveKiosk(kiosk);
+        return kioskJPARepository.save(kiosk);
     }
 
 }

@@ -13,6 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Pay {
 
     @Id
@@ -20,6 +22,7 @@ public class Pay {
     @Column(name = "pay_id")
     private Long id;
 
+    //TODO LAZY로 변경?
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @JsonIgnore
@@ -44,7 +47,7 @@ public class Pay {
 
 
     @JsonIgnore
-//    @Builder.Default
+    @Builder.Default
     @OneToMany(mappedBy = "pay")
     private List<PayDetail> payDetails = new ArrayList<>();
 
