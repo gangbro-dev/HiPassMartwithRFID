@@ -4,19 +4,18 @@ from db.session import engine
 
 
 def copy_products(products: list, db: Session):
-    i = 0
-    for prd in products:
+    for prd in products['product']:
         product = Product_Kiosk(
-            product_id= prd['product_id'],
+            product_id= prd['productId'],
             name= prd['name'],
             price= prd['price'],
-            RFID= prd['RFID'],
+            rfid= prd['rfid'],
             barcode= prd['barcode'],
             image= prd['image']
         )
         db.add(product)
-        i += 1
     db.commit()
+    i = len(products['product'])
     return i
 
 

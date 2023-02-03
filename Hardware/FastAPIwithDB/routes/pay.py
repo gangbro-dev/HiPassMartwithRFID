@@ -1,3 +1,4 @@
+from asyncio import run
 from routes.models import Products
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
@@ -12,7 +13,7 @@ router = APIRouter(
 
 @router.post("/product")
 def 상품_DB_이식(request: Request, products: Products, db: Session = Depends(get_db)):
-    data = request.json()
+    data = run(request.json())
     count = copy_products(data, db)
     return {"response": f"{count} data added"}
     

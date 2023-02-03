@@ -1,6 +1,8 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, DATE
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import Optional
+
 
 class Base(DeclarativeBase):
     pass
@@ -8,13 +10,14 @@ class Base(DeclarativeBase):
 
 class Product_Kiosk(Base):
     __tablename__ = "Product_Kiosk"
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     product_id: Mapped[int] = mapped_column(Integer)
     name: Mapped[str] = mapped_column(String)
     price: Mapped[int] = mapped_column(Integer)
-    RFID: Mapped[str] = mapped_column(String)
-    barcode: Mapped[str] = mapped_column(String)
-    image: Mapped[str] = mapped_column(String)
+    rfid: Mapped[str] = mapped_column(String, nullable=True)
+    barcode: Mapped[str] = mapped_column(String, nullable=True)
+    image: Mapped[str] = mapped_column(String, nullable=True)
+    shopping = relationship("Shopping")
 
 
 class Shopping(Base):
@@ -24,4 +27,4 @@ class Shopping(Base):
     count = Column(Integer)
     price = Column(Integer)
     date = Column(DATE)
-    product_id = ForeignKey(Product_Kiosk.product_id)
+    product_kiosk_id = Column(Integer, ForeignKey("Product_Kiosk.id"))
