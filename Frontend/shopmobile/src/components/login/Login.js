@@ -14,7 +14,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { FormControl } from "@mui/material";
 import HOST from "../../Host";
-// import HOST from "../../Host";
+import { useNavigate } from "react-router-dom";
 
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
@@ -44,8 +44,10 @@ const SignIn = () => {
   const [userIdError, setUserIdError] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [loginError, setLoginError] = useState("");
+  const movePage = useNavigate();
 
   const onhandlePost = async (data) => {
+
     const { userid, password } = data;
 
     const formData = new FormData();
@@ -54,12 +56,19 @@ const SignIn = () => {
     // console.log(formData);
 
     // post
-    const API_URI = `${HOST}/api/login`;
+    const API_URI = `${HOST}/login`;
+    console.log(API_URI);
     await axios
       .post(API_URI, formData)
-      .then(function (response) {
-        console.log(response, "성공");
-        console.log(response["access-token"]);
+      .then((response) => {
+        localStorage.setItem("refreshtoken", response.headers["refresh-token"]);
+        localStorage.setItem("access-token", response.headers["access-token"]);
+
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.headers["access-token"]}`;
+        
+        movePage("/app")
         setLoginError("");
       })
       .catch(function (err) {
@@ -110,7 +119,7 @@ const SignIn = () => {
             alignItems: "center",
           }}
         >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+          <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
           <Typography component="h1" variant="h5">
             로그인
           </Typography>
@@ -160,12 +169,12 @@ const SignIn = () => {
             <FormHelperTexts>{loginError}</FormHelperTexts>
             <Grid container sx={{ mt: 2, mb: 2 }}>
               <Grid item xs>
-                <Link href="findid" variant="body2">
+                <Link href="/app/findid" variant="body2">
                   비밀번호 찾기
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="register" variant="body2">
+                <Link href="/app/register" variant="body2">
                   {"회원가입"}
                 </Link>
               </Grid>
@@ -173,7 +182,13 @@ const SignIn = () => {
             <Button
               color="kakao"
               fullWidth
-              startIcon={<img src='./images/kakao_login.png' width={'28'} alt='kakao_login'/>}
+              startIcon={
+                <img
+                  src="./images/kakao_login.png"
+                  width={"28"}
+                  alt="kakao_login"
+                />
+              }
               variant="contained"
               sx={{ mt: 3 }}
             >
@@ -183,7 +198,13 @@ const SignIn = () => {
               color="naver"
               fullWidth
               variant="contained"
-              startIcon={<img src="./images/login_naver_w.png" width={'28'} alt='naver_login'/>}
+              startIcon={
+                <img
+                  src="./images/login_naver_w.png"
+                  width={"28"}
+                  alt="naver_login"
+                />
+              }
               sx={{ mt: 3, mb: 2 }}
             >
               네이버 로그인

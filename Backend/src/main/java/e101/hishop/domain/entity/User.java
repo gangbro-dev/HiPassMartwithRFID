@@ -1,6 +1,7 @@
 package e101.hishop.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import e101.hishop.domain.dto.request.PayPasswordReqDto;
 import e101.hishop.domain.dto.request.UserInfoReqDto;
 import e101.hishop.global.enumeration.Gender;
 import e101.hishop.global.enumeration.Role;
@@ -8,13 +9,9 @@ import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Builder
 @ToString(exclude = {"cards", "pays"})
@@ -44,6 +41,10 @@ public class User {
     private String phone;
     private String email;
 
+    private String payPassword;
+
+    private Long defaultCardId;
+
     private String adSelect;
 
     @Builder.Default
@@ -65,7 +66,24 @@ public class User {
         gender = dto.getGender() != null ? dto.getGender() : gender;
         phone = StringUtils.hasText(dto.getPhone()) ? dto.getPhone() : phone;
         email = StringUtils.hasText(dto.getEmail()) ? dto.getEmail() : email;
+        defaultCardId = dto.getDefaultCardId() != null ? dto.getDefaultCardId() : defaultCardId;
         adSelect = StringUtils.hasText(dto.getAdSelect()) ? dto.getAdSelect() : adSelect;
         return this;
+    }
+
+    public User updateUserByAdmin(UserInfoReqDto dto) {
+        loginId = StringUtils.hasText(dto.getLoginId()) ? dto.getLoginId() : loginId;
+        name = StringUtils.hasText(dto.getName()) ? dto.getName() : name;
+        birthDate = dto.getBirthdate() != null ? dto.getBirthdate() : birthDate;
+        return this;
+    }
+
+
+    public void changePayPassword(PayPasswordReqDto dto) {
+        this.payPassword = dto.getPayPassword();
+    }
+
+    public void changeDefaultCard(Long cardId) {
+        this.defaultCardId = cardId;
     }
 }

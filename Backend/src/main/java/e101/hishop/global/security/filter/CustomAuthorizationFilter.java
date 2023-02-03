@@ -55,12 +55,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 } catch (JWTVerificationException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
 //                    log.error("=== {}", e.printStackTrace());
                     //TODO 적합한 예외처리 클래스 구현
                     log.error("Error login in: {} ", e.getMessage());
                     //header에 error 존재하면 login창으로 redirect
                     response.setHeader("error", e.getMessage());
+                    response.setHeader("error-type", e.getClass().getSimpleName());
                     response.setStatus(HttpStatus.FORBIDDEN.value());
 //                    response.sendError(HttpStatus.FORBIDDEN.value());
 

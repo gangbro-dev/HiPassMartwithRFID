@@ -34,5 +34,9 @@ public class Branch {
     @JsonIgnore
     @OneToMany(mappedBy = "branch", cascade = CascadeType.REMOVE)
     private List<Kiosk> kiosks = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.REMOVE)
+    private List<PayDetail> payDetails = new ArrayList<>();
     //지점장 아이디 어떻게 하지
 }

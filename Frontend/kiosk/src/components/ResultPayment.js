@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom" 
 
 const theme = createTheme();
+
+
 export default function ResultPayment() {
+  const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(3);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
+    if (countdown === 0) {
+      navigate("/kiosk");
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [countdown, navigate]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -20,7 +38,7 @@ export default function ResultPayment() {
             alignItems: "center",
           }}
         >
-          <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+          <Avatar src="/kiosk/images/logo.png" sx={{ mb: 2 }} variant="square" />
           <Typography component="h1" variant="h3">
             결제가
           </Typography>
@@ -28,7 +46,7 @@ export default function ResultPayment() {
             완료되었습니다
           </Typography>
           <Typography component="h1" variant="h5">
-            이용해주셔서 감사합니다
+            {countdown}초 후 메인화면으로 이동합니다 이용해주셔서 감사합니다
           </Typography>
         </Box>
       </Container>

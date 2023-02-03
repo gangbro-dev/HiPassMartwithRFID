@@ -1,15 +1,20 @@
 package e101.hishop.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Pay {
 
     @Id
@@ -17,13 +22,17 @@ public class Pay {
     @Column(name = "pay_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //TODO LAZY로 변경?
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_id")
-    private Card card;
+    @NotBlank
+    private String userName;
+
+    @NotBlank
+    private String cardName;
 
     @NotBlank
     private String buyDate;
@@ -36,13 +45,16 @@ public class Pay {
         user.getPays().add(this);
     }
 
-    public void setPaymentAndPay(Card card) {
-        this.card = card;
-        card.getPays().add(this);
-    }
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "pay")
+    private List<PayDetail> payDetails = new ArrayList<>();
 
     @Builder
-    public Pay(String buyDate, Long buyTotal) {
+    public Pay(String userName, String cardName, String buyDate, Long buyTotal) {
+        this.userName = userName;
+        this.cardName = cardName;
         this.buyDate = buyDate;
         this.buyTotal = buyTotal;
     }

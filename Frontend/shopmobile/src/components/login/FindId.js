@@ -73,11 +73,13 @@ const FindId = () => {
   const onhandleGet = async (data) => {
     const { name, phone, birth } = data;
     birth.replace(/^(\d{4})(\d{2})(\d{2})$/, `$1-$2-$3`);
-    const getData = { name, phone, birth };
-    console.log(getData);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("birth", birth);
     // get
     await axios
-      .get("/findid", getData)
+      .get("/findid", formData)
       .then(function (response) {
         console.log(response, "성공");
       })
@@ -138,7 +140,7 @@ const FindId = () => {
           alignItems: "center",
         }}
       >
-        <Avatar src="./images/logo.png" sx={{ mb: 2 }} />
+        <Avatar src="./images/logo.png" variant="square" sx={{ mb: 2 }} />
         <Typography component="h1" variant="h5">
           아이디/비밀번호 찾기
         </Typography>
@@ -201,7 +203,7 @@ const FindId = () => {
           <FormHelperTexts>{findIdError}</FormHelperTexts>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/app/login" variant="body2">
                 로그인으로
               </Link>
             </Grid>

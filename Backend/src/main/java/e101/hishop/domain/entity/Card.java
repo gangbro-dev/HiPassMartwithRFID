@@ -1,13 +1,10 @@
 package e101.hishop.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@ToString(exclude = {"user, pays"})
+@ToString(exclude = {"user, cardCategory"})
 @Entity
 @Getter
 @Setter
@@ -26,8 +23,6 @@ public class Card {
 
     private String name;
 
-    private Boolean isDefault;
-
 //추후 암호와 필요
     private String cardNo;
 
@@ -40,10 +35,6 @@ public class Card {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_category_id")
     private CardCategory cardCategory;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
-    private List<Pay> pays = new ArrayList<>();
 
     //입력하지않으면 기본값 false
 //    @PrePersist
@@ -63,9 +54,8 @@ public class Card {
     }
 
     @Builder
-    public Card(String name, Boolean isDefault, String cardNo, String validDate) {
+    public Card(String name, String cardNo, String validDate) {
         this.name = name;
-        this.isDefault = isDefault;
         this.cardNo = cardNo;
         this.validDate = validDate;
     }
