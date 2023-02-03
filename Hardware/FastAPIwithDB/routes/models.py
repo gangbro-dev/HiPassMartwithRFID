@@ -15,3 +15,7 @@ class BarcodeList(BaseModel):
 class CardInfo(BaseModel):
     defaultCardId: int
     cardList: List[dict]
+
+
+class Products(BaseModel):
+    product: List[dict]

@@ -1,8 +1,8 @@
 from routes.models import RFIDList, BarcodeList, CardInfo
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.connection import get_db
-from crud import crud_test
+# from db.connection import get_db
+# from crud import crud_test
 # from apis import test # main logic
 
 router = APIRouter(
@@ -10,14 +10,14 @@ router = APIRouter(
 ) # Route 분리
 
 
-@router.get("/test_route") # Route Path
-def test_index(db: Session = Depends(get_db)):
+# @router.get("/test_route") # Route Path
+# def test_index(db: Session = Depends(get_db)):
 	
-	res = test.test_index(db=db) # apis 호출
+# 	res = test.test_index(db=db) # apis 호출
 	
-	return {
-        "res" : res,
-	} # 결과
+# 	return {
+#         "res" : res,
+# 	} # 결과
 
 
 @router.post("/rfid")
