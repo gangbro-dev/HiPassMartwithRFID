@@ -32,7 +32,7 @@ def main():
 def readthread(ser):
     # 스레드가 종료될 때 까지 진행
     while True:
-        time.sleep(1)
+        time.sleep(0.1)
         if ser.readable():
             data_line = set()
             tag_uid = dict()
@@ -49,10 +49,10 @@ def readthread(ser):
                 else:                                       # 시작바이트로 시작하는 요청이 아닌 경우 시작바이트 찾기
                     x = data.find(0x33)
                     if x > 0:
-                        print(data[:x])
                         data = data[x:]
                         continue
                     else:
+                        print(data.decode())
                         break
                 if received_command[1] == 0x3B:             # RFID UID 1개 읽기
                     for byte in data_now[3:-1]:
@@ -79,6 +79,7 @@ def readthread(ser):
                     uid = data_now[5:13]
                     bd = data_now[13:-1]
                 else:
+                    print(data.decode(), end=" ")
                     print("Unknown Request")
                     continue
                 if data_now[-1] == 0x99:                    # 종료 바이트
