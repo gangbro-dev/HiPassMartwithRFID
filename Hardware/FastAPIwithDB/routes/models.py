@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Optional
+
 from pydantic import BaseModel
 
 
@@ -17,5 +18,18 @@ class CardInfo(BaseModel):
     cardList: List[dict]
 
 
-class Products(BaseModel):
-    product: List[dict]
+class Product(BaseModel):
+    product_id: int
+    name: str
+    price: int
+    rfid: Optional[str] = None
+    barcode: Optional[str] = None
+    image: Optional[str] = None
+
+
+class ProductList(BaseModel):
+    product: List[Product]
+
+
+class ProductIds(BaseModel):
+    productId: List[int]
