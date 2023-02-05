@@ -7,8 +7,6 @@ from crud.crud import copy_products, create_product, delete_product
 from db.connection import get_db
 from routes.models import ProductIds, ProductList
 
-# from apis import test # main logic
-
 router = APIRouter(
     prefix="/api/db", # url 앞에 고정적으로 붙는 경로추가
 ) # Route 분리

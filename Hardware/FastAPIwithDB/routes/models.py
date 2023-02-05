@@ -12,10 +12,15 @@ class BarcodeList(BaseModel):
     kioskId: int
     barcode: str
 
+class Card(BaseModel):
+    cardId: int
+    cardName: str
+    cardNo: str
 
-class CardInfo(BaseModel):
+
+class CardList(BaseModel):
     defaultCardId: int
-    cardList: List[dict]
+    cardList: List[Card]
 
 
 class Product(BaseModel):
