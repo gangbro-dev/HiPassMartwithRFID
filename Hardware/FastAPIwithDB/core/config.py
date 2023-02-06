@@ -10,6 +10,6 @@ class Settings:
     DB_PORT : str = os.getenv("DB_PORT",3306)
     DB_DATABASE : str = os.getenv("DB_DATABASE")
 	
-    DATABASE_URL = f"sqlite:///db.sqlite"
+    DATABASE_URL = f"sqlite+pysqlite:///db.sqlite"
 
 settings = Settings()
