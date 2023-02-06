@@ -104,7 +104,7 @@ void loop() {
   // // // 입력이 오면 리딩모드 on
   // execute_commandline("RF carrier on", set_RF_request_on);
   int count = 0;
-  uint8_t data;
+  char data;
   while (count < 50) {
     if (mySerial.available() > 0) {
       while (mySerial.available() > 0) {
