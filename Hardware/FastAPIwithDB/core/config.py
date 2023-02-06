@@ -13,3 +13,6 @@ class Settings:
     DATABASE_URL = f"sqlite+pysqlite:///db.sqlite"
 
 settings = Settings()
+
+BASE_URL = "https://himart.shop"
+KIOSK_ID = 1

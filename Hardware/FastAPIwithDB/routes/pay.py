@@ -1,6 +1,10 @@
 from asyncio import run
-
+from routes.models import CardId, GuestCardInfo
+from core.config import BASE_URL, KIOSK_ID
 from fastapi import APIRouter, Request
+from datetime import datetime
+from functions.test import cardReader
+import requests
 
 router = APIRouter(
     prefix="/api/pay", # url 앞에 고정적으로 붙는 경로추가
@@ -8,21 +12,70 @@ router = APIRouter(
 
 
 @router.post("/member")
-def 키오스크_회원_결제요청(request: Request,):
+def 키오스크_회원_결제요청(request: Request, cardId: CardId):
     data = run(request.json())
-    id = data["id"]
-    kioskId = data["kioskId"] # 필요없는듯
     cardId = data["cardId"]
-    date = data["date"]
-    priceSum = data["priceSum"]
-    # 자료형 2개의 Key:value가 안맞음
+    # testdata
+    userId = 1234
+    kioskId = KIOSK_ID
+    date = datetime.now()
+    shopping = [
+        {
+            "productId": 1234, 
+            "itemName" : "노트북",
+            "count" :3,
+            "price": 20000,
+        },
+		{
+			"productId": 134,
+			"itemName" : "과자",
+			"count" :5,
+			"price": 30000,
+		},
+    ]
+    priceSum = 0
+    for product in shopping:
+        priceSum += product["price"] * product["count"]
+    # spring 요청
+    url = BASE_URL + "/api/pay/member"
+    payload = {
+        "userId" : userId,
+        "kioskId" : kioskId,
+        "cardId" : cardId,
+        "date" : date,
+        "priceSum" : priceSum,
+        "shopping" : shopping
+    }
+    print(requests.post(url, data=payload).text)
 
 @router.post("/guest")
-def 키오스크_비회원_결제요청(request: Request,):
-    data = run(request.json())
-    kioskId = data["kioskId"] # 필요없는듯
-    date = data["date"]
-    cardNum = data["cardNum"]
-    password = data["password"] # ?
-    priceSum = data["priceSum"]
-    # 자료형 2개의 Key:value가 안맞음
+def 키오스크_비회원_결제요청(request: Request, cardInfo: GuestCardInfo):
+    kioskId = KIOSK_ID
+    date = datetime.now()
+    shopping = [
+        {
+            "productId": 1234, 
+            "itemName" : "노트북",
+            "count" :3,
+            "price": 20000,
+        },
+		{
+			"productId": 134,
+			"itemName" : "과자",
+			"count" :5,
+			"price": 30000,
+		},
+    ]
+    priceSum = 0
+    for product in shopping:
+        priceSum += product["price"] * product["count"]
+    # spring 요청
+    url = BASE_URL + "/api/pay/guest"
+    payload = {
+        "kioskId" : kioskId,
+        "cardInfo" : cardInfo,
+        "date" : date,
+        "priceSum" : priceSum,
+        "shopping" : shopping
+    }
+    requests.post(url, data=payload)

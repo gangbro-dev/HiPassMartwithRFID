@@ -18,7 +18,21 @@ class Card(BaseModel):
     cardNo: str
 
 
+class CardId(BaseModel):
+    cardId: int
+
+
+class GuestCardInfo(BaseModel):
+    cardholder_name: str
+    card_number: str
+    expiration_date: str
+    issuing_agency: str
+    card_logo: str
+    encrypted_payment_info: str
+
+
 class CardList(BaseModel):
+    userId: int
     defaultCardId: int
     cardList: List[Card]
 

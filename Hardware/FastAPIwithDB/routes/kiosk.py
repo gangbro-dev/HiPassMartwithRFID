@@ -16,6 +16,7 @@ router = APIRouter(
 @router.post("/cardinfo")
 def 카드정보전송(request: Request, CardList: CardList):
     data = run(request.json())
+    userId = data["userId"]
     defaultCardId = data["defaultCardId"]
     cardList = data["cardList"]
     ###
